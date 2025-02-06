@@ -1,13 +1,11 @@
-package com.spavv.m.ui.screens.login
+package com.spavv.m.ui.screens.sign_up
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import com.spavv.m.comon.viewModels.AuthVM
-import com.spavv.m.data.dataSources.AuthDataSource
 
-class LoginVM(AuthDataSource: AuthDataSource) : ViewModel() {
+class SignUpVM : ViewModel() {
     //* Value to change data
     private var _email = mutableStateOf<String>("");
     //* Value to hold data - view only
@@ -31,6 +29,4 @@ class LoginVM(AuthDataSource: AuthDataSource) : ViewModel() {
     fun updatePasswordVisible(value: Boolean){
         _passwordVisible.value = value;
     }
-
-
 }

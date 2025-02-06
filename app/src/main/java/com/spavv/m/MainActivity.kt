@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.screens.login.LoginScreen
@@ -23,13 +24,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val loginVM = viewModel<LoginVM>(
-                factory = viewModelFactory {
-                    LoginVM(MyApp.appModule.authDataSource)
-                }
-            )
             SpaVuiVeTheme {
-                MyAppNavigation(modifier = Modifier.fillMaxSize().padding(16.dp), loginVM = loginVM)
+                MyAppNavigation(modifier = Modifier.fillMaxSize().padding(16.dp), authVM = viewModel<AuthVM>())
             }
         }
     }

@@ -1,16 +1,14 @@
 package com.spavv.m.ui.screens.login
 
-import android.provider.CalendarContract.Colors
+import android.widget.Toast
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,11 +23,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -38,21 +37,35 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.spavv.m.R
-import com.spavv.m.comon.Routes
+import com.spavv.m.comon.constants.Routes
+import com.spavv.m.comon.viewModels.AuthState
+import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
+import kotlin.math.atan
 
 @Composable
-fun LoginScreen(modifier: Modifier,loginVM: LoginVM, navController: NavController) {
-//    val loginVM = viewModel<LoginVM>(
-//        factory = viewModelFactory {
-//            LoginVM(MyApp.appModule.authDataSource)
-//        }
-//    )
+fun LoginScreen(modifier: Modifier,authVM: AuthVM, navController: NavController) {
+    val authState = authVM.authState.observeAsState()
+    val context = LocalContext.current;
+    LaunchedEffect(authState.value) {
+        when(authState.value){
+            is AuthState.Authenticated -> navController.navigate(Routes.HOME)
+            is AuthState.Unauthenticated
+                -> Toast.makeText(context, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show()
+            else -> Unit //nothing
+        }
+    }
+
+    val loginVM = viewModel<LoginVM>(
+        factory = viewModelFactory {
+            LoginVM(MyApp.appModule.authDataSource)
+        }
+    )
+    
 
     Column(
         modifier = modifier.padding(16.dp),
@@ -116,7 +129,9 @@ fun LoginScreen(modifier: Modifier,loginVM: LoginVM, navController: NavControlle
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            authVM.login(email = loginVM.email.value, password = loginVM.password.value);
+        }) {
             Text(
                 text = "Đăng nhập",
             )

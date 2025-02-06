@@ -1,4 +1,4 @@
-package com.spavv.m.comon
+package com.spavv.m.comon.constants
 
 object Routes {
     const val LOGIN = "login"

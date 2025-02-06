@@ -22,6 +22,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,14 +34,25 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.spavv.m.R
-import com.spavv.m.comon.Routes
+import com.spavv.m.comon.constants.Routes
+import com.spavv.m.comon.viewModels.AuthVM
+import com.spavv.m.di.MyApp
+import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.screens.login.LoginVM
 
 
 @Composable
-fun SignUpScreen(modifier: Modifier, navController: NavController, loginVM: LoginVM) {
+fun SignUpScreen(modifier: Modifier, navController: NavController, authVM: AuthVM) {
+    val authState = authVM.authState.observeAsState()
+
+    val signUpVM = viewModel<SignUpVM>(
+        factory = viewModelFactory {
+            SignUpVM()
+        }
+    )
     Column(
         modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.Center,
@@ -68,26 +80,26 @@ fun SignUpScreen(modifier: Modifier, navController: NavController, loginVM: Logi
         )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = loginVM.email.value,
+            value = signUpVM.email.value,
             onValueChange = {
-                loginVM.updateEmail(it)
+                signUpVM.updateEmail(it)
             },
             label = { Text(text = "Email") }
         )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
-            value = loginVM.password.value,
-            onValueChange = { value: String -> loginVM.updatePassword(value) },
+            value = signUpVM.password.value,
+            onValueChange = { value: String -> signUpVM.updatePassword(value) },
             label = { Text(text = "Password") },
             singleLine = true,
-            visualTransformation = if (loginVM.passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+            visualTransformation = if (signUpVM.passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
             ),
             trailingIcon = {
-                val image = if (loginVM.passwordVisible.value) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-                IconButton(onClick = { loginVM.updatePasswordVisible(!loginVM.passwordVisible.value)}) {
+                val image = if (signUpVM.passwordVisible.value) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                IconButton(onClick = { signUpVM.updatePasswordVisible(!signUpVM.passwordVisible.value)}) {
                     Icon(imageVector = image, contentDescription = "Toggle Password Visibility")
                 }
             }
@@ -103,7 +115,9 @@ fun SignUpScreen(modifier: Modifier, navController: NavController, loginVM: Logi
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            authVM.signup(email = signUpVM.email.value, password = signUpVM.password.value);
+        }) {
             Text(
                 text = "Đăng kí",
             )
