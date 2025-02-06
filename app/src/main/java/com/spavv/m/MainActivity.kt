@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                 }
             )
             SpaVuiVeTheme {
-                MyAppNavigation(modifier = Modifier.fillMaxSize(), loginVM = loginVM)
+                MyAppNavigation(modifier = Modifier.fillMaxSize().padding(16.dp), loginVM = loginVM)
             }
         }
     }
@@ -38,12 +38,12 @@ class MainActivity : ComponentActivity() {
 //@Preview(showBackground = true)
 //@Composable
 //fun PreviewSpace() {
+//    val loginVM = viewModel<LoginVM>(
+//        factory = viewModelFactory {
+//            LoginVM(MyApp.appModule.authDataSource)
+//        }
+//    )
 //    SpaVuiVeTheme {
-//        Scaffold(
-//            modifier = Modifier.fillMaxSize(),
-//            content = { innerPadding ->
-//                MyAppNavigation(modifier = Modifier.padding(innerPadding), loginVM = loginVM)
-//            },)
-//
+//        MyAppNavigation(modifier = Modifier.fillMaxSize(), loginVM = viewModel())
 //    }
 //}

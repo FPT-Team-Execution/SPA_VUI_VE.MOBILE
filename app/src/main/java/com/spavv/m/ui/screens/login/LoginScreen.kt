@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -41,6 +42,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.spavv.m.R
+import com.spavv.m.comon.Routes
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
 
@@ -53,7 +55,7 @@ fun LoginScreen(modifier: Modifier,loginVM: LoginVM, navController: NavControlle
 //    )
 
     Column(
-        modifier = modifier,
+        modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -104,15 +106,25 @@ fun LoginScreen(modifier: Modifier,loginVM: LoginVM, navController: NavControlle
             }
         )
         Spacer(modifier = Modifier.height(16.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            TextButton(onClick = { /* TODO */ }) {
+                Text(text = "Quên mật khẩu ?")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = { /*TODO*/ }) {
             Text(
                 text = "Đăng nhập",
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
-        TextButton(onClick = { /*TODO*/ }) {
+        TextButton(onClick = { navController.navigate(Routes.SIGNUP) }) {
             Text(
-                text = "Quên mật khẩu ?",
+                text = "Chưa có tài khoản ? Đăng kí",
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
