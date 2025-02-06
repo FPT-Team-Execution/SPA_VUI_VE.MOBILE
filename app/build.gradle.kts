@@ -70,6 +70,11 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
+
+    val retrofitVersion = "2.11.0"
+    implementation (libs.retrofit.v2110)
+    implementation (libs.retrofit2.converter.gson)
+
 }
 

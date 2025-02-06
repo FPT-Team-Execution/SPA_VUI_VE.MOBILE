@@ -25,12 +25,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.spavv.m.R
+import com.spavv.m.di.MyApp
+import com.spavv.m.helper.viewModelFactory
 
 @Composable
 fun LoginScreen(paddingValues: PaddingValues) {
-    val loginVM = viewModel<LoginVM>()
+    val loginVM = viewModel<LoginVM>(
+        factory = viewModelFactory {
+            LoginVM(MyApp.appModule.authDataSource)
+        }
+    )
 
 
     Column(

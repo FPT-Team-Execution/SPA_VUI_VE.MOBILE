@@ -4,8 +4,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
+import com.spavv.m.data.dataSources.AuthDataSource
 
-class LoginVM : ViewModel() {
+class LoginVM(AuthDataSource: AuthDataSource) : ViewModel() {
     //* Value to change data
     private var _email = mutableStateOf<String>("");
     //* Value to hold data - view only
