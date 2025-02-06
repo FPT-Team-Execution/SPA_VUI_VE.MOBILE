@@ -13,7 +13,6 @@ class LoginVM(AuthDataSource: AuthDataSource) : ViewModel() {
     val email: State<String> get() = _email;
     //* Fun used to change data on view
     fun updateEmail(value: String){
-        print("Change")
         _email.value = value;
     }
 
@@ -26,6 +25,11 @@ class LoginVM(AuthDataSource: AuthDataSource) : ViewModel() {
         _password.value = value;
     }
 
+    private var _passwordVisible = mutableStateOf<Boolean>(false);
+    val passwordVisible: State<Boolean> get() = _passwordVisible;
+    fun updatePasswordVisible(value: Boolean){
+        _passwordVisible.value = value;
+    }
 
 
 }

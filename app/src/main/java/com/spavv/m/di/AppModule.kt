@@ -16,7 +16,7 @@ interface AppModule {
 }
 
 class AppModuleImpl(appContext: Context) : AppModule {
-    private val firebaseUrl : String = "";
+    private val firebaseUrl : String = "https://something-demo";
 
     override val fireBaseApi: FirebaseApi by lazy {
         Retrofit.Builder()
