@@ -65,7 +65,7 @@ fun LoginScreen(modifier: Modifier,authVM: AuthVM, navController: NavController)
             LoginVM(MyApp.appModule.authDataSource)
         }
     )
-    
+
 
     Column(
         modifier = modifier.padding(16.dp),

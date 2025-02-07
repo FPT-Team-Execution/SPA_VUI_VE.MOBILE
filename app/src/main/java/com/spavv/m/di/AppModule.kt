@@ -2,6 +2,8 @@ package com.spavv.m.di
 
 
 import android.content.Context
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.spavv.m.data.api.FirebaseApi
 import com.spavv.m.data.dataSources.AuthDataSource
 import com.spavv.m.data.dataSources.AuthDataSourceImpl
@@ -9,13 +11,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 interface AppModule {
+    //* Constant
+    //val navController : NavController
     //* Apis
     val fireBaseApi : FirebaseApi
     //* Data sources
     val authDataSource : AuthDataSource
 }
-
-class AppModuleImpl(appContext: Context) : AppModule {
+ class  AppModuleImpl(appContext: Context) : AppModule {
     private val firebaseUrl : String = "https://something-demo";
 
     override val fireBaseApi: FirebaseApi by lazy {
