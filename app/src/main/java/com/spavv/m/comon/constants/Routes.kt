@@ -7,5 +7,5 @@ object Routes {
     const val PRODUCT = "product"
     const val FAVORITE = "favorite"
     const val PROFILE = "profile"
-
+    const val CART = "cart"
 }
