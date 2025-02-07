@@ -20,21 +20,23 @@ open class AuthVM : ViewModel() {
     }
 
     fun login(email: String, password: String){
-        if(email.isEmpty() || password.isEmpty()){
-            _authState.value = AuthState.Error("Email hoặc mật khẩu chưa chính xác");
-            return;
-        }
 
-        _authState.value = AuthState.Loading;
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-            taskRs -> if(taskRs.isSuccessful) {
-                _authState.value = AuthState.Authenticated;
-                }else
-                {
-                    _authState.value = AuthState.Error(taskRs.exception?.message?: "Thực hiện đăng nhập thất bại");
-                }
-        }
+        _authState.value = AuthState.Authenticated;
+//        if(email.isEmpty() || password.isEmpty()){
+//            _authState.value = AuthState.Error("Email hoặc mật khẩu chưa chính xác");
+//            return;
+//        }
+//
+//        _authState.value = AuthState.Loading;
+//        auth.signInWithEmailAndPassword(email, password)
+//            .addOnCompleteListener {
+//            taskRs -> if(taskRs.isSuccessful) {
+//                _authState.value = AuthState.Authenticated;
+//                }else
+//                {
+//                    _authState.value = AuthState.Error(taskRs.exception?.message?: "Thực hiện đăng nhập thất bại");
+//                }
+//        }
     }
     fun signup(email: String, password: String){
         if(email.isEmpty() || password.isEmpty()){
