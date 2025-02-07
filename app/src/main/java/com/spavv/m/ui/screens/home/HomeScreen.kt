@@ -16,6 +16,7 @@ import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthState
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.ui.components.general.Header
+import com.spavv.m.ui.components.home.PreviewSlider
 import com.spavv.m.ui.screens.ScaffoldLayout
 
 @Composable
@@ -42,7 +43,10 @@ fun HomeScreen(
         ) {
             Header(navController)
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Home")
+            Column {
+                PreviewSlider()
+                Text(text = "Home")
+            }
         }
     }
 }
