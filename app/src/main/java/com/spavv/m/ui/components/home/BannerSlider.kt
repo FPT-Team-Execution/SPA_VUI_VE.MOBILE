@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Slider(images: List<String>, autoScroll: Boolean = true) {
+fun BannerSlider(images: List<String>, autoScroll: Boolean = true) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
@@ -62,8 +62,8 @@ fun Slider(images: List<String>, autoScroll: Boolean = true) {
 }
 
 @Composable
-fun PreviewSlider() {
-    Slider(
+fun PreviewBannerSlider() {
+    BannerSlider(
         images = listOf(
             "https://img.vuahanghieu.com/unsafe/0x0/left/top/smart/filters:quality(90)/https://admin.vuahanghieu.com/upload/news/content/2023/05/skincare-la-gi-jpg-1685324156-29052023083556.jpg",
             "https://aladin.com.vn/media/news/1111_mochi-skincare-01.jpg",

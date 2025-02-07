@@ -1,6 +1,7 @@
 package com.spavv.m.ui.screens.home
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -16,7 +17,7 @@ import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthState
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.ui.components.general.Header
-import com.spavv.m.ui.components.home.PreviewSlider
+import com.spavv.m.ui.components.home.PreviewBannerSlider
 import com.spavv.m.ui.screens.ScaffoldLayout
 
 @Composable
@@ -44,8 +45,16 @@ fun HomeScreen(
             Header(navController)
             Spacer(modifier = Modifier.height(16.dp))
             Column {
-                PreviewSlider()
-                Text(text = "Home")
+                PreviewBannerSlider()
+                Column {
+                    Text(text = "Danh mục")
+                    Row {
+
+                    }
+                }
+                Column {
+                    Text(text = "Tiêu biểu")
+                }
             }
         }
     }
