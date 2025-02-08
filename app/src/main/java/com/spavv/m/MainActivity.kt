@@ -17,8 +17,10 @@ import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.screens.login.LoginScreen
 import com.spavv.m.ui.screens.login.LoginVM
+import com.spavv.m.ui.screens.profile.ProfileVM
 import com.spavv.m.ui.theme.SpaVuiVeTheme
-
+import androidx.navigation.compose.rememberNavController
+import com.spavv.m.ui.screens.profile.ProfileScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,15 +33,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewSpace() {
-//    val loginVM = viewModel<LoginVM>(
-//        factory = viewModelFactory {
-//            LoginVM(MyApp.appModule.authDataSource)
-//        }
-//    )
-//    SpaVuiVeTheme {
-//        MyAppNavigation(modifier = Modifier.fillMaxSize(), loginVM = viewModel())
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewProfileScreen() {
+    val navController = rememberNavController()
+    val profileVM = viewModel<ProfileVM>()
+    SpaVuiVeTheme {
+        ProfileScreen(modifier = Modifier.fillMaxSize())
+    }
+}
