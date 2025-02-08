@@ -40,13 +40,13 @@ fun SaleOffer(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
-                    text = "Nhập mã",
+                    text = "Ưu đãi",
                     color = Color.Black,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Mã ưu đãi, mã giới thiệu",
+                    text = "Xem khuyến mãi của bạn",
                     color = Color.Black.copy(alpha = 0.73f),
                     fontSize = 12.sp
                 )

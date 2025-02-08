@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -41,7 +42,10 @@ fun ServiceItem(symbol: Any?, title: String) {
             text = title,
             color = Color(0xff1f2022),
             fontSize = 12.sp,
+            maxLines = 1,  // Giới hạn 1 dòng
+            overflow = TextOverflow.Ellipsis,  // Hiển thị "..." nếu quá dài
             modifier = Modifier.padding(top = 4.dp)
         )
+
     }
 }
