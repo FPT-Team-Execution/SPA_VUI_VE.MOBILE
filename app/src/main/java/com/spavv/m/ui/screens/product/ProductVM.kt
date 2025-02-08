@@ -23,11 +23,11 @@ class ProductVM(private val productDataSource: ProductDataSource) : ViewModel() 
         fetchProducts(GetProductsQuery())
     }
 
-    fun updateProducts(products: List<Product>) {
+    private fun updateProducts(products: List<Product>) {
         _products.value = products;
     }
 
-    fun updateProduct(product: Product) {
+    private fun updateProduct(product: Product) {
         _product.value = product;
     }
 
