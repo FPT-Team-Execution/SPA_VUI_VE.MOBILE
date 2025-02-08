@@ -30,6 +30,7 @@ import com.spavv.m.comon.viewModels.AuthState
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.ui.components.home.BannerSlider
 import com.spavv.m.ui.components.home.HomeHeader
+import com.spavv.m.ui.components.home.ProductItem
 import com.spavv.m.ui.components.home.SaleOffer
 import com.spavv.m.ui.components.home.SectionTitle
 import com.spavv.m.ui.components.home.ServiceItem
@@ -78,6 +79,8 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController, auth
                 )
             )
             Spacer(modifier = Modifier.height(8.dp))
+            SaleOffer()
+            Spacer(modifier = Modifier.height(8.dp))
             SectionTitle("Dịch vụ")
             Spacer(modifier = Modifier.height(8.dp))
             //Services
@@ -89,9 +92,31 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController, auth
                 ServiceItem("https://placehold.co/50x50/png","Đối chiếu")
 
             }
+
+            SectionTitle("Danh mục")
             Spacer(modifier = Modifier.height(8.dp))
-            SaleOffer()
+            //Common Category
+            Row (
+                modifier = Modifier.fillMaxWidth()
+            ){
+                ServiceItem("https://placehold.co/50x50/png","Tinh chất")
+                ServiceItem("https://placehold.co/50x50/png","Sữa rửa mặt")
+                ServiceItem("https://placehold.co/50x50/png","Mặt nạ")
+
+            }
+            SectionTitle("Sản phẩm")
             Spacer(modifier = Modifier.height(8.dp))
+            //Common Product
+            val products = List(5) { "Product $it" }
+
+            LazyRow(
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(products) {
+                    ProductItem()
+                }
+            }
         }
     }
 }
