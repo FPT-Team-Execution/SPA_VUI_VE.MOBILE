@@ -1,6 +1,8 @@
 package com.spavv.m.ui.components.home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,15 +15,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.spavv.m.R
 import com.spavv.m.ui.theme.DarkColor
 import com.spavv.m.ui.theme.GreyColor
 
 @Composable
-fun HomeHeader(title: String, subTitle: String, avatar: Any? = "https://placehold.co/50x50/png") {
+fun HomeHeader(title: String, subTitle: String, avatar: Any? = R.drawable.avatar) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -44,8 +48,10 @@ fun HomeHeader(title: String, subTitle: String, avatar: Any? = "https://placehol
             painter = rememberAsyncImagePainter(avatar),
             contentDescription = "Hồ sơ",
             modifier = Modifier
-                .size(50.dp)
+                .size(40.dp)
                 .clip(CircleShape)
+                .border(BorderStroke(1.dp, GreyColor)).clip(CircleShape),
+                contentScale = ContentScale.FillBounds
         )
     }
 }

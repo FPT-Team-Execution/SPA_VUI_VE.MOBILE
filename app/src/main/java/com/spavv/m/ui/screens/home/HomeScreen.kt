@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.spavv.m.R
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthState
 import com.spavv.m.comon.viewModels.AuthVM
@@ -92,11 +93,12 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController, auth
             Spacer(modifier = Modifier.height(8.dp))
             //Services
             Row (
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ){
-                ServiceItem("https://placehold.co/50x50/png","Tư vấn")
-                ServiceItem("https://placehold.co/50x50/png","Soi da")
-                ServiceItem("https://placehold.co/50x50/png","Đối chiếu")
+                ServiceItem(R.drawable.chat,"Tư vấn",backgroundSize = 40.0, symbolSize = 32.0)
+                ServiceItem(R.drawable.search,"Soi da", backgroundSize = 40.0, symbolSize = 32.0)
+                ServiceItem(R.drawable.bookings,"Đối chiếu", backgroundSize = 40.0, symbolSize = 32.0)
 
             }
 
@@ -104,11 +106,15 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController, auth
             Spacer(modifier = Modifier.height(8.dp))
             //Common Category
             Row (
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+               horizontalArrangement = Arrangement.spacedBy(8.dp)
             ){
-                ServiceItem("https://placehold.co/50x50/png","Tinh chất")
-                ServiceItem("https://placehold.co/50x50/png","Sữa rửa mặt")
-                ServiceItem("https://placehold.co/50x50/png","Mặt nạ")
+                ServiceItem("https://www.oarsandalps.com/cdn/shop/files/oars-and-alps-spf-50-antioxidant-sunscreen-spray-2_1110x.jpg?v=1732307453","Tinh chất",
+                     backgroundSize = 60.0, symbolSize = 52.0)
+                ServiceItem("https://media6.ppl-media.com/mediafiles/blogs/Facial_Toner_0616f44321.jpg","Sữa rửa mặt"
+                    , backgroundSize = 60.0, symbolSize = 52.0)
+                ServiceItem("https://images.squarespace-cdn.com/content/v1/5c4f6ba1e2ccd1ee6075495d/83bfd75e-3e51-4f26-afa7-30db2a532f68/woman-sheet-face-mask.jpg","Mặt nạ"
+                    , backgroundSize = 60.0, symbolSize = 52.0)
 
             }
             SectionTitle("Sản phẩm")

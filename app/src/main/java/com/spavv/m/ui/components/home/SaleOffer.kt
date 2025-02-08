@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.spavv.m.ui.theme.BackgroundColor
 import com.spavv.m.ui.theme.DarkColor
 import com.spavv.m.ui.theme.GreyColor
+import com.spavv.m.ui.theme.PrimaryColor
 
 @Composable
 fun SaleOffer(modifier: Modifier = Modifier) {
@@ -37,20 +38,20 @@ fun SaleOffer(modifier: Modifier = Modifier) {
             Icon(
                 imageVector = Icons.Default.LocalOffer,
                 contentDescription = "Sale Icon",
-                tint = Color.Black,
-                modifier = Modifier.size(24.dp)
+                tint = PrimaryColor,
+                modifier = Modifier.size(32.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
                     text = "Ưu đãi",
-                    color = DarkColor,
+                    color = PrimaryColor,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "Xem khuyến mãi của bạn",
-                    color = GreyColor,
+                    color = DarkColor,
                     fontSize = 12.sp
                 )
             }

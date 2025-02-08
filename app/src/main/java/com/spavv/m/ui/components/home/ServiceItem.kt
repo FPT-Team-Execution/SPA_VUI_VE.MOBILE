@@ -23,7 +23,7 @@ import com.spavv.m.ui.theme.BackgroundItemColor
 import com.spavv.m.ui.theme.DarkColor
 
 @Composable
-fun ServiceItem(symbol: Any?, title: String) {
+fun ServiceItem(symbol: Any?, title: String, backgroundSize: Double, symbolSize: Double) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
           modifier = Modifier.requiredWidth(60.dp)
@@ -31,14 +31,14 @@ fun ServiceItem(symbol: Any?, title: String) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .size(40.dp)
+                .size(backgroundSize.dp)
                 .clip(CircleShape)
                 .background(BackgroundItemColor)
         ) {
             Image(
                 painter = rememberAsyncImagePainter(symbol),
                 contentDescription = title,
-                modifier = Modifier.size(28.dp).clip(CircleShape),
+                modifier = Modifier.size(symbolSize.dp).clip(CircleShape),
                 contentScale = ContentScale.FillBounds
             )
         }
