@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.spavv.m.ui.theme.DarkColor
+import com.spavv.m.ui.theme.GreyColor
 
 @Composable
 fun HomeHeader(title: String, subTitle: String, avatar: Any? = "https://placehold.co/50x50/png") {
@@ -30,12 +32,12 @@ fun HomeHeader(title: String, subTitle: String, avatar: Any? = "https://placehol
                 text = title,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = DarkColor
             )
             Text(
                 text = subTitle,
-                fontSize = 14.sp,
-                color = Color.Gray
+                fontSize = 12.sp,
+                color = GreyColor
             )
         }
         Image(

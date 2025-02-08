@@ -14,10 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.spavv.m.ui.theme.BackgroundItemColor
+import com.spavv.m.ui.theme.DarkColor
 
 @Composable
 fun ServiceItem(symbol: Any?, title: String) {
@@ -30,20 +33,21 @@ fun ServiceItem(symbol: Any?, title: String) {
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(Color(0xffd0d6da))
+                .background(BackgroundItemColor)
         ) {
             Image(
                 painter = rememberAsyncImagePainter(symbol),
                 contentDescription = title,
-                modifier = Modifier.size(28.dp)
+                modifier = Modifier.size(28.dp).clip(CircleShape),
+                contentScale = ContentScale.FillBounds
             )
         }
         Text(
             text = title,
-            color = Color(0xff1f2022),
+            color = DarkColor,
             fontSize = 12.sp,
-            maxLines = 1,  // Giới hạn 1 dòng
-            overflow = TextOverflow.Ellipsis,  // Hiển thị "..." nếu quá dài
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(top = 4.dp)
         )
 

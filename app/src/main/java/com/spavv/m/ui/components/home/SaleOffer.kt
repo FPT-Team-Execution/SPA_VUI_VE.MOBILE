@@ -15,13 +15,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.spavv.m.ui.theme.BackgroundColor
+import com.spavv.m.ui.theme.DarkColor
+import com.spavv.m.ui.theme.GreyColor
 
 @Composable
 fun SaleOffer(modifier: Modifier = Modifier) {
     Surface(
         shape = RoundedCornerShape(10.dp),
-        color = Color.White,
-        border = BorderStroke(2.dp, Color(0xffa7a7a7)),
+        color = BackgroundColor,
+        border = BorderStroke(1.dp, GreyColor),
         modifier = modifier
     ) {
         Row(
@@ -41,13 +44,13 @@ fun SaleOffer(modifier: Modifier = Modifier) {
             Column {
                 Text(
                     text = "Ưu đãi",
-                    color = Color.Black,
+                    color = DarkColor,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "Xem khuyến mãi của bạn",
-                    color = Color.Black.copy(alpha = 0.73f),
+                    color = GreyColor,
                     fontSize = 12.sp
                 )
             }
