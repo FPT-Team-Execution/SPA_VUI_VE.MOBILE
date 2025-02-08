@@ -96,9 +96,9 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController, auth
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ){
-                ServiceItem(R.drawable.chat,"Tư vấn",backgroundSize = 40.0, symbolSize = 32.0)
-                ServiceItem(R.drawable.search,"Soi da", backgroundSize = 40.0, symbolSize = 32.0)
-                ServiceItem(R.drawable.bookings,"Đối chiếu", backgroundSize = 40.0, symbolSize = 32.0)
+                ServiceItem(R.drawable.chat,"Tư vấn",backgroundSize = 60.0, symbolSize = 32.0)
+                ServiceItem(R.drawable.search,"Soi da", backgroundSize = 60.0, symbolSize = 32.0)
+                ServiceItem(R.drawable.bookings,"Đối chiếu", backgroundSize = 60.0, symbolSize = 32.0)
 
             }
 
