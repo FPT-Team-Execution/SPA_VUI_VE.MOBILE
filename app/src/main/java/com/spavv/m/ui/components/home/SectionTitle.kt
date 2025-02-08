@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.spavv.m.ui.theme.Pink40
+import com.spavv.m.ui.theme.PrimaryColor
 
 @Composable
 fun SectionTitle(title: String) {
@@ -14,7 +14,7 @@ fun SectionTitle(title: String) {
         text = title,
         fontSize = 16.sp,
         fontWeight = FontWeight.Bold,
-        color = Pink40,
+        color = PrimaryColor,
         modifier = Modifier.fillMaxWidth()
     )
 }

@@ -38,7 +38,7 @@ import com.spavv.m.ui.components.home.SaleOffer
 import com.spavv.m.ui.components.home.SectionTitle
 import com.spavv.m.ui.components.home.ServiceItem
 import com.spavv.m.ui.screens.ScaffoldLayout
-import com.spavv.m.ui.theme.Pink40
+import com.spavv.m.ui.theme.PrimaryColor
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, navController: NavController, authVM: AuthVM) {
@@ -73,7 +73,7 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController, auth
                 text = "SpaVuiVe",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Pink40
+                color = PrimaryColor
             )
             Spacer(modifier = Modifier.height(8.dp))
             HomeHeader("Chào, Dat Dev", "Chăm sóc bản thân hôm nay nhé")
