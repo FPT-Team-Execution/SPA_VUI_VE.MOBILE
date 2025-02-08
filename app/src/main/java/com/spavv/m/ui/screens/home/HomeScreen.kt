@@ -24,10 +24,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthState
 import com.spavv.m.comon.viewModels.AuthVM
+import com.spavv.m.di.MyApp
+import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.components.home.BannerSlider
 import com.spavv.m.ui.components.home.HomeHeader
 import com.spavv.m.ui.components.home.ProductItem
@@ -40,7 +43,11 @@ import com.spavv.m.ui.theme.Pink40
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, navController: NavController, authVM: AuthVM) {
     val authState = authVM.authState.observeAsState()
-
+    val homeVM = viewModel<HomeVM>(
+        factory = viewModelFactory {
+            HomeVM(MyApp.appModule.productDataSource)
+        }
+    )
     LaunchedEffect(authState.value) {
         when (authState.value) {
             is AuthState.Unauthenticated -> navController.navigate(Routes.LOGIN)
@@ -107,14 +114,12 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavController, auth
             SectionTitle("Sản phẩm")
             Spacer(modifier = Modifier.height(8.dp))
             //Common Product
-            val products = List(5) { "Product $it" }
-
             LazyRow(
                 modifier = modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(products) {
-                    ProductItem()
+                items(homeVM.specialProduct.value) {
+                    item -> ProductItem(product = item)
                 }
             }
         }

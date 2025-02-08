@@ -16,21 +16,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberAsyncImagePainter
+import com.spavv.m.data.models.Product
 
 @Composable
-fun ProductItem(modifier: Modifier = Modifier) {
+fun ProductItem(modifier: Modifier = Modifier, product: Product) {
+    val imageProduct: Any = product.imageUrl.ifEmpty { "https://placehold.co/191x100/png" }
+
     Box(
         modifier = modifier
             .width(191.dp)
             .height(167.dp)
     ) {
         Image(
-            painter = rememberAsyncImagePainter("https://placehold.co/191x100/png"),
-            contentDescription = "product image",
+            painter = rememberAsyncImagePainter(imageProduct),
+            contentDescription = product.name,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
+                .size(width = 191.dp, height = 100.dp)
                 .clip(RoundedCornerShape(10.dp))
 
         )
@@ -40,13 +43,19 @@ fun ProductItem(modifier: Modifier = Modifier) {
                 .padding(top = 111.dp, start = 5.dp)
         ) {
             androidx.compose.material3.Text(
-                text = "Combo dưỡng trắng tẩy tế bào chết\ncho da mặt.",
-                style = TextStyle(fontSize = 10.sp, fontWeight = FontWeight.Medium),
+                text = product.name,
+                style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Medium),
                 color = Color.Black
+            )
+            androidx.compose.material3.Text(
+                text = product.description,
+                style = TextStyle(fontSize = 10.sp, fontWeight = FontWeight.Medium),
+                color = Color.Black,
+                overflow = TextOverflow.Ellipsis,
             )
 
             androidx.compose.material3.Text(
-                text = "399K",
+                text = "${product.price}K",
                 style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Bold),
 
                 modifier = Modifier.padding(top = 8.dp)
@@ -67,5 +76,5 @@ fun ProductItem(modifier: Modifier = Modifier) {
 @Preview(widthDp = 191, heightDp = 167)
 @Composable
 private fun Preview() {
-    ProductItem()
+
 }
