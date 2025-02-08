@@ -19,7 +19,7 @@ import com.spavv.m.ui.screens.sign_up.SignUpScreen
 fun MyAppNavigation(modifier: Modifier, authVM: AuthVM) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Routes.PRODUCT, builder = {
+    NavHost(navController = navController, startDestination = Routes.LOGIN, builder = {
         composable(Routes.LOGIN) {
             LoginScreen(modifier = modifier, authVM = authVM, navController = navController)
         }
