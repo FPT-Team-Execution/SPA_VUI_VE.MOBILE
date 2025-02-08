@@ -14,12 +14,14 @@ interface AppModule {
     //* Constant
     //val navController : NavController
     //* Apis
-    val fireBaseApi : FirebaseApi
+    val fireBaseApi: FirebaseApi
+
     //* Data sources
-    val authDataSource : AuthDataSource
+    val authDataSource: AuthDataSource
 }
- class  AppModuleImpl(appContext: Context) : AppModule {
-    private val firebaseUrl : String = "https://something-demo";
+
+class AppModuleImpl(appContext: Context) : AppModule {
+    private val firebaseUrl: String = "https://something-demo";
 
     override val fireBaseApi: FirebaseApi by lazy {
         Retrofit.Builder()

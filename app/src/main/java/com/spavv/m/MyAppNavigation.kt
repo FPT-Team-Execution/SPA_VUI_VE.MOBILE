@@ -7,7 +7,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthVM
-import com.spavv.m.ui.components.general.Header
 import com.spavv.m.ui.screens.cart.CartScreen
 import com.spavv.m.ui.screens.favorite.FavoriteScreen
 import com.spavv.m.ui.screens.home.HomeScreen
@@ -20,7 +19,7 @@ import com.spavv.m.ui.screens.sign_up.SignUpScreen
 fun MyAppNavigation(modifier: Modifier, authVM: AuthVM) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Routes.LOGIN, builder = {
+    NavHost(navController = navController, startDestination = Routes.PRODUCT, builder = {
         composable(Routes.LOGIN) {
             LoginScreen(modifier = modifier, authVM = authVM, navController = navController)
         }
