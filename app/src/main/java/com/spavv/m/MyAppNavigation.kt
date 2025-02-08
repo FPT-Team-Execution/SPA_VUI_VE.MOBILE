@@ -80,7 +80,7 @@ fun MyAppNavigation(modifier: Modifier) {
             FavoriteScreen(modifier = modifier, navController = navController)
         }
         composable(Routes.PROFILE) {
-            ProfileScreen(modifier = modifier, navController = navController)
+            ProfileScreen(modifier = modifier)
         }
         composable(Routes.CART) {
             CartScreen(modifier = Modifier, navController = navController)
