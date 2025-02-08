@@ -1,30 +1,41 @@
 package com.spavv.m.ui.screens.product
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spavv.m.data.api.RetrofitClient
+import com.spavv.m.data.dataSources.GetProductsQuery
+import com.spavv.m.data.dataSources.ProductDataSource
 import com.spavv.m.data.models.Product
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ProductVM : ViewModel() {
-    private val api = RetrofitClient.productApi
+class ProductVM(private val productDataSource: ProductDataSource) : ViewModel() {
 
-    private val _products = MutableStateFlow<List<Product>>(emptyList())
-    val products: StateFlow<List<Product>> = _products
+    private val _products = mutableStateOf<List<Product>>(emptyList())
+    val products: State<List<Product>> = _products
 
-    private val _product = MutableStateFlow<Product?>(null)
-    val product: StateFlow<Product?> = _product
+    private val _product = mutableStateOf<Product?>(null)
+    val product: State<Product?> = _product
 
     init {
-        fetchProducts()
+        fetchProducts(GetProductsQuery())
     }
 
-    fun fetchProducts() {
+    fun updateProducts(products: List<Product>) {
+        _products.value = products;
+    }
+
+    fun updateProduct(product: Product) {
+        _product.value = product;
+    }
+
+    fun fetchProducts(query: GetProductsQuery) {
         viewModelScope.launch {
             try {
-                _products.value = api.getProducts()
+                val products = productDataSource.getProducts(query)
+                updateProducts(products);
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -34,40 +45,10 @@ class ProductVM : ViewModel() {
     fun fetchProduct(id: String) {
         viewModelScope.launch {
             try {
-                _product.value = api.getProduct(id)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun createProduct(product: Product) {
-        viewModelScope.launch {
-            try {
-                api.createProduct(product)
-                fetchProducts() // Reload danh sách
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun updateProduct(id: String, product: Product) {
-        viewModelScope.launch {
-            try {
-                api.updateProduct(id, product)
-                fetchProducts()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun deleteProduct(id: String) {
-        viewModelScope.launch {
-            try {
-                api.deleteProduct(id)
-                fetchProducts()
+                val product = productDataSource.getProduct(id)
+                if (product != null) {
+                    updateProduct(product)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
