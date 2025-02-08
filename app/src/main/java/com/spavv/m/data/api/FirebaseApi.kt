@@ -7,6 +7,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface FirebaseApi {
-    @POST("/firebase-demo-path")
-    suspend fun loginByUsername(@Body body: FirebaseUserNameLogin): Response<BaseResult>
+//    @POST("/firebase-demo-path")
+//    suspend fun loginByUsername(@Body body: FirebaseUserNameLogin): Response<BaseResult>
 }

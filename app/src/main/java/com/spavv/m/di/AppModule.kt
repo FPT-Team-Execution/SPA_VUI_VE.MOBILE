@@ -4,9 +4,13 @@ package com.spavv.m.di
 import android.content.Context
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.spavv.m.data.api.CategoryApi
 import com.spavv.m.data.api.FirebaseApi
+import com.spavv.m.data.api.ProductApi
 import com.spavv.m.data.dataSources.AuthDataSource
 import com.spavv.m.data.dataSources.AuthDataSourceImpl
+import com.spavv.m.data.dataSources.ProductDataSource
+import com.spavv.m.data.dataSources.ProductDataSourceImpl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -15,13 +19,21 @@ interface AppModule {
     //val navController : NavController
     //* Apis
     val fireBaseApi: FirebaseApi
+    val categoryApi: CategoryApi
+    val productApi: ProductApi
+
 
     //* Data sources
     val authDataSource: AuthDataSource
+    val productDataSource: ProductDataSource
+
 }
 
-class AppModuleImpl(appContext: Context) : AppModule {
+class AppModuleImpl(
+    appContext: Context,
+) : AppModule {
     private val firebaseUrl: String = "https://something-demo";
+    private val baseUrl: String = "https://localhost";
 
     override val fireBaseApi: FirebaseApi by lazy {
         Retrofit.Builder()
@@ -32,7 +44,29 @@ class AppModuleImpl(appContext: Context) : AppModule {
 
     }
 
+    override val categoryApi: CategoryApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create()) // Important: Add a converter factory!
+            .build()
+            .create(CategoryApi::class.java)
+
+    }
+
+    override val productApi: ProductApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create()) // Important: Add a converter factory!
+            .build()
+            .create(ProductApi::class.java)
+
+    }
+
     override val authDataSource: AuthDataSource by lazy {
         AuthDataSourceImpl(fireBaseApi)
+    }
+
+    override val productDataSource: ProductDataSource by lazy {
+        ProductDataSourceImpl(productApi)
     }
 }

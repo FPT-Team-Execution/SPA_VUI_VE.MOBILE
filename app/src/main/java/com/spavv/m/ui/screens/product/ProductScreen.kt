@@ -11,12 +11,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.spavv.m.data.models.Product
+import com.spavv.m.di.MyApp
+import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.components.general.Header
 import com.spavv.m.ui.screens.ScaffoldLayout
+import com.spavv.m.ui.screens.login.LoginVM
+import kotlinx.coroutines.flow.forEach
 
 @Composable
 fun ProductScreen(modifier: Modifier, navController: NavController) {
+
+    val productVM = viewModel<ProductVM>(
+        factory = viewModelFactory {
+            ProductVM(MyApp.appModule.productDataSource)
+        }
+    )
+
 
 
     ScaffoldLayout(navController) { innerPadding ->
