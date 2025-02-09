@@ -25,6 +25,7 @@ fun MyProcessIndicator(
     ) {
 
         LinearProgressIndicator(
+
             progress = currentPercent,
             color = color,
             strokeCap = strokeCap,
@@ -35,8 +36,8 @@ fun MyProcessIndicator(
 }
 
 
-@Preview(widthDp = 375, heightDp = 812)
-@Composable
-private fun TestPageSuccessPreview() {
-    MyProcessIndicator(currentPercent = 0.2f)
-}
+//@Preview(widthDp = 375, heightDp = 812)
+//@Composable
+//private fun TestPageSuccessPreview() {
+//    MyProcessIndicator(currentPercent = 0.2f)
+//}

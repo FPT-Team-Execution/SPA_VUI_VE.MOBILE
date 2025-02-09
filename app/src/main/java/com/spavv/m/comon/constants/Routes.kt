@@ -8,4 +8,7 @@ object Routes {
     const val FAVORITE = "favorite"
     const val PROFILE = "profile"
     const val CART = "cart"
+
+    //* Nest route from HOME
+    const val SKIN_TEST = "skin_test"
 }

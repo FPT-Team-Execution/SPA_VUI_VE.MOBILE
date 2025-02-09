@@ -3,6 +3,8 @@ package com.spavv.m.data
 import com.spavv.m.data.models.Brand
 import com.spavv.m.data.models.Category
 import com.spavv.m.data.models.Product
+import com.spavv.m.data.models.SkinTestOption
+import com.spavv.m.data.models.SkinTestQuestion
 import java.util.Date
 
 object FakeData {
@@ -184,5 +186,44 @@ object FakeData {
             products = mockProducts.filter { it.categoryId == "c3" }
         )
     )
-
+    var mockSkinTestQuestions = listOf(
+        SkinTestQuestion(
+            questionId = "1",
+            question = "What is your skin type?",
+            questionOrder = 1,
+            isActive = true,
+            createdAt = Date(),
+            skinTestOptions = listOf(
+                SkinTestOption(optionId = "1", optionText = "Oily", skinTypeId = "A"),
+                SkinTestOption(optionId = "2", optionText = "Dry", skinTypeId = "B"),
+                SkinTestOption(optionId = "3", optionText = "Combination", skinTypeId = "C"),
+                SkinTestOption(optionId = "4", optionText = "Sensitive", skinTypeId = "D"),
+            )
+        ),
+        SkinTestQuestion(
+            questionId = "2",
+            question = "How often do you use skincare products?",
+            questionOrder = 2,
+            isActive = true,
+            createdAt = Date(),
+            skinTestOptions = listOf(
+                SkinTestOption(optionId = "5", optionText = "Daily", skinTypeId = "A"),
+                SkinTestOption(optionId = "6", optionText = "Occasionally", skinTypeId = "B"),
+                SkinTestOption(optionId = "7", optionText = "Rarely", skinTypeId = "C"),
+            )
+        ),
+        SkinTestQuestion(
+            questionId = "3",
+            question = "What is your main skin concern?",
+            questionOrder = 3,
+            isActive = true,
+            createdAt = Date(),
+            skinTestOptions = listOf(
+                SkinTestOption(optionId = "8", optionText = "Acne", skinTypeId = "A"),
+                SkinTestOption(optionId = "9", optionText = "Wrinkles", skinTypeId = "B"),
+                SkinTestOption(optionId = "10", optionText = "Dark spots", skinTypeId = "C"),
+                SkinTestOption(optionId = "11", optionText = "Redness", skinTypeId = "D"),
+            )
+        )
+    )
 }
