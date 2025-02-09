@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -28,7 +29,10 @@ class MainActivity : ComponentActivity() {
                     //create new rememberNavController instance
                     val navController = rememberNavController()
                     CompositionLocalProvider(LocalNavigation provides navController) {
-                        MyAppNavigation(modifier = Modifier.fillMaxSize().padding(16.dp))
+                        MyAppNavigation(modifier = Modifier.fillMaxSize().padding(16.dp)
+                            //safe area
+                            //! DO NOT REMOVE
+                            .statusBarsPadding())
                     }
                 }
         }
