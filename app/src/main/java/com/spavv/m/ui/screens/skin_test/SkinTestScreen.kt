@@ -29,16 +29,28 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.spavv.m.LocalNavigation
 import com.spavv.m.data.FakeData
 import com.spavv.m.data.models.SkinTestOption
+import com.spavv.m.di.MyApp
+import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.components.general.MyProcessIndicator
 import com.spavv.m.ui.theme.BackgroundItemColor
 import com.spavv.m.ui.theme.DarkColor
 import com.spavv.m.ui.theme.PrimaryColor
 @Composable
 fun SkinTestScreen(modifier: Modifier) {
+
     val navController = LocalNavigation.current
+
+    val skinTestVm = viewModel<SkinTestVM>(
+        factory = viewModelFactory {
+            SkinTestVM(MyApp.appModule.skinTestDataSource)
+        }
+    )
+
+    val skinTestQuestions = skinTestVm.skinTestQuestions.value
     Scaffold(
         topBar = {
             TopAppBar(
@@ -77,7 +89,7 @@ fun SkinTestScreen(modifier: Modifier) {
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(FakeData.mockSkinTestQuestions) { questionItem ->
+                    items(skinTestQuestions) { questionItem ->
                         Column (
                             modifier = Modifier.padding(bottom = 8.dp)
                         ){
