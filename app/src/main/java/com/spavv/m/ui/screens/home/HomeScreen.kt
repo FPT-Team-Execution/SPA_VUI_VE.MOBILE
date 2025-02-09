@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.spavv.m.LocalNavigation
 import com.spavv.m.R
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthState
@@ -42,7 +43,8 @@ import com.spavv.m.ui.screens.ScaffoldLayout
 import com.spavv.m.ui.theme.PrimaryColor
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, navController: NavController, authVM: AuthVM) {
+fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
+    val navController = LocalNavigation.current;
     val authState = authVM.authState.observeAsState()
     val homeVM = viewModel<HomeVM>(
         factory = viewModelFactory {

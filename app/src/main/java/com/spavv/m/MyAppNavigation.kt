@@ -2,9 +2,9 @@ package com.spavv.m
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.ui.screens.cart.CartScreen
@@ -16,9 +16,9 @@ import com.spavv.m.ui.screens.profile.ProfileScreen
 import com.spavv.m.ui.screens.sign_up.SignUpScreen
 
 @Composable
-fun MyAppNavigation(modifier: Modifier, authVM: AuthVM) {
-    val navController = rememberNavController()
-
+fun MyAppNavigation(modifier: Modifier) {
+    val navController = LocalNavigation.current
+    val authVM = viewModel<AuthVM>();
     NavHost(navController = navController, startDestination = Routes.HOME, builder = {
         composable(Routes.LOGIN) {
             LoginScreen(modifier = modifier, authVM = authVM, navController = navController)
@@ -30,7 +30,6 @@ fun MyAppNavigation(modifier: Modifier, authVM: AuthVM) {
             HomeScreen(
                 modifier = modifier,
                 authVM = authVM,
-                navController = navController
             )
         }
         composable(Routes.PRODUCT) {
