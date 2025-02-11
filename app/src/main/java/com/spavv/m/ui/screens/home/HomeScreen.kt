@@ -98,9 +98,21 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ){
-                ServiceItem(R.drawable.chat,"Tư vấn",backgroundSize = 60.0, symbolSize = 32.0)
-                ServiceItem(R.drawable.search,"Soi da", backgroundSize = 60.0, symbolSize = 32.0)
-                ServiceItem(R.drawable.bookings,"Đối chiếu", backgroundSize = 60.0, symbolSize = 32.0)
+                ServiceItem(R.drawable.chat,
+                    "Tư vấn",backgroundSize = 60.0, symbolSize = 32.0,
+                    onClick = {
+                        //TODO
+                    })
+                ServiceItem(R.drawable.search,"Soi da",
+                    backgroundSize = 60.0, symbolSize = 32.0,
+                    onClick = {
+                        navController.navigate(Routes.SKIN_TEST)
+                    })
+                ServiceItem(R.drawable.bookings,"Đối chiếu",
+                    backgroundSize = 60.0, symbolSize = 32.0,
+                    onClick = {
+                        //TODO
+                    })
 
             }
 
@@ -112,11 +124,20 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ){
                 ServiceItem("https://www.oarsandalps.com/cdn/shop/files/oars-and-alps-spf-50-antioxidant-sunscreen-spray-2_1110x.jpg?v=1732307453","Tinh chất",
-                     backgroundSize = 60.0, symbolSize = 52.0)
+                     backgroundSize = 60.0, symbolSize = 52.0,
+                    onClick = {
+                        //TODO
+                    })
                 ServiceItem("https://media6.ppl-media.com/mediafiles/blogs/Facial_Toner_0616f44321.jpg","Sữa rửa mặt"
-                    , backgroundSize = 60.0, symbolSize = 52.0)
+                    , backgroundSize = 60.0, symbolSize = 52.0,
+                    onClick = {
+                        //TODO
+                    })
                 ServiceItem("https://images.squarespace-cdn.com/content/v1/5c4f6ba1e2ccd1ee6075495d/83bfd75e-3e51-4f26-afa7-30db2a532f68/woman-sheet-face-mask.jpg","Mặt nạ"
-                    , backgroundSize = 60.0, symbolSize = 52.0)
+                    , backgroundSize = 60.0, symbolSize = 52.0,
+                    onClick = {
+                        //TODO
+                    })
 
             }
             SectionTitle("Sản phẩm")

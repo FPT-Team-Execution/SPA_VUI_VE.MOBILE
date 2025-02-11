@@ -7,10 +7,13 @@ import androidx.navigation.compose.rememberNavController
 import com.spavv.m.data.api.CategoryApi
 import com.spavv.m.data.api.FirebaseApi
 import com.spavv.m.data.api.ProductApi
+import com.spavv.m.data.api.SkinTestApi
 import com.spavv.m.data.dataSources.AuthDataSource
 import com.spavv.m.data.dataSources.AuthDataSourceImpl
 import com.spavv.m.data.dataSources.ProductDataSource
 import com.spavv.m.data.dataSources.ProductDataSourceImpl
+import com.spavv.m.data.dataSources.SkinTestDataSource
+import com.spavv.m.data.dataSources.SkinTestDataSourceImp
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -21,12 +24,13 @@ interface AppModule {
     val fireBaseApi: FirebaseApi
     val categoryApi: CategoryApi
     val productApi: ProductApi
+    val skinTestApi: SkinTestApi
 
 
     //* Data sources
     val authDataSource: AuthDataSource
     val productDataSource: ProductDataSource
-
+    val skinTestDataSource: SkinTestDataSource
 }
 
 class AppModuleImpl(
@@ -43,6 +47,14 @@ class AppModuleImpl(
             .create(FirebaseApi::class.java)
 
     }
+    override val productApi: ProductApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create()) // Important: Add a converter factory!
+            .build()
+            .create(ProductApi::class.java)
+
+    }
 
     override val categoryApi: CategoryApi by lazy {
         Retrofit.Builder()
@@ -53,13 +65,12 @@ class AppModuleImpl(
 
     }
 
-    override val productApi: ProductApi by lazy {
+    override val skinTestApi: SkinTestApi by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create()) // Important: Add a converter factory!
             .build()
-            .create(ProductApi::class.java)
-
+            .create(SkinTestApi::class.java)
     }
 
     override val authDataSource: AuthDataSource by lazy {
@@ -69,4 +80,8 @@ class AppModuleImpl(
     override val productDataSource: ProductDataSource by lazy {
         ProductDataSourceImpl(productApi)
     }
+    override val skinTestDataSource: SkinTestDataSource by lazy {
+        SkinTestDataSourceImp(skinTestApi)
+    }
+
 }

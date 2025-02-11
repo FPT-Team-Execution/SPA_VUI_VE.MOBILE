@@ -2,6 +2,7 @@ package com.spavv.m.ui.components.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -18,15 +19,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.spavv.m.ui.theme.BackgroundItemColor
 import com.spavv.m.ui.theme.DarkColor
 
 @Composable
-fun ServiceItem(symbol: Any?, title: String, backgroundSize: Double, symbolSize: Double) {
+fun ServiceItem(symbol: Any?, title: String, backgroundSize: Double, symbolSize: Double, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-          modifier = Modifier.requiredWidth(60.dp)
+        modifier = Modifier.requiredWidth(60.dp)
     ) {
         Box(
             contentAlignment = Alignment.Center,
@@ -34,6 +36,9 @@ fun ServiceItem(symbol: Any?, title: String, backgroundSize: Double, symbolSize:
                 .size(backgroundSize.dp)
                 .clip(CircleShape)
                 .background(BackgroundItemColor)
+                .clickable{
+                    onClick()
+                }
         ) {
             Image(
                 painter = rememberAsyncImagePainter(symbol),
