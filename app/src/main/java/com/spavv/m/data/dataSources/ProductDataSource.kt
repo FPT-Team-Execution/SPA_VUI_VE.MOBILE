@@ -1,5 +1,6 @@
 package com.spavv.m.data.dataSources
 
+import android.util.Log
 import com.spavv.m.data.api.ProductApi
 import com.spavv.m.data.models.Product
 import kotlinx.coroutines.Dispatchers
@@ -26,24 +27,26 @@ class ProductDataSourceImpl(private val productApi: ProductApi) : ProductDataSou
     override suspend fun getProducts(query: GetProductsQuery): List<Product> {
         try {
             val response = withContext(Dispatchers.IO) {
-                productApi.getProducts(
-                    query.page,
-                    query.size,
-                    query.category,
-                    query.filterQuery,
-                    query.filterBy,
-                    query.sortBy,
-                    query.isAsc
-                )
-            }
 
-            if (response.body()?.status == 200) {
-                return response.body()?.data ?: emptyList()
             }
+            val demo = productApi.getProducts(
+                query.page,
+                query.size,
+                query.category,
+                query.filterQuery,
+                query.filterBy,
+                query.sortBy,
+                query.isAsc
+            )
+
+//            if (response.body()?.status == 200) {
+//                return response.body()?.data ?: emptyList()
+//            }
             return emptyList();
 
         } catch (e: Exception) {
-            return emptyList()
+            e.printStackTrace()
+            return emptyList();
         }
     }
 
