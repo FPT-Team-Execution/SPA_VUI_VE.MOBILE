@@ -62,7 +62,7 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+//                .background(Color.White)
                 .padding(
                     top = 16.dp,
                     start = 16.dp,
