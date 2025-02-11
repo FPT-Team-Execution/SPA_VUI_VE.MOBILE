@@ -21,6 +21,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.LibraryBooks
+import androidx.compose.material.icons.filled.LocalLibrary
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.spavv.m.LocalNavigation
+import com.spavv.m.comon.constants.Routes
 import com.spavv.m.data.FakeData
 import com.spavv.m.data.models.SkinTestOption
 import com.spavv.m.di.MyApp
@@ -74,9 +77,22 @@ fun SkinTestScreen(modifier: Modifier) {
                         }
                     }
                 },
+                actions = {
+                    IconButton(onClick = {
+                        //*Redirect to SkinTypeScreen
+                        navController.navigate(Routes.SKIN_TYPE)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.LocalLibrary,
+                            contentDescription = "Các loại da",
+                            tint = PrimaryColor
+                        )
+                    }
+                },
                 modifier = Modifier.clip(RoundedCornerShape(8.dp))
             )
         },
+
         modifier = modifier.fillMaxSize()
     ) { innerPaddings ->
         Column(
