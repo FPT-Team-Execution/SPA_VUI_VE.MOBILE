@@ -37,6 +37,7 @@ import com.spavv.m.data.models.SkinTestOption
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.components.general.MyProcessIndicator
+import com.spavv.m.ui.components.skin_test.Answer
 import com.spavv.m.ui.theme.BackgroundItemColor
 import com.spavv.m.ui.theme.DarkColor
 import com.spavv.m.ui.theme.PrimaryColor
@@ -118,26 +119,6 @@ fun SkinTestScreen(modifier: Modifier) {
     }
 }
 
-@Composable
-fun Answer(option: SkinTestOption, onClick: () -> Unit ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(color = BackgroundItemColor)
-            .wrapContentHeight(align = Alignment.CenterVertically)
-            .wrapContentWidth(align = Alignment.CenterHorizontally)
-            .clickable {
-                onClick()
-            }
-    ){
-        Text(
-            text = option.optionText,
-            color = DarkColor,
-            textAlign = TextAlign.Center,
-            softWrap = true,
-            fontSize = 12.sp)
-    }
-}
+
 
 
