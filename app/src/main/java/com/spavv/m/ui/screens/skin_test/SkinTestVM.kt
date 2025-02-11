@@ -10,9 +10,16 @@ import com.spavv.m.data.FakeData
 import com.spavv.m.data.dataSources.GetProductsQuery
 import com.spavv.m.data.dataSources.SkinTestDataSource
 import com.spavv.m.data.models.SkinTestQuestion
+import com.spavv.m.data.models.SkinType
 import kotlinx.coroutines.launch
 
 class SkinTestVM(private val  skinTestDataSource: SkinTestDataSource) : ViewModel() {
+
+    private var _skinTypeResult = mutableStateOf<SkinType?>(null)
+    val skinTypeResult: State<SkinType?> = _skinTypeResult
+    fun updateSkinTypeResult(value: SkinType?){
+        _skinTypeResult.value = value
+    }
 
 
     private var _skinTestQuestions = mutableStateOf<List<SkinTestQuestion>>(emptyList())

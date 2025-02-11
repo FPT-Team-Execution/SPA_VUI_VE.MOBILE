@@ -5,6 +5,7 @@ import com.spavv.m.data.models.Category
 import com.spavv.m.data.models.Product
 import com.spavv.m.data.models.SkinTestOption
 import com.spavv.m.data.models.SkinTestQuestion
+import com.spavv.m.data.models.SkinType
 import java.util.Date
 
 object FakeData {
@@ -225,5 +226,17 @@ object FakeData {
                 SkinTestOption(optionId = "11", optionText = "Redness", skinTypeId = "D"),
             )
         )
+    )
+    val fakeSkinType = SkinType(
+        skinTypeId = "1",
+        name = "Oily Skin",
+        description = "Skin that produces excess sebum, leading to a shiny complexion and potential acne.",
+        characteristics = "Shiny appearance, enlarged pores, prone to acne and blackheads.",
+        recommendedIngredients = "Salicylic Acid, Niacinamide, Hyaluronic Acid.",
+        avoidIngredients = "Heavy oils, Alcohol-based products.",
+        careInstructions = "Use oil-free moisturizers, cleanse twice daily, exfoliate regularly.",
+        isActive = true,
+        createdAt = Date(),
+        updatedAt = Date(),
     )
 }

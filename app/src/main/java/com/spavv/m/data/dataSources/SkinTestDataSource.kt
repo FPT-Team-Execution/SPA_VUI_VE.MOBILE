@@ -1,15 +1,15 @@
 package com.spavv.m.data.dataSources
 
-import com.spavv.m.data.api.ProductApi
 import com.spavv.m.data.api.SkinTestApi
-import com.spavv.m.data.models.Product
+import com.spavv.m.data.api.SubmitSkinTestRequest
 import com.spavv.m.data.models.SkinTestQuestion
+import com.spavv.m.data.models.SkinType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 interface SkinTestDataSource {
     suspend fun getSkinTests(): List<SkinTestQuestion>;
-    //suspend fun getSkinTest(id: String): Product?;
+    suspend fun submitSkinTest(answers: SubmitSkinTestRequest): SkinType?;
 }
 
 class SkinTestDataSourceImp(private val skinTestApi: SkinTestApi) : SkinTestDataSource {
@@ -30,17 +30,18 @@ class SkinTestDataSourceImp(private val skinTestApi: SkinTestApi) : SkinTestData
         }
     }
 
-//    override suspend fun getSkinTest(id: String): SkinTestQuestion? {
-//        try {
-//            val response = withContext(Dispatchers.IO) {
-//                skinTestApi.getProduct(id)
-//            }
-//            if (response.body()?.status == 200) {
-//                return response.body()?.data;
-//            }
-//            return null
-//        } catch (e: Exception) {
-//            return null
-//        }
-//    }
+    override suspend fun submitSkinTest(answers: SubmitSkinTestRequest): SkinType? {
+        try {
+            val response = withContext(Dispatchers.IO) {
+                skinTestApi.submitSkinTest(answers)
+            }
+            if (response.body()?.status == 200) {
+                return response.body()?.data
+            }
+            return null
+        } catch (e: Exception) {
+            return null
+        }
+    }
 }
+
