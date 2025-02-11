@@ -21,7 +21,7 @@ import com.spavv.m.ui.screens.skin_test.SkinTestScreen
 fun MyAppNavigation(modifier: Modifier) {
     val navController = LocalNavigation.current
     val authVM = viewModel<AuthVM>();
-    NavHost(navController = navController, startDestination = Routes.SKIN_TEST_RESULT, builder = {
+    NavHost(navController = navController, startDestination = Routes.SKIN_TEST, builder = {
         composable(Routes.LOGIN) {
             LoginScreen(modifier = modifier, authVM = authVM, navController = navController)
         }

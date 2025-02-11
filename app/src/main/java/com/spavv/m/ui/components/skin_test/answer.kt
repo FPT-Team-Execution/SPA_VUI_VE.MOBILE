@@ -18,14 +18,15 @@ import androidx.compose.ui.unit.sp
 import com.spavv.m.data.models.SkinTestOption
 import com.spavv.m.ui.theme.BackgroundItemColor
 import com.spavv.m.ui.theme.DarkColor
+import com.spavv.m.ui.theme.PrimaryColor
 
 @Composable
-fun Answer(option: SkinTestOption, onClick: () -> Unit ) {
+fun Answer(option: SkinTestOption, onClick: () -> Unit, isChosen: Boolean = false) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(8.dp))
-            .background(color = BackgroundItemColor)
+            .background(color = if(isChosen) PrimaryColor else  BackgroundItemColor)
             .wrapContentHeight(align = Alignment.CenterVertically)
             .wrapContentWidth(align = Alignment.CenterHorizontally)
             .clickable {

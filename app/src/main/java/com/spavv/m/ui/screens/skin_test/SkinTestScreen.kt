@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +45,7 @@ import com.spavv.m.ui.theme.PrimaryColor
 @Composable
 fun SkinTestScreen(modifier: Modifier) {
 
+
     val navController = LocalNavigation.current
 
     val skinTestVm = viewModel<SkinTestVM>(
@@ -51,7 +53,9 @@ fun SkinTestScreen(modifier: Modifier) {
             SkinTestVM(MyApp.appModule.skinTestDataSource)
         }
     )
+    LaunchedEffect(skinTestVm.skinTestOptions.value) {
 
+    }
     val skinTestQuestions = skinTestVm.skinTestQuestions.value
     Scaffold(
         topBar = {
@@ -107,8 +111,13 @@ fun SkinTestScreen(modifier: Modifier) {
                             ) {
                                 questionItem.skinTestOptions.forEach { option ->
                                     Answer(option, onClick = {
-                                        // TODO: Xử lý sự kiện click
-                                    })
+                                        //* Add option
+                                        skinTestVm.updateOrAddOption(questionItem.questionId, option)
+                                    },
+                                        isChosen = skinTestVm.skinTestOptions.value.values.any {
+                                            it.optionId.equals(option.optionId)}
+
+                                    )
                                 }
                             }
                         }
