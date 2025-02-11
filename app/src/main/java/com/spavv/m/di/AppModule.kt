@@ -12,12 +12,15 @@ import com.spavv.m.data.api.CategoryApi
 import com.spavv.m.data.api.FirebaseApi
 import com.spavv.m.data.api.ProductApi
 import com.spavv.m.data.api.SkinTestApi
+import com.spavv.m.data.api.SkinTypeApi
 import com.spavv.m.data.dataSources.AuthDataSource
 import com.spavv.m.data.dataSources.AuthDataSourceImpl
 import com.spavv.m.data.dataSources.ProductDataSource
 import com.spavv.m.data.dataSources.ProductDataSourceImpl
 import com.spavv.m.data.dataSources.SkinTestDataSource
 import com.spavv.m.data.dataSources.SkinTestDataSourceImp
+import com.spavv.m.data.dataSources.SkinTypeDataSource
+import com.spavv.m.data.dataSources.SkinTypeDataSourceImp
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -43,12 +46,13 @@ interface AppModule {
     val categoryApi: CategoryApi
     val productApi: ProductApi
     val skinTestApi: SkinTestApi
-
+    val skinTypeApi: SkinTypeApi
 
     //* Data sources
     val authDataSource: AuthDataSource
     val productDataSource: ProductDataSource
     val skinTestDataSource: SkinTestDataSource
+    val skinTypeDataSource: SkinTypeDataSource
 }
 
 class AppModuleImpl(
@@ -97,6 +101,14 @@ class AppModuleImpl(
             .build()
             .create(SkinTestApi::class.java)
     }
+    override val skinTypeApi: SkinTypeApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create(gson)) // Important: Add a converter factory!
+            .client(getUnsafeOkHttpClient())
+            .build()
+            .create(SkinTypeApi::class.java)
+    }
 
     override val authDataSource: AuthDataSource by lazy {
         AuthDataSourceImpl(fireBaseApi)
@@ -107,6 +119,9 @@ class AppModuleImpl(
     }
     override val skinTestDataSource: SkinTestDataSource by lazy {
         SkinTestDataSourceImp(skinTestApi)
+    }
+    override val skinTypeDataSource: SkinTypeDataSource by lazy {
+        SkinTypeDataSourceImp(skinTypeApi)
     }
 
     private fun getUnsafeOkHttpClient(): OkHttpClient {

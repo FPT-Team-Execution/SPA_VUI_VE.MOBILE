@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,6 +34,7 @@ import com.spavv.m.ui.theme.PrimaryColor
 
 @Composable
 fun SkinTypeItem( skinType: SkinType) {
+    val notUpdateYet : String = "Chưa cập nhật"
     Column(
         modifier = Modifier.padding(8.dp)
             .border(1.dp, color = GreyColor)
@@ -51,27 +54,28 @@ fun SkinTypeItem( skinType: SkinType) {
 
         ) {
             DetailSection(text = "Miêu tả", icon = Icons.Default.Description) {
-                skinType.description
+                skinType.description ?: notUpdateYet
             }
             DetailSection(text = "Thành phần", icon = Icons.Default.Menu){
-                skinType.characteristics
+                skinType.characteristics ?: notUpdateYet
             }
             DetailSection(text = "Đề xuất", icon = Icons.Default.Check, Color.Green){
-                skinType.recommendedIngredients
+                skinType.recommendedIngredients ?: notUpdateYet
             }
             DetailSection(text = "Nên tránh", icon = Icons.Default.Close, Color.Red){
-                skinType.avoidIngredients
+                skinType.avoidIngredients ?: notUpdateYet
             }
             DetailSection(text = "Chăm sóc da", icon = Icons.Default.Spa, PrimaryColor){
-                skinType.careInstructions
+                skinType.careInstructions ?: notUpdateYet
             }
         }
     }
 }
 
 @Composable
-fun DetailSection(text: String, icon: ImageVector? = null, color: Color = DarkColor, content: () -> String = {"Chưa cập nhật"} ) {
+fun DetailSection(text: String, icon: ImageVector? = null, color: Color = DarkColor, content: () -> String ) {
     Row(
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -230,7 +230,7 @@ object FakeData {
     val fakeSkinType = SkinType(
         skinTypeId = "1",
         name = "Oily Skin",
-        description = "Skin that produces excess sebum, leading to a shiny complexion and potential acne.",
+        description = "Skin that produces excess sebum, leading to a shiny complexion and potential acne.Skin that produces excess sebum, leading to a shiny complexion and potential acne.",
         characteristics = "Shiny appearance, enlarged pores, prone to acne and blackheads.",
         recommendedIngredients = "Salicylic Acid, Niacinamide, Hyaluronic Acid.",
         avoidIngredients = "Heavy oils, Alcohol-based products.",

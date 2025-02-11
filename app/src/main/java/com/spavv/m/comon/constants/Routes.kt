@@ -9,6 +9,8 @@ object Routes {
     const val PROFILE = "profile"
     const val CART = "cart"
 
+
+    const val SKIN_TYPE= "skin_type"
     //* Nest route from HOME
     const val SKIN_TEST = "skin_test"
     const val SKIN_TEST_RESULT = "skin_test_result"
