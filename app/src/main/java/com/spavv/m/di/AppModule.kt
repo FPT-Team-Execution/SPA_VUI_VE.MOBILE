@@ -23,6 +23,7 @@ import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 import javax.net.ssl.SSLSocketFactory;
 
+
 interface AppModule {
     //* Constant
     //val navController : NavController
@@ -43,7 +44,7 @@ class AppModuleImpl(
     appContext: Context,
 ) : AppModule {
     private val firebaseUrl: String = "https://something-demo";
-    private val baseUrl: String = "https://localhost";
+    private val baseUrl: String = "https://10.0.2.2:7000/";
 
     override val fireBaseApi: FirebaseApi by lazy {
         Retrofit.Builder()
@@ -92,6 +93,7 @@ class AppModuleImpl(
     override val skinTestDataSource: SkinTestDataSource by lazy {
         SkinTestDataSourceImp(skinTestApi)
     }
+
     private fun getUnsafeOkHttpClient(): OkHttpClient {
         try {
             // Create a trust manager that does not validate certificate chains

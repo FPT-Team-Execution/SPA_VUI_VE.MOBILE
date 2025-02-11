@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.spavv.m.data.dataSources.GetProductsQuery
 import com.spavv.m.data.dataSources.ProductDataSource
 import com.spavv.m.data.models.Product
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ProductVM(private val productDataSource: ProductDataSource) : ViewModel() {
@@ -18,10 +16,6 @@ class ProductVM(private val productDataSource: ProductDataSource) : ViewModel() 
 
     private val _product = mutableStateOf<Product?>(null)
     val product: State<Product?> = _product
-
-    init {
-        fetchProducts(GetProductsQuery())
-    }
 
     private fun updateProducts(products: List<Product>) {
         _products.value = products;
