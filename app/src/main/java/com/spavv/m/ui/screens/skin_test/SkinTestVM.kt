@@ -46,9 +46,9 @@ class SkinTestVM(private val skinTestDataSource: SkinTestDataSource) : ViewModel
     private fun fetchQuestions() {
         viewModelScope.launch {
             try {
-//                val questions = skinTestDataSource.getSkinTests()
+                val questions = skinTestDataSource.getSkinTests()
                 //* Fake data
-                val questions: List<SkinTestQuestion> = FakeData.mockSkinTestQuestions
+                //val questions: List<SkinTestQuestion> = FakeData.mockSkinTestQuestions
                 updateQuestions(questions);
             } catch (e: Exception) {
                 e.printStackTrace()

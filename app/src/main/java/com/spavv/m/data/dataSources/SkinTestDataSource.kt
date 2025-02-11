@@ -16,9 +16,8 @@ class SkinTestDataSourceImp(private val skinTestApi: SkinTestApi) : SkinTestData
 
     override suspend fun getSkinTests(): List<SkinTestQuestion> {
         try {
-            val response = withContext(Dispatchers.IO) {
-                skinTestApi.getSkinTests()
-            }
+            val response = skinTestApi.getSkinTests()
+
 
             if (response.body()?.status == 200) {
                 return response.body()?.data ?: emptyList()
