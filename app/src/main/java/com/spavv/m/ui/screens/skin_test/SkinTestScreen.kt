@@ -44,6 +44,7 @@ import com.spavv.m.ui.components.general.MyProcessIndicator
 import com.spavv.m.ui.components.skin_test.Answer
 import com.spavv.m.ui.theme.BackgroundItemColor
 import com.spavv.m.ui.theme.DarkColor
+import com.spavv.m.ui.theme.GreyColor
 import com.spavv.m.ui.theme.PrimaryColor
 @Composable
 fun SkinTestScreen(modifier: Modifier) {
@@ -85,7 +86,7 @@ fun SkinTestScreen(modifier: Modifier) {
                         Icon(
                             imageVector = Icons.Filled.LocalLibrary,
                             contentDescription = "Các loại da",
-                            tint = PrimaryColor
+                            tint = DarkColor
                         )
                     }
                 },
