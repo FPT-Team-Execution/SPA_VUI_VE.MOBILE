@@ -7,17 +7,21 @@ import androidx.lifecycle.viewModelScope
 import com.spavv.m.data.dataSources.GetProductsQuery
 import com.spavv.m.data.dataSources.ProductDataSource
 import com.spavv.m.data.models.Product
+import com.spavv.m.data.models.base.Paginate
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProductVM(private val productDataSource: ProductDataSource) : ViewModel() {
 
-    private val _products = mutableStateOf<List<Product>>(emptyList())
-    val products: State<List<Product>> = _products
+    public var isLoading = mutableStateOf<Boolean>(false);
+
+    private val _products = mutableStateOf<Paginate<Product>?>(null)
+    val products: State<Paginate<Product>?> = _products
 
     private val _product = mutableStateOf<Product?>(null)
     val product: State<Product?> = _product
 
-    private fun updateProducts(products: List<Product>) {
+    private fun updateProducts(products: Paginate<Product>?) {
         _products.value = products;
     }
 
@@ -26,6 +30,7 @@ class ProductVM(private val productDataSource: ProductDataSource) : ViewModel() 
     }
 
     fun fetchProducts(query: GetProductsQuery) {
+        isLoading.value = true;
         viewModelScope.launch {
             try {
                 val products = productDataSource.getProducts(query)
@@ -34,9 +39,11 @@ class ProductVM(private val productDataSource: ProductDataSource) : ViewModel() 
                 e.printStackTrace()
             }
         }
+        isLoading.value = false;
     }
 
     fun fetchProduct(id: String) {
+        isLoading.value = true;
         viewModelScope.launch {
             try {
                 val product = productDataSource.getProduct(id)
@@ -47,5 +54,6 @@ class ProductVM(private val productDataSource: ProductDataSource) : ViewModel() 
                 e.printStackTrace()
             }
         }
+        isLoading.value = false;
     }
 }

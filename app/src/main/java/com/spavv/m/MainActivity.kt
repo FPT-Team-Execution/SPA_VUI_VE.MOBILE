@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
                     CompositionLocalProvider(LocalNavigation provides navController) {
                         MyAppNavigation(modifier = Modifier
                             .fillMaxSize()
-                            .padding(16.dp)
                             //safe area
                             //! DO NOT REMOVE
                             .statusBarsPadding())

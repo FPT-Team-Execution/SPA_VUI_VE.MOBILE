@@ -2,6 +2,13 @@ package com.spavv.m.di
 
 
 import android.content.Context
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import com.spavv.m.data.api.CategoryApi
 import com.spavv.m.data.api.FirebaseApi
 import com.spavv.m.data.api.ProductApi
@@ -15,9 +22,13 @@ import com.spavv.m.data.dataSources.SkinTestDataSourceImp
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Type
 import java.security.SecureRandom
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
@@ -46,7 +57,10 @@ class AppModuleImpl(
 ) : AppModule {
     private val firebaseUrl: String = "https://something-demo";
     private val baseUrl: String = "https://10.0.2.2:7000/";
-
+    val gson = GsonBuilder()
+        .registerTypeAdapter(Date::class.java, DateJsonAdapter())  // Custom parser cho Date
+        .setLenient()
+        .create()
     override val fireBaseApi: FirebaseApi by lazy {
         Retrofit.Builder()
             .baseUrl(firebaseUrl)
@@ -58,7 +72,7 @@ class AppModuleImpl(
     override val productApi: ProductApi by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create()) // Important: Add a converter factory!
+            .addConverterFactory(GsonConverterFactory.create(gson)) // Important: Add a converter factory!
             .client(getUnsafeOkHttpClient())
             .build()
             .create(ProductApi::class.java)
@@ -129,4 +143,22 @@ class AppModuleImpl(
         }
     }
 
+}
+
+class DateJsonAdapter : JsonDeserializer<Date>, JsonSerializer<Date> {
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
+
+    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Date? {
+        return try {
+            json?.asString?.let {
+                dateFormat.parse(it)
+            }
+        } catch (e: Exception) {
+            null  // Tránh crash khi có lỗi
+        }
+    }
+
+    override fun serialize(src: Date?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
+        return JsonPrimitive(src?.let { dateFormat.format(it) } ?: "")
+    }
 }
