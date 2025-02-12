@@ -1,5 +1,6 @@
 package com.spavv.m.data.models
 
+import java.io.Serializable
 import java.util.Date
 
 data class SkinType(
@@ -13,4 +14,4 @@ data class SkinType(
     val isActive: Boolean? = false,
     val createdAt: Date? = null,
     val updatedAt: Date? = null
-)
+) : Serializable

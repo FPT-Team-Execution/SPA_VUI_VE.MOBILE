@@ -31,6 +31,7 @@ import com.spavv.m.LocalNavigation
 import com.spavv.m.R
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.data.FakeData
+import com.spavv.m.data.models.SkinType
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.components.skin_test.SkinTypeItem
@@ -40,19 +41,19 @@ import com.spavv.m.ui.theme.PrimaryColor
 @Composable
 fun ResultScreen(modifier: Modifier = Modifier) {
     val navController = LocalNavigation.current
-
-    val skinTestVm = viewModel<SkinTestVM>(
-        factory = viewModelFactory {
-            SkinTestVM(MyApp.appModule.skinTestDataSource)
-        }
-    )
-    LaunchedEffect(skinTestVm.skinTypeResult.value) {
-        if(skinTestVm.skinTypeResult.value == null){
+    val result = navController.previousBackStackEntry?.savedStateHandle?.get<SkinType>("skinTestResult")
+//    val skinTestVm = viewModel<SkinTestVM>(
+//        factory = viewModelFactory {
+//            SkinTestVM(MyApp.appModule.skinTestDataSource)
+//        }
+//    )
+    LaunchedEffect(result) {
+        if(result == null){
             navController.navigate(Routes.SKIN_TEST)
         }
     }
 
-    val skinTypeResult = FakeData.fakeSkinType
+    val skinTypeResult = result
 
     Scaffold(
         topBar = {
@@ -91,7 +92,9 @@ fun ResultScreen(modifier: Modifier = Modifier) {
                 contentScale = ContentScale.Fit
             )
             Spacer(modifier = Modifier.height(8.dp))
-            SkinTypeItem(skinType = skinTypeResult)
+            if(skinTypeResult != null){
+                SkinTypeItem(skinType = skinTypeResult)
+            }
         }
     }
 }
