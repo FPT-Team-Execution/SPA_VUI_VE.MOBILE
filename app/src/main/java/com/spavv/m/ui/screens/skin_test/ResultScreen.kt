@@ -47,7 +47,7 @@ fun ResultScreen(modifier: Modifier = Modifier) {
 //            SkinTestVM(MyApp.appModule.skinTestDataSource)
 //        }
 //    )
-    LaunchedEffect(result) {
+    LaunchedEffect(Unit) {
         if(result == null){
             navController.navigate(Routes.SKIN_TEST)
         }
