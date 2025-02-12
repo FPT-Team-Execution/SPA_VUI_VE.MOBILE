@@ -118,7 +118,7 @@ fun SkinTestScreen(modifier: Modifier) {
         ) {
             Row {
                 Text("Tiến trình", fontSize = 16.sp)
-                MyProcessIndicator(currentPercent = 0.2f)
+                MyProcessIndicator(currentPercent = skinTestVm.skinTestOptions.value.size.toFloat() / skinTestVm.skinTestQuestions.value.size.toFloat())
             }
             Spacer(modifier = Modifier.height(8.dp))
             Column(modifier = Modifier.weight(1f)) {
