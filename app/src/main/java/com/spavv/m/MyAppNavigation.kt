@@ -14,7 +14,9 @@ import com.spavv.m.ui.screens.login.LoginScreen
 import com.spavv.m.ui.screens.product.ProductScreen
 import com.spavv.m.ui.screens.profile.ProfileScreen
 import com.spavv.m.ui.screens.sign_up.SignUpScreen
+import com.spavv.m.ui.screens.skin_test.ResultScreen
 import com.spavv.m.ui.screens.skin_test.SkinTestScreen
+import com.spavv.m.ui.screens.skin_type.SkinTypeScreen
 
 @Composable
 fun MyAppNavigation(modifier: Modifier) {
@@ -33,9 +35,15 @@ fun MyAppNavigation(modifier: Modifier) {
                 authVM = authVM,
             )
         }
+        composable(Routes.SKIN_TYPE) {
+            SkinTypeScreen( modifier = modifier)
+        }
         //Nest route from HOME
         composable(Routes.SKIN_TEST) {
             SkinTestScreen(modifier = modifier)
+        }
+        composable(Routes.SKIN_TEST_RESULT) {
+            ResultScreen(modifier = modifier)
         }
         composable(Routes.PRODUCT) {
             ProductScreen(modifier = modifier, navController = navController)

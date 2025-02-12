@@ -13,13 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.spavv.m.data.models.Product
+import com.spavv.m.data.dataSources.GetProductsQuery
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.components.general.Header
+import com.spavv.m.ui.components.product.ProductCard
 import com.spavv.m.ui.screens.ScaffoldLayout
-import com.spavv.m.ui.screens.login.LoginVM
-import kotlinx.coroutines.flow.forEach
 
 @Composable
 fun ProductScreen(modifier: Modifier, navController: NavController) {
@@ -29,6 +28,20 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
             ProductVM(MyApp.appModule.productDataSource)
         }
     )
+
+    LaunchedEffect(Unit) {
+        productVM.fetchProducts(
+            GetProductsQuery(
+                page = 1,
+                size = 10,
+                isAsc = true,
+                sortBy = "Price",
+                category = "",
+                filterBy = "Name",
+                filterQuery = ""
+            )
+        )
+    }
 
 
 
@@ -42,13 +55,12 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
             Column {
                 Column {
-                    Text(text = "Danh mục")
+                    Text(text = "Sản phẩm")
                     Row {
-
+                        productVM.products.value.forEach { item ->
+                            ProductCard(item)
+                        }
                     }
-                }
-                Column {
-                    Text(text = "Tiêu biểu")
                 }
             }
         }
