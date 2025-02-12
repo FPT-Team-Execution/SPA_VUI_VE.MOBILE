@@ -90,7 +90,8 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                 ServiceItem(R.drawable.chat,
                     "Tư vấn",backgroundSize = 60.0, symbolSize = 32.0,
                     onClick = {
-                        //TODO
+                        navController.navigate(Routes.CHAT_BOT)
+
                     })
                 ServiceItem(R.drawable.search,"Soi da",
                     backgroundSize = 60.0, symbolSize = 32.0,
