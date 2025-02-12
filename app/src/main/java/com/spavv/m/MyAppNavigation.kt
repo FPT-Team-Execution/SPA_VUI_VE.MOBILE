@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.ui.screens.cart.CartScreen
+import com.spavv.m.ui.screens.chatbot.ChatScreen
 import com.spavv.m.ui.screens.favorite.FavoriteScreen
 import com.spavv.m.ui.screens.home.HomeScreen
 import com.spavv.m.ui.screens.login.LoginScreen
@@ -22,7 +23,7 @@ import com.spavv.m.ui.screens.skin_type.SkinTypeScreen
 fun MyAppNavigation(modifier: Modifier) {
     val navController = LocalNavigation.current
     val authVM = viewModel<AuthVM>();
-    NavHost(navController = navController, startDestination = Routes.HOME, builder = {
+    NavHost(navController = navController, startDestination = Routes.CHAT_BOT, builder = {
         composable(Routes.LOGIN) {
             LoginScreen(modifier = modifier, authVM = authVM, navController = navController)
         }
@@ -44,6 +45,9 @@ fun MyAppNavigation(modifier: Modifier) {
         }
         composable(Routes.SKIN_TEST_RESULT) {
             ResultScreen(modifier = modifier)
+        }
+        composable(Routes.CHAT_BOT) {
+            ChatScreen(modifier = modifier)
         }
         composable(Routes.PRODUCT) {
             ProductScreen(modifier = modifier, navController = navController)
