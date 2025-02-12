@@ -23,7 +23,7 @@ import com.spavv.m.ui.screens.skin_type.SkinTypeScreen
 fun MyAppNavigation(modifier: Modifier) {
     val navController = LocalNavigation.current
     val authVM = viewModel<AuthVM>();
-    NavHost(navController = navController, startDestination = Routes.CHAT_BOT, builder = {
+    NavHost(navController = navController, startDestination = Routes.HOME, builder = {
         composable(Routes.LOGIN) {
             LoginScreen(modifier = modifier, authVM = authVM, navController = navController)
         }
