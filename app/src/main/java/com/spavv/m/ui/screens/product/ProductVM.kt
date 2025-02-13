@@ -35,7 +35,7 @@ class ProductVM(private val productDataSource: ProductDataSource) : ViewModel() 
             page = 1,
             size = 10,
             isAsc = true,
-            sortBy = "Price",
+            sortBy = "price",
             category = "",
             filterBy = "name",
             filterQuery = ""

@@ -87,7 +87,8 @@ class AppModuleImpl(
     override val categoryApi: CategoryApi by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create(gson)) // Important: Add a converter factory!
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(getUnsafeOkHttpClient())// Important: Add a converter factory!
             .build()
             .create(CategoryApi::class.java)
 
@@ -160,10 +161,15 @@ class AppModuleImpl(
         }
     }
 }
+
 class DateJsonAdapter : JsonDeserializer<Date>, JsonSerializer<Date> {
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
 
-    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): Date? {
+    override fun deserialize(
+        json: JsonElement?,
+        typeOfT: Type?,
+        context: JsonDeserializationContext?
+    ): Date? {
         return try {
             json?.asString?.let {
                 dateFormat.parse(it)
@@ -173,7 +179,11 @@ class DateJsonAdapter : JsonDeserializer<Date>, JsonSerializer<Date> {
         }
     }
 
-    override fun serialize(src: Date?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
+    override fun serialize(
+        src: Date?,
+        typeOfSrc: Type?,
+        context: JsonSerializationContext?
+    ): JsonElement {
         return JsonPrimitive(src?.let { dateFormat.format(it) } ?: "")
     }
 }

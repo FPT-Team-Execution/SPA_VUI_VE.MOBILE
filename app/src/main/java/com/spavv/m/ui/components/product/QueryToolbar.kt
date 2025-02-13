@@ -30,10 +30,9 @@ fun QueryToolbar(productVM: ProductVM, navController: NavController, onFilterCli
 
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+            .fillMaxWidth(0.9f),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.Center
     ) {
         // Ô tìm kiếm
         TextField(
