@@ -1,30 +1,37 @@
 import android.icu.text.NumberFormat
 import android.icu.util.Currency
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.spavv.m.data.models.Product
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ProductCard(product: Product, modifier: Modifier = Modifier) {
+fun ProductCard(product: Product, modifier: Modifier = Modifier, onClick: ()-> Unit) {
+
+
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(4.dp),
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(1.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        onClick = onClick
     ) {
         Column(modifier = modifier) {
             Image(
@@ -39,9 +46,8 @@ fun ProductCard(product: Product, modifier: Modifier = Modifier) {
             Column(modifier = modifier.padding(8.dp)) {
                 Text(text = product.name, fontSize = 18.sp, color = Color.Black)
                 Spacer(modifier = modifier.height(8.dp))
-                FlowRow(
+                Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text(
                         text = product.brand?.name ?: "Unknown",
@@ -73,6 +79,9 @@ fun ProductCard(product: Product, modifier: Modifier = Modifier) {
                     fontSize = 18.sp,
                     color = Color.Red
                 )
+
+
+
             }
         }
     }

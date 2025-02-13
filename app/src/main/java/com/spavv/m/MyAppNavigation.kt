@@ -3,14 +3,17 @@ package com.spavv.m
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.ui.screens.cart.CartScreen
 import com.spavv.m.ui.screens.favorite.FavoriteScreen
 import com.spavv.m.ui.screens.home.HomeScreen
 import com.spavv.m.ui.screens.login.LoginScreen
+import com.spavv.m.ui.screens.product.DetailScreen
 import com.spavv.m.ui.screens.product.ProductScreen
 import com.spavv.m.ui.screens.profile.ProfileScreen
 import com.spavv.m.ui.screens.sign_up.SignUpScreen
@@ -36,7 +39,7 @@ fun MyAppNavigation(modifier: Modifier) {
             )
         }
         composable(Routes.SKIN_TYPE) {
-            SkinTypeScreen( modifier = modifier)
+            SkinTypeScreen(modifier = modifier)
         }
         //Nest route from HOME
         composable(Routes.SKIN_TEST) {
@@ -47,6 +50,13 @@ fun MyAppNavigation(modifier: Modifier) {
         }
         composable(Routes.PRODUCT) {
             ProductScreen(modifier = modifier, navController = navController)
+        }
+        composable(
+            route = Routes.PRODUCT_DETAIL_HOST,
+            arguments = listOf(navArgument("productId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getString("productId") ?: ""
+            DetailScreen(modifier = modifier, productId = productId, navController = navController)
         }
         composable(Routes.FAVORITE) {
             FavoriteScreen(modifier = modifier, navController = navController)

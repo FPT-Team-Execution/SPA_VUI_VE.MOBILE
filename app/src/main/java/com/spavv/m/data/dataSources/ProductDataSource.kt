@@ -32,8 +32,8 @@ class ProductDataSourceImpl(private val productApi: ProductApi) : ProductDataSou
                 query.page,
                 query.size,
                 query.category,
-                query.filterQuery,
                 query.filterBy,
+                query.filterQuery,
                 query.sortBy,
                 query.isAsc
             )

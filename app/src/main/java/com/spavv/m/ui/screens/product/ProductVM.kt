@@ -1,5 +1,6 @@
 package com.spavv.m.ui.screens.product
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class ProductVM(private val productDataSource: ProductDataSource) : ViewModel() {
 
-    public var isLoading = mutableStateOf<Boolean>(false);
+    var isLoading = mutableStateOf<Boolean>(false);
 
     private val _products = mutableStateOf<Paginate<Product>?>(null)
     val products: State<Paginate<Product>?> = _products
@@ -29,11 +30,27 @@ class ProductVM(private val productDataSource: ProductDataSource) : ViewModel() 
         _product.value = product;
     }
 
-    fun fetchProducts(query: GetProductsQuery) {
+    val query: MutableState<GetProductsQuery> = mutableStateOf(
+        GetProductsQuery(
+            page = 1,
+            size = 10,
+            isAsc = true,
+            sortBy = "Price",
+            category = "",
+            filterBy = "name",
+            filterQuery = ""
+        )
+    )
+
+    fun updateQuery(newQuery: GetProductsQuery) {
+        query.value = newQuery
+    }
+
+    fun fetchProducts() {
         isLoading.value = true;
         viewModelScope.launch {
             try {
-                val products = productDataSource.getProducts(query)
+                val products = productDataSource.getProducts(query.value)
                 updateProducts(products);
             } catch (e: Exception) {
                 e.printStackTrace()
