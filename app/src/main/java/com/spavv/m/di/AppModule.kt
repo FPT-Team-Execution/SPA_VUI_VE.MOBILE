@@ -77,7 +77,7 @@ class AppModuleImpl(
     override val productApi: ProductApi by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create()) // Important: Add a converter factory!
+            .addConverterFactory(GsonConverterFactory.create(gson)) // Important: Add a converter factory!
             .client(getUnsafeOkHttpClient())
             .build()
             .create(ProductApi::class.java)
@@ -87,7 +87,7 @@ class AppModuleImpl(
     override val categoryApi: CategoryApi by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create()) // Important: Add a converter factory!
+            .addConverterFactory(GsonConverterFactory.create(gson)) // Important: Add a converter factory!
             .build()
             .create(CategoryApi::class.java)
 
