@@ -39,7 +39,7 @@ fun QueryToolbar(productVM: ProductVM, navController: NavController, onFilterCli
             value = searchQuery,
             onValueChange = {
                 searchQuery = it
-                productVM.updateQuery(productVM.query.value.copy(filterQuery = it))
+                productVM.updateQuery(productVM.getProductsQuery.value.copy(filterQuery = it))
             },
             placeholder = { Text("Tìm kiếm sản phẩm...") },
             singleLine = true,
