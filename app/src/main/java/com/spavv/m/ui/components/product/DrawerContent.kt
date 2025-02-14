@@ -15,13 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.spavv.m.data.models.Category
 import com.spavv.m.ui.components.home.SectionTitle
 
 @Composable
-fun DrawerContent(onClose: () -> Unit, onSelectCategory: (String) -> Unit) {
-
-    val categories = listOf("Cleanser", "Face Mask", "Toner")
-
+fun DrawerContent(categories: List<Category>? ,onClose: () -> Unit, onSelectCategory: (String) -> Unit) {
 
     Column(
         modifier = Modifier
@@ -46,12 +44,12 @@ fun DrawerContent(onClose: () -> Unit, onSelectCategory: (String) -> Unit) {
                 )
             }
 
-            categories.forEach { category ->
+            categories?.forEach { category ->
                 TextButton(
-                    onClick = { onSelectCategory(category) },
+                    onClick = { onSelectCategory(category.name) },
                 ) {
                     Text(
-                        text = category,
+                        text = category.name,
                         textAlign = TextAlign.Left,
                         modifier = Modifier.fillMaxWidth()
                     )

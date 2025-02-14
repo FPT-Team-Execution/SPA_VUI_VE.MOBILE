@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.spavv.m.comon.constants.Routes
+import com.spavv.m.data.models.Category
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.components.product.DrawerContent
@@ -41,11 +42,15 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
 
     val productVM = viewModel<ProductVM>(
         factory = viewModelFactory {
-            ProductVM(MyApp.appModule.productDataSource)
+            ProductVM(
+                MyApp.appModule.productDataSource,
+                MyApp.appModule.categoryDataSource
+            )
         }
     )
-    LaunchedEffect(productVM.query.value) {
+    LaunchedEffect(productVM.getProductsQuery.value) {
         productVM.fetchProducts()
+        productVM.fetchCategories()
     }
 
 
@@ -53,9 +58,10 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
         drawerState = drawerState,
         drawerContent = {
             DrawerContent(
+                categories = productVM.categories.value?.items,
                 onClose = { scope.launch { drawerState.close() } },
                 onSelectCategory = { category ->
-                    productVM.updateQuery(productVM.query.value.copy(category = category))
+                    productVM.updateQuery(productVM.getProductsQuery.value.copy(category = category))
                 }
             )
         }

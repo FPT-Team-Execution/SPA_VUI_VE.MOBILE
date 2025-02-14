@@ -15,6 +15,8 @@ import com.spavv.m.data.api.SkinTestApi
 import com.spavv.m.data.api.SkinTypeApi
 import com.spavv.m.data.dataSources.AuthDataSource
 import com.spavv.m.data.dataSources.AuthDataSourceImpl
+import com.spavv.m.data.dataSources.CategoryDataSource
+import com.spavv.m.data.dataSources.CategoryDataSourceImpl
 import com.spavv.m.data.dataSources.ProductDataSource
 import com.spavv.m.data.dataSources.ProductDataSourceImpl
 import com.spavv.m.data.dataSources.SkinTestDataSource
@@ -53,6 +55,7 @@ interface AppModule {
     val productDataSource: ProductDataSource
     val skinTestDataSource: SkinTestDataSource
     val skinTypeDataSource: SkinTypeDataSource
+    val categoryDataSource: CategoryDataSource
 }
 
 class AppModuleImpl(
@@ -114,9 +117,11 @@ class AppModuleImpl(
     override val authDataSource: AuthDataSource by lazy {
         AuthDataSourceImpl(fireBaseApi)
     }
-
     override val productDataSource: ProductDataSource by lazy {
         ProductDataSourceImpl(productApi)
+    }
+    override val categoryDataSource: CategoryDataSource by lazy {
+        CategoryDataSourceImpl(categoryApi)
     }
     override val skinTestDataSource: SkinTestDataSource by lazy {
         SkinTestDataSourceImp(skinTestApi)
