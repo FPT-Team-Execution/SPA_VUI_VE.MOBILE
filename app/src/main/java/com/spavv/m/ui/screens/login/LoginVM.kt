@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.data.dataSources.AuthDataSource
 
-class LoginVM(AuthDataSource: AuthDataSource) : ViewModel() {
+class LoginVM(authDataSource: AuthDataSource) : ViewModel() {
     //* Value to change data
     private var _email = mutableStateOf<String>("");
     //* Value to hold data - view only

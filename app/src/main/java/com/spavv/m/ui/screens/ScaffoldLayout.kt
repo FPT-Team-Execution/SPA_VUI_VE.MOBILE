@@ -2,8 +2,10 @@ package com.spavv.m.ui.screens
 
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingBag
 import androidx.compose.material.icons.outlined.Spa
@@ -16,13 +18,17 @@ import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.spavv.m.comon.constants.Routes
+import com.spavv.m.ui.theme.GreyColor
+import com.spavv.m.ui.theme.PrimaryColor
 
 @Composable
 fun ScaffoldLayout ( navController: NavController, child : @Composable (PaddingValues) -> Unit){
@@ -47,7 +53,7 @@ fun ScaffoldLayout ( navController: NavController, child : @Composable (PaddingV
         BottomNavigationItem(
             title = "Yêu thích",
             selectedIcon = Icons.Rounded.Favorite   ,
-            unSelectedIcon = Icons.Outlined.Favorite,
+            unSelectedIcon = Icons.Outlined.FavoriteBorder,
             hasNew = false,
             path = Routes.FAVORITE
         ),
@@ -65,6 +71,13 @@ fun ScaffoldLayout ( navController: NavController, child : @Composable (PaddingV
                 navItems.forEachIndexed{index, item ->
                     NavigationBarItem(
                         selected = selectedIndex == index,
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = PrimaryColor,
+                            unselectedIconColor = GreyColor,
+                            selectedTextColor = PrimaryColor,
+                            unselectedTextColor = GreyColor,
+                            indicatorColor = PrimaryColor.copy(alpha = 0.1f)
+                        ),
                         onClick = {
                             scaffoldLayoutVM.updateNavIndex(index);
                             navController.navigate(item.path)

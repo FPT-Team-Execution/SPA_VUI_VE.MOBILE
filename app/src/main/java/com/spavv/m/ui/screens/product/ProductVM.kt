@@ -1,73 +1,113 @@
 package com.spavv.m.ui.screens.product
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spavv.m.data.api.RetrofitClient
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.spavv.m.data.dataSources.CategoryDataSource
+import com.spavv.m.data.dataSources.GetCategoriesQuery
+import com.spavv.m.data.dataSources.GetProductsQuery
+import com.spavv.m.data.dataSources.ProductDataSource
+import com.spavv.m.data.models.Category
 import com.spavv.m.data.models.Product
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import com.spavv.m.data.models.base.Paginate
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ProductVM : ViewModel() {
-    private val api = RetrofitClient.productApi
+class ProductVM(
+    private val productDataSource: ProductDataSource,
+    private val categoryDataSource: CategoryDataSource
+) : ViewModel() {
 
-    private val _products = MutableStateFlow<List<Product>>(emptyList())
-    val products: StateFlow<List<Product>> = _products
+    var isLoading = mutableStateOf<Boolean>(false);
 
-    private val _product = MutableStateFlow<Product?>(null)
-    val product: StateFlow<Product?> = _product
+    private val _products = mutableStateOf<Paginate<Product>?>(null)
+    val products: State<Paginate<Product>?> = _products
 
-    init {
-        fetchProducts()
+    private val _product = mutableStateOf<Product?>(null)
+    val product: State<Product?> = _product
+
+    private val _categories = mutableStateOf<Paginate<Category>?>(null)
+    val categories: State<Paginate<Category>?> = _categories
+
+    private val _category = mutableStateOf<Category?>(null);
+
+    private fun updateProducts(products: Paginate<Product>?) {
+        _products.value = products;
+    }
+
+    private fun updateProduct(product: Product) {
+        _product.value = product;
+    }
+
+    private fun updateCategories(categories: Paginate<Category>?) {
+        _categories.value = categories
+    }
+
+    private fun updateCategory(category: Category?) {
+        _category.value = category
+    }
+
+    val getProductsQuery: MutableState<GetProductsQuery> = mutableStateOf(
+        GetProductsQuery(
+            page = 1,
+            size = 6,
+            isAsc = true,
+            sortBy = "Price",
+            category = "",
+            filterBy = "Name",
+            filterQuery = ""
+        )
+    )
+
+    val getCategoriesQuery: MutableState<GetCategoriesQuery> = mutableStateOf(
+        GetCategoriesQuery(
+            page = 1,
+            size = 10,
+        )
+    )
+
+    fun updateQuery(newQuery: GetProductsQuery) {
+        getProductsQuery.value = newQuery
     }
 
     fun fetchProducts() {
+        isLoading.value = true;
         viewModelScope.launch {
             try {
-                _products.value = api.getProducts()
+                val products = productDataSource.getProducts(getProductsQuery.value)
+                updateProducts(products);
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+        isLoading.value = false;
     }
 
     fun fetchProduct(id: String) {
+        isLoading.value = true;
         viewModelScope.launch {
             try {
-                _product.value = api.getProduct(id)
+                val product = productDataSource.getProduct(id)
+                if (product != null) {
+                    updateProduct(product)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+        isLoading.value = false;
     }
 
-    fun createProduct(product: Product) {
+    fun fetchCategories() {
         viewModelScope.launch {
             try {
-                api.createProduct(product)
-                fetchProducts() // Reload danh sách
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun updateProduct(id: String, product: Product) {
-        viewModelScope.launch {
-            try {
-                api.updateProduct(id, product)
-                fetchProducts()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun deleteProduct(id: String) {
-        viewModelScope.launch {
-            try {
-                api.deleteProduct(id)
-                fetchProducts()
+                val categories = categoryDataSource.getCategories(getCategoriesQuery.value)
+                if (categories != null) {
+                    updateCategories(categories)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }

@@ -1,4 +1,12 @@
 package com.spavv.m.data.models.base
 
-class BaseResult {
-}
+import com.google.gson.annotations.Expose
+
+class BaseResult<T>(
+    @Expose
+    val data: T,
+    @Expose
+    val message: String,
+    @Expose
+    val status: Int
+)

@@ -2,24 +2,30 @@ package com.spavv.m
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.ui.screens.cart.CartScreen
 import com.spavv.m.ui.screens.favorite.FavoriteScreen
 import com.spavv.m.ui.screens.home.HomeScreen
 import com.spavv.m.ui.screens.login.LoginScreen
+import com.spavv.m.ui.screens.product.DetailScreen
 import com.spavv.m.ui.screens.product.ProductScreen
 import com.spavv.m.ui.screens.profile.ProfileScreen
 import com.spavv.m.ui.screens.sign_up.SignUpScreen
+import com.spavv.m.ui.screens.skin_test.ResultScreen
+import com.spavv.m.ui.screens.skin_test.SkinTestScreen
+import com.spavv.m.ui.screens.skin_type.SkinTypeScreen
 
 @Composable
-fun MyAppNavigation(modifier: Modifier, authVM: AuthVM) {
-    val navController = rememberNavController()
-
-    NavHost(navController = navController, startDestination = Routes.PRODUCT, builder = {
+fun MyAppNavigation(modifier: Modifier) {
+    val navController = LocalNavigation.current
+    val authVM = viewModel<AuthVM>();
+    NavHost(navController = navController, startDestination = Routes.HOME, builder = {
         composable(Routes.LOGIN) {
             LoginScreen(modifier = modifier, authVM = authVM, navController = navController)
         }
@@ -30,11 +36,27 @@ fun MyAppNavigation(modifier: Modifier, authVM: AuthVM) {
             HomeScreen(
                 modifier = modifier,
                 authVM = authVM,
-                navController = navController
             )
+        }
+        composable(Routes.SKIN_TYPE) {
+            SkinTypeScreen(modifier = modifier)
+        }
+        //Nest route from HOME
+        composable(Routes.SKIN_TEST) {
+            SkinTestScreen(modifier = modifier)
+        }
+        composable(Routes.SKIN_TEST_RESULT) {
+            ResultScreen(modifier = modifier)
         }
         composable(Routes.PRODUCT) {
             ProductScreen(modifier = modifier, navController = navController)
+        }
+        composable(
+            route = Routes.PRODUCT_DETAIL_HOST,
+            arguments = listOf(navArgument("productId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getString("productId") ?: ""
+            DetailScreen(modifier = modifier, productId = productId, navController = navController)
         }
         composable(Routes.FAVORITE) {
             FavoriteScreen(modifier = modifier, navController = navController)
