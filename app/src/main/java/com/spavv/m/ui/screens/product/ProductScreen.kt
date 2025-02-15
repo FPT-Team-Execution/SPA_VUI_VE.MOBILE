@@ -48,11 +48,14 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
             )
         }
     )
+    
     LaunchedEffect(productVM.getProductsQuery.value) {
         productVM.fetchProducts()
-        productVM.fetchCategories()
     }
 
+    LaunchedEffect(Unit) {
+        productVM.fetchCategories()
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
