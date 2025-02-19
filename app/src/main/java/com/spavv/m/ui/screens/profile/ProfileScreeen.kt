@@ -1,10 +1,12 @@
 package com.spavv.m.ui.screens.profile
 
 import AboutAppButton
+import ButtonTop
+import ButtonMiddle
 import ButtonBottom
 import LogoutButton
-import ButtonMiddle
-import ButtonTop
+import HeaderButton
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
@@ -34,7 +36,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.spavv.m.ui.components.profile.*
 import com.spavv.m.ui.theme.SpaVuiVeTheme
 
 // title = 16sp, subtitle = 12sp, body = 14sp
@@ -53,7 +54,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .background(
                 brush = Brush.linearGradient(
-                    colors = listOf(Color(0x10bcf9a5), Color(0x107fdcf9))
+                    colors = listOf(Color(0x60bcf9a5), Color(0x607fdcf9))
                 ),
             ),
         )
@@ -61,7 +62,6 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-
         ) {
             Image(
                 painter = painterResource(id = R.drawable.img_login),
@@ -85,23 +85,7 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
 
     }
         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
-            Row {
-                Button(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier
-                        .weight(1f)
-                ) {
-                    Text(text = "Đánh giá của tôi", modifier = Modifier.padding(4.dp))
-                }
-
-                Button(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier
-                        .weight(1f)
-                ) {
-                    Text(text = "Ưu đãi của tôi", modifier = Modifier.padding(4.dp))
-                }
-            }
+            HeaderButton()
 
             AboutAppButton()
 

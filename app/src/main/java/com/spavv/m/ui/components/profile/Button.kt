@@ -1,13 +1,17 @@
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
@@ -20,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -197,5 +202,45 @@ fun LogoutButton() {
             tint = Color.Blue // Add the tint parameter here
         )
         Text(text = "Đăng xuất", color = Color.Blue, modifier = Modifier.padding(top = 8.dp, bottom = 8.dp))
+    }
+}
+
+@Composable
+fun RatingButton(modifier: Modifier = Modifier) {
+    Button(
+        onClick = {
+            // Navigate to Rating
+        },
+        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+        shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Text(text = "Đánh giá của tôi", modifier = Modifier.padding(top = 16.dp, bottom = 16.dp), fontSize = 16.sp)
+    }
+}
+
+@Composable
+fun PromoteButton(modifier: Modifier = Modifier) {
+    Button(
+        onClick = {
+            // Share
+        },
+        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+        shape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp),
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Text(text = "Ưu đãi của tôi", modifier = Modifier.padding(top = 16.dp, bottom = 16.dp), fontSize = 16.sp)
+    }
+}
+
+@Composable
+fun HeaderButton() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        RatingButton(modifier = Modifier.weight(1f))
+
+        PromoteButton(modifier = Modifier.weight(1f))
     }
 }
