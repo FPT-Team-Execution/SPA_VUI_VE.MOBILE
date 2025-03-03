@@ -38,9 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.spavv.m.ui.theme.SpaVuiVeTheme
 
-// title = 16sp, subtitle = 12sp, body = 14sp
-// gap = 8dp, padding = 16dp
-
 @Composable
 fun ProfileScreen(modifier: Modifier = Modifier) {
     Column(
@@ -50,40 +47,39 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState())
     ) {
         Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(Color(0x60bcf9a5), Color(0x607fdcf9))
-                ),
-            ),
-        )
-    {
-        Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(Color(0x60bcf9a5), Color(0x607fdcf9))
+                    ),
+                ),
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.img_login),
-                contentDescription = "User Avatar",
+            Column(
                 modifier = Modifier
-                    .padding(top = 32.dp)
-                    .size(80.dp)
-                    .clip(CircleShape)
-                    .align(CenterHorizontally)
-            )
+                    .fillMaxWidth()
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.img_login),
+                    contentDescription = "User Avatar",
+                    modifier = Modifier
+                        .padding(top = 32.dp)
+                        .size(80.dp)
+                        .clip(CircleShape)
+                        .align(CenterHorizontally)
+                )
 
-            Text(
-                text = "User Name",
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 24.sp,
-                modifier = Modifier
-                    .padding(top = 12.dp, bottom = 64.dp)
-                    .align(CenterHorizontally)
-            )
+                Text(
+                    text = "User Name",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 24.sp,
+                    modifier = Modifier
+                        .padding(top = 12.dp, bottom = 64.dp)
+                        .align(CenterHorizontally)
+                )
+            }
         }
 
-    }
         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
             HeaderButton()
 
@@ -148,7 +144,6 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
 
             LogoutButton()
         }
-
     }
 }
 
