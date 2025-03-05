@@ -1,11 +1,8 @@
 package com.spavv.m.data.dataSources
 
-import android.util.Log
 import com.spavv.m.data.api.ProductApi
 import com.spavv.m.data.models.Product
 import com.spavv.m.data.models.base.Paginate
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 data class GetProductsQuery(
     var page: Int = 1,
