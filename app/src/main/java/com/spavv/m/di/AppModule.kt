@@ -9,6 +9,7 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.spavv.m.data.api.CategoryApi
+import com.spavv.m.data.api.ChatApi
 import com.spavv.m.data.api.FirebaseApi
 import com.spavv.m.data.api.ProductApi
 import com.spavv.m.data.api.SkinTestApi
@@ -17,6 +18,8 @@ import com.spavv.m.data.dataSources.AuthDataSource
 import com.spavv.m.data.dataSources.AuthDataSourceImpl
 import com.spavv.m.data.dataSources.CategoryDataSource
 import com.spavv.m.data.dataSources.CategoryDataSourceImpl
+import com.spavv.m.data.dataSources.ChatDataSource
+import com.spavv.m.data.dataSources.ChatDataSourceImpl
 import com.spavv.m.data.dataSources.ProductDataSource
 import com.spavv.m.data.dataSources.ProductDataSourceImpl
 import com.spavv.m.data.dataSources.SkinTestDataSource
@@ -49,6 +52,7 @@ interface AppModule {
     val productApi: ProductApi
     val skinTestApi: SkinTestApi
     val skinTypeApi: SkinTypeApi
+    val chatApi: ChatApi
 
     //* Data sources
     val authDataSource: AuthDataSource
@@ -56,6 +60,7 @@ interface AppModule {
     val skinTestDataSource: SkinTestDataSource
     val skinTypeDataSource: SkinTypeDataSource
     val categoryDataSource: CategoryDataSource
+    val chatDataSource: ChatDataSource
 }
 
 class AppModuleImpl(
@@ -113,7 +118,14 @@ class AppModuleImpl(
             .build()
             .create(SkinTypeApi::class.java)
     }
-
+    override val chatApi: ChatApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create(gson)) // Important: Add a converter factory!
+            .client(getUnsafeOkHttpClient())
+            .build()
+            .create(ChatApi::class.java)
+    }
     override val authDataSource: AuthDataSource by lazy {
         AuthDataSourceImpl(fireBaseApi)
     }
@@ -128,6 +140,9 @@ class AppModuleImpl(
     }
     override val skinTypeDataSource: SkinTypeDataSource by lazy {
         SkinTypeDataSourceImp(skinTypeApi)
+    }
+    override val chatDataSource: ChatDataSource by lazy {
+        ChatDataSourceImpl(chatApi)
     }
 
     private fun getUnsafeOkHttpClient(): OkHttpClient {
