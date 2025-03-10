@@ -71,7 +71,7 @@ fun ResultScreen(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
             ModernTopAppBar(
-                title = "Soi da",
+                title = "Kết quả",
                 navController = navController,
                 onInfoClick = { navController.navigate(Routes.SKIN_TYPE) }
             )
