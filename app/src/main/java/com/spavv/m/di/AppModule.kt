@@ -1,5 +1,6 @@
 package com.spavv.m.di
 
+import Promotion
 import android.content.Context
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
@@ -12,6 +13,7 @@ import com.spavv.m.data.api.CategoryApi
 import com.spavv.m.data.api.ChatApi
 import com.spavv.m.data.api.FirebaseApi
 import com.spavv.m.data.api.ProductApi
+import com.spavv.m.data.api.PromotionApi
 import com.spavv.m.data.api.SkinTestApi
 import com.spavv.m.data.api.SkinTypeApi
 import com.spavv.m.data.dataSources.AuthDataSource
@@ -22,6 +24,8 @@ import com.spavv.m.data.dataSources.ChatDataSource
 import com.spavv.m.data.dataSources.ChatDataSourceImpl
 import com.spavv.m.data.dataSources.ProductDataSource
 import com.spavv.m.data.dataSources.ProductDataSourceImpl
+import com.spavv.m.data.dataSources.PromotionDataSource
+import com.spavv.m.data.dataSources.PromotionDataSourceImpl
 import com.spavv.m.data.dataSources.SkinTestDataSource
 import com.spavv.m.data.dataSources.SkinTestDataSourceImp
 import com.spavv.m.data.dataSources.SkinTypeDataSource
@@ -53,6 +57,8 @@ interface AppModule {
     val skinTestApi: SkinTestApi
     val skinTypeApi: SkinTypeApi
     val chatApi: ChatApi
+    val promotionApi: PromotionApi
+
 
     //* Data sources
     val authDataSource: AuthDataSource
@@ -61,6 +67,7 @@ interface AppModule {
     val skinTypeDataSource: SkinTypeDataSource
     val categoryDataSource: CategoryDataSource
     val chatDataSource: ChatDataSource
+    val promotionDataSource: PromotionDataSource
 }
 
 class AppModuleImpl(
@@ -126,6 +133,14 @@ class AppModuleImpl(
             .build()
             .create(ChatApi::class.java)
     }
+    override val promotionApi: PromotionApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create(gson)) // Important: Add a converter factory!
+            .client(getUnsafeOkHttpClient())
+            .build()
+            .create(PromotionApi::class.java)
+    }
     override val authDataSource: AuthDataSource by lazy {
         AuthDataSourceImpl(fireBaseApi)
     }
@@ -143,6 +158,9 @@ class AppModuleImpl(
     }
     override val chatDataSource: ChatDataSource by lazy {
         ChatDataSourceImpl(chatApi)
+    }
+    override val promotionDataSource: PromotionDataSource by lazy {
+        PromotionDataSourceImpl(promotionApi)
     }
 
     private fun getUnsafeOkHttpClient(): OkHttpClient {
