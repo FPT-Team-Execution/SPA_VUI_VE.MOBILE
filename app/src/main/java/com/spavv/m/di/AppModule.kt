@@ -2,6 +2,7 @@ package com.spavv.m.di
 
 import Promotion
 import android.content.Context
+import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -68,11 +69,18 @@ interface AppModule {
     val categoryDataSource: CategoryDataSource
     val chatDataSource: ChatDataSource
     val promotionDataSource: PromotionDataSource
+
+    val sharedPreferences: SharedPreferences
 }
 
 class AppModuleImpl(
     appContext: Context,
 ) : AppModule {
+    private val PREFS_NAME = "my_shared_prefs"
+
+    override val sharedPreferences: SharedPreferences by lazy {
+        appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    }
     private val firebaseUrl: String = "https://something-demo";
     private val baseUrl: String = "https://10.0.2.2:7000/";
     val gson = GsonBuilder()
@@ -160,7 +168,7 @@ class AppModuleImpl(
         ChatDataSourceImpl(chatApi)
     }
     override val promotionDataSource: PromotionDataSource by lazy {
-        PromotionDataSourceImpl(promotionApi)
+        PromotionDataSourceImpl(promotionApi, sharedPreferences)
     }
 
     private fun getUnsafeOkHttpClient(): OkHttpClient {

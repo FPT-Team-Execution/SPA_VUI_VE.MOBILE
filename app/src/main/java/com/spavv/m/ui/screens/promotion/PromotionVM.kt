@@ -5,9 +5,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.spavv.m.LocalNavigation
+import com.spavv.m.comon.constants.Routes
 import com.spavv.m.data.dataSources.PromotionDataSource
 import com.spavv.m.data.models.Product
 import com.spavv.m.data.models.base.Paginate
+import com.spavv.m.exceptions.UnauthorizedException
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 class PromotionVM(
@@ -15,9 +19,9 @@ class PromotionVM(
 )
     : ViewModel() {
 
-    init {
-        fetchPromotions();
-    }
+//    init {
+//        fetchPromotions();
+//    }
 
     private val _promotions = mutableStateOf<List<Promotion>>(emptyList())
     val promotions: State<List<Promotion>> = _promotions
@@ -25,7 +29,7 @@ class PromotionVM(
         _promotions.value = value;
     }
 
-    fun fetchPromotions() {
+    fun fetchPromotions(handingError: (String) -> Unit = {}) {
         //isLoading.value = true;
         viewModelScope.launch {
             try {
@@ -33,7 +37,7 @@ class PromotionVM(
                 if(promotions != null)
                     updatePromotions(promotions);
             } catch (e: Exception) {
-                e.printStackTrace()
+                handingError(e.message.toString())
             }
         }
         //isLoading.value = false;
