@@ -34,7 +34,13 @@ import java.util.Locale
 @Composable
 fun PromotionScreen(modifier: Modifier = Modifier) {
     val navController = LocalNavigation.current
-    val promotionVM = viewModel<PromotionVM>()
+    val promotionVM = viewModel<PromotionVM>(
+        factory = viewModelFactory {
+            PromotionVM(
+                MyApp.appModule.promotionDataSource,
+            )
+        }
+    )
     val currentDate = remember { Date() }
 
     Scaffold(

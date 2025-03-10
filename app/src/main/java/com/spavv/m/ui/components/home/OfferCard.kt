@@ -23,14 +23,15 @@ fun OfferCard(
     subtitle: String,
     primaryColor: Color,
     backgroundColor: Color,
-    textColor: Color
+    textColor: Color,
+    onClick: () -> Unit
 ) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         color = backgroundColor,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /* Handle click */ }
+            .clickable { onClick() }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

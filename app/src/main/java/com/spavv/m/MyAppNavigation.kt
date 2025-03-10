@@ -1,5 +1,6 @@
 package com.spavv.m
 
+import Promotion
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -17,6 +18,7 @@ import com.spavv.m.ui.screens.login.LoginScreen
 import com.spavv.m.ui.screens.product.DetailScreen
 import com.spavv.m.ui.screens.product.ProductScreen
 import com.spavv.m.ui.screens.profile.ProfileScreen
+import com.spavv.m.ui.screens.promotion.PromotionScreen
 import com.spavv.m.ui.screens.sign_up.SignUpScreen
 import com.spavv.m.ui.screens.skin_test.ResultScreen
 import com.spavv.m.ui.screens.skin_test.SkinTestScreen
@@ -51,6 +53,9 @@ fun MyAppNavigation(modifier: Modifier) {
         }
         composable(Routes.CHAT_BOT) {
             ChatScreen(modifier = modifier)
+        }
+        composable(Routes.PROMOTION) {
+            PromotionScreen(modifier = modifier)
         }
         composable(Routes.PRODUCT) {
             ProductScreen(modifier = modifier, navController = navController)

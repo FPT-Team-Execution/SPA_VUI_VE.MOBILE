@@ -124,7 +124,10 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                 subtitle = "Xem khuyến mãi của bạn",
                 primaryColor = PrimaryColor,
                 backgroundColor = BackgroundItemColor,
-                textColor = DarkColor
+                textColor = DarkColor,
+                onClick = {
+                    navController.navigate(Routes.PROMOTION)
+                }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
