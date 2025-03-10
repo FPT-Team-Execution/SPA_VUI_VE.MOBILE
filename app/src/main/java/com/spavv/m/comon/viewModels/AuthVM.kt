@@ -11,6 +11,10 @@ open class AuthVM : ViewModel() {
     private val _authState = MutableLiveData<AuthState>();
     val authState: LiveData<AuthState> = _authState;
 
+    init {
+        checkAuthState()
+    }
+
     fun checkAuthState(){
         if(auth.currentUser == null){
             _authState.value = AuthState.Unauthenticated;

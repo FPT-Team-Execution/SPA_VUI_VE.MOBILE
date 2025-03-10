@@ -52,7 +52,6 @@ fun LoginScreen(modifier: Modifier,authVM: AuthVM, navController: NavController)
     val authState = authVM.authState.observeAsState()
     val context = LocalContext.current;
     LaunchedEffect(authState.value) {
-        authVM.checkAuthState();
         when(authState.value){
             is AuthState.Authenticated -> navController.navigate(Routes.HOME)
             is AuthState.Unauthenticated
