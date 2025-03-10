@@ -80,13 +80,13 @@ fun PromotionScreen(modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                Text(
-                    "Các ưu đãi hiện có",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = DarkColor,
-                    modifier = Modifier.padding(vertical = 16.dp)
-                )
+//                Text(
+//                    "Các ưu đãi hiện có",
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Medium,
+//                    color = DarkColor,
+//                    modifier = Modifier.padding(vertical = 16.dp)
+//                )
             }
 
             items(promotionVM.promotions.value) { promotion ->

@@ -27,19 +27,22 @@ fun PromotionDetails(promotion: Promotion) {
             value = "${promotion.discountAmount.formatPrice()}đ"
         )
 
-        if (promotion.minimumPurchase != null) {
+
             DetailRow(
                 icon = Icons.Default.ShoppingCart,
                 label = "Đơn tối thiểu",
-                value = "${promotion.minimumPurchase.formatPrice()}đ"
+                value = "${promotion.minimumPurchase?.formatPrice() ?: 0.0}đ"
             )
-        }
+
 
         DetailRow(
             icon = Icons.Default.DateRange,
             label = "Thời gian",
-            value = "${promotion.startDate.formatDateDisplay()} - ${promotion.endDate.formatDateDisplay()}"
+            value = "${if(promotion.startDate != null) promotion.startDate.formatDateDisplay() else ""} - ${
+                if (promotion.endDate != null) promotion.endDate.formatDateDisplay() else ""
+            }"
         )
+
 
 //        if (promotion.usageLimit != null) {
 //            val usagesLeft = promotion.usageLimit - (promotion.promotionUsages?.size ?: 0)

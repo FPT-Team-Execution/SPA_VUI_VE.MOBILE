@@ -61,11 +61,12 @@ fun PromotionCard(
                     )
                 }
 
-                PromotionStatus(
-                    isActive = promotion.isActive ?: false,
-                    endDate = promotion.endDate,
-                    currentDate = currentDate
-                )
+                if(promotion.endDate != null)
+                    PromotionStatus(
+                        isActive = promotion.isActive ?: false,
+                        endDate = promotion.endDate,
+                        currentDate = currentDate
+                    )
             }
 
             Spacer(modifier = Modifier.height(16.dp))

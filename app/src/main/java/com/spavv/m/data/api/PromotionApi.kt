@@ -8,6 +8,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface PromotionApi {
-    @GET("promotions")
+    @GET("api/promotions")
     suspend fun getPromotions(): Response<BaseResult<List<Promotion>>>
 }

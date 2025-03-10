@@ -81,7 +81,7 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                     top = 24.dp,
                     start = 24.dp,
                     end = 24.dp,
-                    bottom = 100.dp
+                    bottom = 120.dp
                 )
                 .verticalScroll(scrollState),
             horizontalAlignment = Alignment.Start
