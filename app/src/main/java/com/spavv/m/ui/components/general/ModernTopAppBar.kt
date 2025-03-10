@@ -22,7 +22,7 @@ import com.spavv.m.ui.theme.PrimaryColor
 fun ModernTopAppBar(
     title: String,
     navController: NavController,
-    onInfoClick: () -> Unit
+    onInfoClick: () -> Unit,
 ) {
     TopAppBar(
         title = {
