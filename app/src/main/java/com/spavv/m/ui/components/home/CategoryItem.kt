@@ -6,9 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -18,22 +18,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.spavv.m.ui.theme.BackgroundItemColor
-import com.spavv.m.ui.theme.DarkColor
+import coil.request.ImageRequest
 
 @Composable
-fun ServiceItem(
-    icon: Int,
+fun CategoryItem(
+    imageUrl: String,
     title: String,
-    primaryColor: Color,
     backgroundColor: Color,
     textColor: Color,
     onClick: () -> Unit
@@ -41,21 +39,28 @@ fun ServiceItem(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .width(80.dp)
+            .width(90.dp)
             .clickable { onClick() }
     ) {
         Box(
-            contentAlignment = Alignment.Center,
             modifier = Modifier
-                .size(60.dp)
+                .size(70.dp)
                 .clip(CircleShape)
                 .background(backgroundColor)
+                .padding(4.dp)
         ) {
             Image(
-                painter = rememberAsyncImagePainter(icon),
+                painter = rememberAsyncImagePainter(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(imageUrl)
+                        .crossfade(true)
+                        .build()
+                ),
                 contentDescription = title,
-                modifier = Modifier.size(32.dp),
-                colorFilter = ColorFilter.tint(primaryColor)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
             )
         }
 
@@ -65,6 +70,7 @@ fun ServiceItem(
             text = title,
             color = textColor,
             fontSize = 16.sp,
+            fontWeight = FontWeight.Normal,
             maxLines = 1,
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis

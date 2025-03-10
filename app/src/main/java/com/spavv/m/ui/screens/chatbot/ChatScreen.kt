@@ -1,42 +1,37 @@
 package com.spavv.m.ui.screens.chatbot
 
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.ScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.LocalLibrary
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.spavv.m.LocalNavigation
+import com.spavv.m.comon.constants.Routes
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.components.chatbot.ChatInput
-import com.spavv.m.ui.components.chatbot.ChatMessage
-import com.spavv.m.ui.screens.skin_test.SkinTestVM
+import com.spavv.m.ui.components.chatbot.ModernChatMessage
+import com.spavv.m.ui.components.general.ModernTopAppBar
+import com.spavv.m.ui.theme.BackgroundColor
 import com.spavv.m.ui.theme.DarkColor
 import com.spavv.m.ui.theme.PrimaryColor
+
 
 @Composable
 fun ChatScreen(modifier: Modifier = Modifier) {
@@ -46,13 +41,18 @@ fun ChatScreen(modifier: Modifier = Modifier) {
         factory = viewModelFactory { ChatVM(MyApp.appModule.chatDataSource) }
     )
     val keyboardController = LocalSoftwareKeyboardController.current
-    LaunchedEffect(Unit) {
-        //Add bot welcome bot message
-        val welcomeChat = "Chào bạn, tôi là SpaBot. Hôm nay bạn cần tư vấn gì?"
-        chatVM.addMessage(ChatMessageData(welcomeChat, isBot = true))
 
+    // Welcome message
+    LaunchedEffect(Unit) {
+        chatVM.addMessage(
+            ChatMessageData(
+                "Chào bạn, tôi là SpaBot. Hôm nay bạn cần tư vấn gì?",
+                isBot = true
+            )
+        )
     }
-    // Tự động cuộn xuống cuối khi danh sách tin nhắn thay đổi
+
+    // Auto scroll to bottom
     LaunchedEffect(chatVM.chatMessages.value.size) {
         scrollState.animateScrollTo(scrollState.maxValue)
     }
@@ -60,11 +60,18 @@ fun ChatScreen(modifier: Modifier = Modifier) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Tư vấn - Spa Bot") },
-                backgroundColor = PrimaryColor,
+                title = {
+                    Text(
+                        text = "Tư vấn",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = DarkColor
+                    )
+                },
+                backgroundColor = BackgroundColor,
+                elevation = 0.dp,
                 navigationIcon = {
-                    val canGoBack = navController.previousBackStackEntry != null
-                    if (canGoBack) {
+                    if (navController.previousBackStackEntry != null) {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
@@ -74,39 +81,62 @@ fun ChatScreen(modifier: Modifier = Modifier) {
                         }
                     }
                 },
-                modifier = Modifier.clip(RoundedCornerShape(8.dp))
+                modifier = Modifier.shadow(elevation = 4.dp)
             )
         },
-        modifier = modifier
+        backgroundColor = BackgroundColor,
+        modifier = modifier.fillMaxSize()
     ) { innerPaddings ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPaddings)
         ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(8.dp)
-                    .verticalScroll(scrollState)
-            ) {
-                chatVM.chatMessages.value.forEach { message ->
-                    ChatMessage(text = message.text, isBot = message.isBot)
-                }
-            }
+            // Chat Messages
+            ChatMessages(
+                messages = chatVM.chatMessages.value,
+                scrollState = scrollState,
+                modifier = Modifier.weight(1f)
+            )
 
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = 8.dp
-            ) {
-                ChatInput { message ->
+            // Input Area
+            ChatInput(
+                onSendMessage = { message ->
                     chatVM.sendMessage(message)
-                    keyboardController?.hide() // Ẩn bàn phím sau khi gửi tin nhắn
+                    keyboardController?.hide()
                 }
-            }
+            )
         }
     }
 }
+
+
+@Composable
+private fun ChatMessages(
+    messages: List<ChatMessageData>,
+    scrollState: ScrollState,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .verticalScroll(scrollState),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        messages.forEach { message ->
+            ModernChatMessage(
+                text = message.text,
+                isBot = message.isBot
+            )
+        }
+    }
+}
+
+
+
+
+
+
 
 
 

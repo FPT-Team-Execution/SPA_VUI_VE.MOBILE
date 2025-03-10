@@ -1,21 +1,46 @@
 package com.spavv.m.comon.viewModels
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
-open class AuthVM : ViewModel() {
+open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel() {
     private val auth : FirebaseAuth = FirebaseAuth.getInstance();
 
     private val _authState = MutableLiveData<AuthState>();
     val authState: LiveData<AuthState> = _authState;
 
-    fun checkAuthState(){
-        if(auth.currentUser == null){
-            _authState.value = AuthState.Unauthenticated;
-        }else{
-            _authState.value = AuthState.Authenticated;
+    init {
+        checkAuthState()
+    }
+
+    suspend fun getToken(): String? {
+        return auth.currentUser?.getIdToken(true)?.await()?.token
+    }
+    private fun saveTokenToPrefs(context: Context, token: String) {
+        val sharedPreferences = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("tokenString", token).apply()
+    }
+
+    fun checkAuthState() {
+        if (auth.currentUser == null) {
+            _authState.value = AuthState.Unauthenticated
+        } else {
+            _authState.value = AuthState.Authenticated
+
+            viewModelScope.launch {
+                val token = getToken()
+                sharedPreferences.edit().apply {
+                    putString("tokenString", token)
+                    apply()
+                }
+            }
         }
     }
 
@@ -30,6 +55,14 @@ open class AuthVM : ViewModel() {
             .addOnCompleteListener {
             taskRs -> if(taskRs.isSuccessful) {
                 _authState.value = AuthState.Authenticated;
+                //save token
+                viewModelScope.launch {
+                    val token = getToken()
+                    sharedPreferences.edit().apply {
+                        putString("tokenString", token)
+                        apply()
+                    }
+                }
                 }else
                 {
                     _authState.value = AuthState.Error(taskRs.exception?.message?: "Thực hiện đăng nhập thất bại");

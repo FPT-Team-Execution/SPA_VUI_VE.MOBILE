@@ -1,5 +1,6 @@
 package com.spavv.m
 
+import Promotion
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -9,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthVM
+import com.spavv.m.di.MyApp
+import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.screens.cart.CartScreen
 import com.spavv.m.ui.screens.chatbot.ChatScreen
 import com.spavv.m.ui.screens.favorite.FavoriteScreen
@@ -17,6 +20,8 @@ import com.spavv.m.ui.screens.login.LoginScreen
 import com.spavv.m.ui.screens.product.DetailScreen
 import com.spavv.m.ui.screens.product.ProductScreen
 import com.spavv.m.ui.screens.profile.ProfileScreen
+import com.spavv.m.ui.screens.promotion.PromotionScreen
+import com.spavv.m.ui.screens.promotion.PromotionVM
 import com.spavv.m.ui.screens.sign_up.SignUpScreen
 import com.spavv.m.ui.screens.skin_test.ResultScreen
 import com.spavv.m.ui.screens.skin_test.SkinTestScreen
@@ -25,7 +30,13 @@ import com.spavv.m.ui.screens.skin_type.SkinTypeScreen
 @Composable
 fun MyAppNavigation(modifier: Modifier) {
     val navController = LocalNavigation.current
-    val authVM = viewModel<AuthVM>();
+    val authVM = viewModel<AuthVM>(
+        factory = viewModelFactory {
+            AuthVM(
+                MyApp.appModule.sharedPreferences,
+            )
+        }
+    )
     NavHost(navController = navController, startDestination = Routes.HOME, builder = {
         composable(Routes.LOGIN) {
             LoginScreen(modifier = modifier, authVM = authVM, navController = navController)
@@ -51,6 +62,9 @@ fun MyAppNavigation(modifier: Modifier) {
         }
         composable(Routes.CHAT_BOT) {
             ChatScreen(modifier = modifier)
+        }
+        composable(Routes.PROMOTION) {
+            PromotionScreen(modifier = modifier)
         }
         composable(Routes.PRODUCT) {
             ProductScreen(modifier = modifier, navController = navController)
