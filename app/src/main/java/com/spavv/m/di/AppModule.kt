@@ -10,6 +10,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
+import com.spavv.m.data.api.BrandApi
 import com.spavv.m.data.api.CategoryApi
 import com.spavv.m.data.api.ChatApi
 import com.spavv.m.data.api.FirebaseApi
@@ -19,6 +20,8 @@ import com.spavv.m.data.api.SkinTestApi
 import com.spavv.m.data.api.SkinTypeApi
 import com.spavv.m.data.dataSources.AuthDataSource
 import com.spavv.m.data.dataSources.AuthDataSourceImpl
+import com.spavv.m.data.dataSources.BrandDataSource
+import com.spavv.m.data.dataSources.BrandDataSourceImpl
 import com.spavv.m.data.dataSources.CategoryDataSource
 import com.spavv.m.data.dataSources.CategoryDataSourceImpl
 import com.spavv.m.data.dataSources.ChatDataSource
@@ -59,7 +62,7 @@ interface AppModule {
     val skinTypeApi: SkinTypeApi
     val chatApi: ChatApi
     val promotionApi: PromotionApi
-
+    val brandApi: BrandApi
 
     //* Data sources
     val authDataSource: AuthDataSource
@@ -69,8 +72,8 @@ interface AppModule {
     val categoryDataSource: CategoryDataSource
     val chatDataSource: ChatDataSource
     val promotionDataSource: PromotionDataSource
-
     val sharedPreferences: SharedPreferences
+    val brandDataSource: BrandDataSource
 }
 
 class AppModuleImpl(
@@ -149,6 +152,15 @@ class AppModuleImpl(
             .build()
             .create(PromotionApi::class.java)
     }
+    override val brandApi: BrandApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create(gson)) // Important: Add a converter factory!
+            .client(getUnsafeOkHttpClient())
+            .build()
+            .create(BrandApi::class.java)
+    }
+
     override val authDataSource: AuthDataSource by lazy {
         AuthDataSourceImpl(fireBaseApi)
     }
@@ -169,6 +181,9 @@ class AppModuleImpl(
     }
     override val promotionDataSource: PromotionDataSource by lazy {
         PromotionDataSourceImpl(promotionApi, sharedPreferences)
+    }
+    override val brandDataSource: BrandDataSource by lazy {
+        BrandDataSourceImpl(brandApi)
     }
 
     private fun getUnsafeOkHttpClient(): OkHttpClient {

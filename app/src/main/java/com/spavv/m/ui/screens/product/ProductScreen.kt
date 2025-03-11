@@ -53,7 +53,8 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
         factory = viewModelFactory {
             ProductVM(
                 MyApp.appModule.productDataSource,
-                MyApp.appModule.categoryDataSource
+                MyApp.appModule.categoryDataSource,
+                MyApp.appModule.brandDataSource
             )
         }
     )
@@ -64,6 +65,7 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
 
     LaunchedEffect(Unit) {
         productVM.fetchCategories()
+        productVM.fetchBrands()
     }
 
     ModalNavigationDrawer(
@@ -71,10 +73,14 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
         drawerContent = {
             DrawerContent(
                 categories = productVM.categories.value?.items,
+                brands = productVM.brands.value?.items,
                 onClose = { scope.launch { drawerState.close() } },
                 onSelectCategory = { category ->
                     productVM.updateQuery(productVM.getProductsQuery.value.copy(category = category))
-                }
+                },
+                onSelectBrand = { brand ->
+                    productVM.updateQuery(productVM.getProductsQuery.value.copy(brand = brand))
+                },
             )
         }
     ) {
@@ -88,7 +94,7 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                QueryToolbar (
+                QueryToolbar(
                     productVM = productVM,
                     navController = navController,
                     onFilterClick = { scope.launch { drawerState.open() } } // Mở drawer
@@ -99,7 +105,7 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
                         it1.totalPages,
                         productVM.products.value!!.page,
                         onPageChange = { page ->
-                            productVM.updateQuery( productVM.getProductsQuery.value.copy(page = page))
+                            productVM.updateQuery(productVM.getProductsQuery.value.copy(page = page))
                         }
                     )
                 }

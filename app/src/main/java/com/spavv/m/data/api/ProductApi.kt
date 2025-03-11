@@ -12,6 +12,7 @@ interface ProductApi {
         @Query("page") page: Int = 1,
         @Query("size") size: Int = 10,
         @Query("category") category: String? = null,
+        @Query("brand") brand: String? = null,
         @Query("filterBy") filterBy: String? = null,
         @Query("filterQuery") filterQuery: String? = null,
         @Query("sortBy") sortBy: String? = null,

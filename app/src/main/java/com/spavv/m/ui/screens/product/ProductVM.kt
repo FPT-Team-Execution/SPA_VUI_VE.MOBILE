@@ -6,10 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.spavv.m.data.dataSources.BrandDataSource
 import com.spavv.m.data.dataSources.CategoryDataSource
+import com.spavv.m.data.dataSources.GetBrandsQuery
 import com.spavv.m.data.dataSources.GetCategoriesQuery
 import com.spavv.m.data.dataSources.GetProductsQuery
 import com.spavv.m.data.dataSources.ProductDataSource
+import com.spavv.m.data.models.Brand
 import com.spavv.m.data.models.Category
 import com.spavv.m.data.models.Product
 import com.spavv.m.data.models.base.Paginate
@@ -18,7 +21,8 @@ import kotlinx.coroutines.launch
 
 class ProductVM(
     private val productDataSource: ProductDataSource,
-    private val categoryDataSource: CategoryDataSource
+    private val categoryDataSource: CategoryDataSource,
+    private val brandDataSource: BrandDataSource
 ) : ViewModel() {
 
     var isLoading = mutableStateOf<Boolean>(false);
@@ -33,6 +37,9 @@ class ProductVM(
     val categories: State<Paginate<Category>?> = _categories
 
     private val _category = mutableStateOf<Category?>(null);
+
+    private val _brands = mutableStateOf<Paginate<Brand>?>(null)
+    val brands: State<Paginate<Brand>?> = _brands
 
     private fun updateProducts(products: Paginate<Product>?) {
         _products.value = products;
@@ -50,6 +57,10 @@ class ProductVM(
         _category.value = category
     }
 
+    private fun updateBrands(brands: Paginate<Brand>?) {
+        _brands.value = brands
+    }
+
     val getProductsQuery: MutableState<GetProductsQuery> = mutableStateOf(
         GetProductsQuery(
             page = 1,
@@ -57,6 +68,7 @@ class ProductVM(
             isAsc = true,
             sortBy = "Price",
             category = "",
+            brand = "",
             filterBy = "Name",
             filterQuery = ""
         )
@@ -66,6 +78,13 @@ class ProductVM(
         GetCategoriesQuery(
             page = 1,
             size = 10,
+        )
+    )
+
+    val getBrandsQuery: MutableState<GetBrandsQuery> = mutableStateOf(
+        GetBrandsQuery(
+            page = 1,
+            size = 10
         )
     )
 
@@ -113,4 +132,18 @@ class ProductVM(
             }
         }
     }
+
+    fun fetchBrands() {
+        viewModelScope.launch {
+            try {
+                val brands = brandDataSource.getBrands(getBrandsQuery.value)
+                if (brands != null) {
+                    updateBrands(brands)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
 }
