@@ -51,6 +51,7 @@ import com.spavv.m.comon.viewModels.AuthState
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
+import com.spavv.m.ui.theme.PrimaryColor
 import kotlin.math.atan
 
 @Composable
@@ -84,9 +85,9 @@ fun LoginScreen(modifier: Modifier,authVM: AuthVM, navController: NavController)
     ) {
         Text(
             text = "Spa Vui Vẻ",
-            fontSize = 20.sp,
+            fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFF6200EE)
+            color = PrimaryColor
             )
         Image(
             painter = painterResource(id = R.drawable.img_login),
@@ -95,12 +96,14 @@ fun LoginScreen(modifier: Modifier,authVM: AuthVM, navController: NavController)
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = "Chào mừng quay lại",
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = "Đăng nhập với tài khoản",
+            fontSize = 16.sp,
+
         )
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
@@ -134,7 +137,9 @@ fun LoginScreen(modifier: Modifier,authVM: AuthVM, navController: NavController)
             horizontalArrangement = Arrangement.End
         ) {
             TextButton(onClick = { /* TODO */ }) {
-                Text(text = "Quên mật khẩu ?")
+                Text(text = "Quên mật khẩu ?",
+                    fontSize = 16.sp,
+                    )
             }
         }
 
@@ -144,18 +149,22 @@ fun LoginScreen(modifier: Modifier,authVM: AuthVM, navController: NavController)
         }) {
             Text(
                 text = "Đăng nhập",
+                fontSize = 16.sp,
+
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
         TextButton(onClick = { navController.navigate(Routes.SIGNUP) }) {
             Text(
                 text = "Chưa có tài khoản ? Đăng kí",
+                fontSize = 16.sp,
+
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Hoặc đăng nhập với",
-            fontSize = 12.sp
+            fontSize = 16.sp
         )
         Spacer(modifier = Modifier.height(16.dp))
         Row (
