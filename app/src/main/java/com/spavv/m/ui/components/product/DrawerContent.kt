@@ -15,11 +15,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.spavv.m.data.models.Brand
 import com.spavv.m.data.models.Category
 import com.spavv.m.ui.components.home.SectionTitle
 
 @Composable
-fun DrawerContent(categories: List<Category>? ,onClose: () -> Unit, onSelectCategory: (String) -> Unit) {
+fun DrawerContent(
+    categories: List<Category>?,
+    brands: List<Brand>?,
+    onClose: () -> Unit,
+    onSelectCategory: (String) -> Unit,
+    onSelectBrand: (String) -> Unit
+) {
 
     Column(
         modifier = Modifier
@@ -50,6 +57,33 @@ fun DrawerContent(categories: List<Category>? ,onClose: () -> Unit, onSelectCate
                 ) {
                     Text(
                         text = category.name,
+                        textAlign = TextAlign.Left,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        }
+
+        Column {
+
+            SectionTitle("Nhãn hàng")
+
+            TextButton(
+                onClick = { onSelectBrand("") },
+            ) {
+                Text(
+                    text = "Tất cả",
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            brands?.forEach { brand ->
+                TextButton(
+                    onClick = { onSelectBrand(brand.name) },
+                ) {
+                    Text(
+                        text = brand.name,
                         textAlign = TextAlign.Left,
                         modifier = Modifier.fillMaxWidth()
                     )

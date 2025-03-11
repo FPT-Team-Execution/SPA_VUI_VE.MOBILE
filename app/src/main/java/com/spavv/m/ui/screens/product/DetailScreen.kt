@@ -55,7 +55,8 @@ fun DetailScreen(modifier: Modifier = Modifier, productId: String, navController
         factory = viewModelFactory {
             ProductVM(
                 MyApp.appModule.productDataSource,
-                MyApp.appModule.categoryDataSource
+                MyApp.appModule.categoryDataSource,
+                MyApp.appModule.brandDataSource
             )
         }
     )
