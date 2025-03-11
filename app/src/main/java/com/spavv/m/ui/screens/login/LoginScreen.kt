@@ -1,6 +1,8 @@
 package com.spavv.m.ui.screens.login
 
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.foundation.Image
@@ -14,7 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -39,6 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.spavv.m.R
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthState
@@ -51,13 +57,16 @@ import kotlin.math.atan
 fun LoginScreen(modifier: Modifier,authVM: AuthVM, navController: NavController) {
     val authState = authVM.authState.observeAsState()
     val context = LocalContext.current;
-    LaunchedEffect(authState.value) {
-        when(authState.value){
-            is AuthState.Authenticated -> navController.navigate(Routes.HOME)
-            is AuthState.Unauthenticated
-                -> Toast.makeText(context, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show()
-            else -> Unit //nothing
-        }
+
+    LaunchedEffect(Unit) {
+        authVM.checkAuthState()
+    }
+
+    val googleSignInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        authVM.handleSignInResult(task)
     }
 
     val loginVM = viewModel<LoginVM>(
@@ -66,11 +75,12 @@ fun LoginScreen(modifier: Modifier,authVM: AuthVM, navController: NavController)
         }
     )
 
+    val scrollState = rememberScrollState()
 
     Column(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.padding(16.dp).verticalScroll(scrollState),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Spa Vui Vẻ",
@@ -167,7 +177,9 @@ fun LoginScreen(modifier: Modifier,authVM: AuthVM, navController: NavController)
                 modifier = Modifier
                     .size(40.dp)
                     .clickable {
-                        /*TODO*/
+                        authVM.createGoogleSignInClient(context)
+                        val signInIntent = authVM.getSignInIntent()
+                        googleSignInLauncher.launch(signInIntent)
                     }
             )
         }
