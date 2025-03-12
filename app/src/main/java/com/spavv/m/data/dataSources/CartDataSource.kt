@@ -9,9 +9,9 @@ import com.spavv.m.exceptions.UnauthorizedException
 
 interface CartDataSource {
     suspend fun getCart(): List<Item>?
-    suspend fun addToCart(request: AddToCartRequest): BaseResult<String>
-    suspend fun updateFromCart(request: AddToCartRequest): BaseResult<String>
-    suspend fun removeFromCart(id: String): BaseResult<String>
+    suspend fun addToCart(request: AddToCartRequest): BaseResult<String>?
+    suspend fun updateFromCart(request: AddToCartRequest): BaseResult<String>?
+    suspend fun removeFromCart(id: String): BaseResult<String>?
 }
 
 class CartDataSourceImpl(
@@ -39,15 +39,63 @@ class CartDataSourceImpl(
         }
     }
 
-    override suspend fun addToCart(request: AddToCartRequest): BaseResult<String> {
-        TODO("Not yet implemented")
+    override suspend fun addToCart(request: AddToCartRequest): BaseResult<String>? {
+        try {
+            val token = sharedPreferences.getString("tokenString", "");
+            if (token.isNullOrEmpty())
+                throw UnauthorizedException("Token is missing")
+            val response = cartApi.addToCart(token, request)
+            if (response.code() == 401) {
+                throw UnauthorizedException("UnAuthorized")
+            }
+            if (response.body()?.status == 200) {
+                return response.body()!!;
+            }
+            return null
+        } catch (e: UnauthorizedException) {
+            throw e   //throw exception to ui layer for using LocalNavigation
+        } catch (e: Exception) {
+            return null
+        }
     }
 
-    override suspend fun updateFromCart(request: AddToCartRequest): BaseResult<String> {
-        TODO("Not yet implemented")
+    override suspend fun updateFromCart(request: AddToCartRequest): BaseResult<String>? {
+        try {
+            val token = sharedPreferences.getString("tokenString", "");
+            if (token.isNullOrEmpty())
+                throw UnauthorizedException("Token is missing")
+            val response = cartApi.updateToCart(token, request)
+            if (response.code() == 401) {
+                throw UnauthorizedException("UnAuthorized")
+            }
+            if (response.body()?.status == 200) {
+                return response.body()!!;
+            }
+            return null
+        } catch (e: UnauthorizedException) {
+            throw e   //throw exception to ui layer for using LocalNavigation
+        } catch (e: Exception) {
+            return null
+        }
     }
 
-    override suspend fun removeFromCart(id: String): BaseResult<String> {
-        TODO("Not yet implemented")
+    override suspend fun removeFromCart(id: String): BaseResult<String>? {
+        try {
+            val token = sharedPreferences.getString("tokenString", "");
+            if (token.isNullOrEmpty())
+                throw UnauthorizedException("Token is missing")
+            val response = cartApi.removeFromCart(token, id)
+            if (response.code() == 401) {
+                throw UnauthorizedException("UnAuthorized")
+            }
+            if (response.body()?.status == 200) {
+                return response.body()!!;
+            }
+            return null
+        } catch (e: UnauthorizedException) {
+            throw e   //throw exception to ui layer for using LocalNavigation
+        } catch (e: Exception) {
+            return null
+        }
     }
 }
