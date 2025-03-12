@@ -107,7 +107,7 @@ fun ButtonTop(modifier: Modifier = Modifier, text: String, customIcon: ImageVect
                     contentDescription = "Icon",
                     modifier = Modifier.padding(end = 16.dp),
                 )
-                Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp)
+                Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp, color = Color.Black)
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "Navigate Icon",
@@ -140,7 +140,7 @@ fun ButtonMiddle(modifier: Modifier = Modifier, text: String, customIcon: ImageV
                         contentDescription = "Icon",
                         modifier = Modifier.padding(end = 16.dp),
                     )
-                    Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp)
+                    Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp, color = Color.Black)
                     Icon(
                         imageVector = Icons.Default.ChevronRight,
                         contentDescription = "Navigate Icon",
@@ -173,7 +173,7 @@ fun ButtonBottom(modifier: Modifier = Modifier, text: String, customIcon: ImageV
                     contentDescription = "Icon",
                     modifier = Modifier.padding(end = 16.dp),
                 )
-                Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp)
+                Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp, color = Color.Black)
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "Navigate Icon",
@@ -215,7 +215,7 @@ fun RatingButton(modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
         modifier = modifier.fillMaxWidth()
     ) {
-        Text(text = "Đánh giá của tôi", modifier = Modifier.padding(top = 16.dp, bottom = 16.dp), fontSize = 16.sp)
+        Text(text = "Đánh giá của tôi", modifier = Modifier.padding(top = 16.dp, bottom = 16.dp), fontSize = 16.sp, color = Color.Black)
     }
 }
 
@@ -229,7 +229,7 @@ fun PromoteButton(modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(topEnd = 8.dp, bottomEnd = 8.dp),
         modifier = modifier.fillMaxWidth()
     ) {
-        Text(text = "Ưu đãi của tôi", modifier = Modifier.padding(top = 16.dp, bottom = 16.dp), fontSize = 16.sp)
+        Text(text = "Ưu đãi của tôi", modifier = Modifier.padding(top = 16.dp, bottom = 16.dp), fontSize = 16.sp, color = Color.Black)
     }
 }
 
@@ -239,8 +239,6 @@ fun HeaderButton() {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        RatingButton(modifier = Modifier.weight(1f))
-
         PromoteButton(modifier = Modifier.weight(1f))
     }
 }

@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.spavv.m.ui.screens.profile.
 import com.spavv.m.ui.screens.profile.ProfileVM
 import com.spavv.m.ui.theme.SpaVuiVeTheme
 import java.security.KeyManagementException
@@ -80,15 +79,5 @@ private fun disableSSLCertificateChecking() {
         e.printStackTrace()
     } catch (e: NoSuchAlgorithmException) {
         e.printStackTrace()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewProfileScreen() {
-    val navController = rememberNavController()
-    val profileVM = viewModel<ProfileVM>()
-    SpaVuiVeTheme {
-        ProfileScreen(modifier = Modifier.fillMaxSize())
     }
 }

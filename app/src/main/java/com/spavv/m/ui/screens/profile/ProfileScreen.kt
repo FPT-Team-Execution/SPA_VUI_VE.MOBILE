@@ -103,29 +103,6 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
             )
 
             Text(
-                text = "Lan tỏa cùng Spa Vui Vẻ", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp)
-            )
-
-            ButtonTop(
-                customIcon = Icons.Default.ThumbUp,
-                text = "Đánh giá ứng dụng",
-                onClick = { /*TODO*/ },
-                modifier = Modifier.padding(top = 8.dp)
-            )
-
-            ButtonMiddle(
-                customIcon = Icons.Default.PersonAddAlt,
-                text = "Giới thiệu bạn bè",
-                onClick = { /*TODO*/ },
-            )
-
-            ButtonBottom(
-                customIcon = Icons.Default.Share,
-                text = "Chia sẻ ứng dụng",
-                onClick = { /*TODO*/ },
-            )
-
-            Text(
                 text = "Cài đặt", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp)
             )
 
