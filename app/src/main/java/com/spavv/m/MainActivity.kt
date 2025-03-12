@@ -13,8 +13,10 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.spavv.m.ui.screens.profile.ProfileVM
 import com.spavv.m.ui.theme.SpaVuiVeTheme
 import java.security.KeyManagementException
 import java.security.NoSuchAlgorithmException
@@ -35,17 +37,17 @@ class MainActivity : ComponentActivity() {
         disableSSLCertificateChecking()
         enableEdgeToEdge()
         setContent {
-                SpaVuiVeTheme {
-                    //create new rememberNavController instance
-                    val navController = rememberNavController()
-                    CompositionLocalProvider(LocalNavigation provides navController) {
-                        MyAppNavigation(modifier = Modifier
-                            .fillMaxSize()
-                            //safe area
-                            //! DO NOT REMOVE
-                            .statusBarsPadding())
-                    }
+            SpaVuiVeTheme {
+                //create new rememberNavController instance
+                val navController = rememberNavController()
+                CompositionLocalProvider(LocalNavigation provides navController) {
+                    MyAppNavigation(modifier = Modifier
+                        .fillMaxSize()
+                        //safe area
+                        //! DO NOT REMOVE
+                        .statusBarsPadding())
                 }
+            }
         }
     }
 }
@@ -78,10 +80,4 @@ private fun disableSSLCertificateChecking() {
     } catch (e: NoSuchAlgorithmException) {
         e.printStackTrace()
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewSpace() {
-
 }
