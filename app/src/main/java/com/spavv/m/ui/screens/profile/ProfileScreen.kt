@@ -36,90 +36,100 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.spavv.m.LocalNavigation
+import com.spavv.m.comon.viewModels.AuthVM
+import com.spavv.m.ui.screens.ScaffoldLayout
 import com.spavv.m.ui.theme.SpaVuiVeTheme
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = Color(0xFFf4f4f4))
-            .verticalScroll(rememberScrollState())
-    ) {
+fun ProfileScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
+    val navController = LocalNavigation.current
+
+    ScaffoldLayout(navController = navController) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(Color(0x60bcf9a5), Color(0x607fdcf9))
-                    ),
-                ),
+            modifier = modifier
+                .fillMaxSize()
+                .background(color = Color(0xFFf4f4f4))
+                .verticalScroll(rememberScrollState())
+                .padding(
+                    bottom = 120.dp
+                )
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(
+                        brush = Brush.linearGradient(
+                            colors = listOf(Color(0x60bcf9a5), Color(0x607fdcf9))
+                        ),
+                    ),
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.img_login),
-                    contentDescription = "User Avatar",
+                Column(
                     modifier = Modifier
-                        .padding(top = 32.dp)
-                        .size(80.dp)
-                        .clip(CircleShape)
-                        .align(CenterHorizontally)
+                        .fillMaxWidth()
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_login),
+                        contentDescription = "User Avatar",
+                        modifier = Modifier
+                            .padding(top = 32.dp)
+                            .size(80.dp)
+                            .clip(CircleShape)
+                            .align(CenterHorizontally)
+                    )
+
+                    Text(
+                        text = "User Name",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 24.sp,
+                        modifier = Modifier
+                            .padding(top = 12.dp, bottom = 64.dp)
+                            .align(CenterHorizontally)
+                    )
+                }
+            }
+
+            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
+                HeaderButton()
+
+                AboutAppButton()
+
+                Text(
+                    text = "Quản lý tài khoản", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp)
+                )
+
+                ButtonTop(
+                    customIcon = Icons.Default.ListAlt,
+                    text = "Quản lý đơn hàng",
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+
+                ButtonBottom(
+                    customIcon = Icons.Default.AccountCircle,
+                    text = "Quản lý tài khoản",
+                    onClick = { /*TODO*/ },
                 )
 
                 Text(
-                    text = "User Name",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 24.sp,
-                    modifier = Modifier
-                        .padding(top = 12.dp, bottom = 64.dp)
-                        .align(CenterHorizontally)
+                    text = "Cài đặt", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp)
                 )
+
+                ButtonTop(
+                    customIcon = Icons.Default.Language,
+                    text = "Ngôn ngữ",
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+
+                ButtonBottom(
+                    customIcon = Icons.Default.Article,
+                    text = "Điều khoản sử dụng",
+                    onClick = { /*TODO*/ },
+                )
+
+                LogoutButton()
             }
-        }
-
-        Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
-            HeaderButton()
-
-            AboutAppButton()
-
-            Text(
-                text = "Quản lý tài khoản", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp)
-            )
-
-            ButtonTop(
-                customIcon = Icons.Default.ListAlt,
-                text = "Quản lý đơn hàng",
-                onClick = { /*TODO*/ },
-                modifier = Modifier.padding(top = 8.dp)
-            )
-
-            ButtonBottom(
-                customIcon = Icons.Default.AccountCircle,
-                text = "Quản lý tài khoản",
-                onClick = { /*TODO*/ },
-            )
-
-            Text(
-                text = "Cài đặt", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp)
-            )
-
-            ButtonTop(
-                customIcon = Icons.Default.Language,
-                text = "Ngôn ngữ",
-                onClick = { /*TODO*/ },
-                modifier = Modifier.padding(top = 8.dp)
-            )
-
-            ButtonBottom(
-                customIcon = Icons.Default.Article,
-                text = "Điều khoản sử dụng",
-                onClick = { /*TODO*/ },
-            )
-
-            LogoutButton()
         }
     }
 }
@@ -127,7 +137,4 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewProfileScreen() {
-    SpaVuiVeTheme {
-        ProfileScreen(modifier = Modifier.fillMaxSize())
-    }
 }

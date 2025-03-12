@@ -7,12 +7,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.spavv.m.LocalNavigation
 import com.spavv.m.ui.screens.ScaffoldLayout
 
 //import com.spavv.m.ui.screens.ScaffoldLayout
 
 @Composable
-fun CartScreen(modifier: Modifier, navController: NavController) {
+fun CartScreen(modifier: Modifier) {
+    val navController = LocalNavigation.current;
     ScaffoldLayout (navController){
             innerPadding ->
         Column(
