@@ -148,6 +148,13 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
             .addOnCompleteListener {
                     taskRs -> if(taskRs.isSuccessful) {
                 _authState.value = AuthState.Authenticated;
+                viewModelScope.launch {
+                    val token = getToken()
+                    sharedPreferences.edit().apply {
+                        putString("tokenString", token)
+                        apply()
+                    }
+                }
             }else
             {
                 _authState.value = AuthState.Error(taskRs.exception?.message?: "Thực hiện đăng nhập thất bại");
@@ -158,6 +165,12 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
     fun signOut(){
        auth.signOut();
         _authState.value = AuthState.Unauthenticated
+        viewModelScope.launch {
+            val token = getToken()
+            sharedPreferences.edit().apply {
+               remove("tokenString").apply()
+            }
+        }
     }
 }
 

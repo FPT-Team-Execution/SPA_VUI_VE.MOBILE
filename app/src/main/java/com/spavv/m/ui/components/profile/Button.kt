@@ -2,6 +2,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -186,7 +187,7 @@ fun ButtonBottom(modifier: Modifier = Modifier, text: String, customIcon: ImageV
 }
 
 @Composable
-fun LogoutButton() {
+fun LogoutButton(handleLogout : () -> Unit = {}) {
     Button(
         onClick = {
             // Logout
@@ -201,7 +202,10 @@ fun LogoutButton() {
             modifier = Modifier.padding(end = 16.dp),
             tint = Color.Blue // Add the tint parameter here
         )
-        Text(text = "Đăng xuất", color = Color.Blue, modifier = Modifier.padding(top = 8.dp, bottom = 8.dp))
+        Text(text = "Đăng xuất", color = Color.Blue, modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
+            .clickable{
+                handleLogout()
+            })
     }
 }
 

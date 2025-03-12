@@ -128,7 +128,9 @@ fun ProfileScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                     onClick = { /*TODO*/ },
                 )
 
-                LogoutButton()
+                LogoutButton{
+                    authVM.signOut()
+                }
             }
         }
     }
