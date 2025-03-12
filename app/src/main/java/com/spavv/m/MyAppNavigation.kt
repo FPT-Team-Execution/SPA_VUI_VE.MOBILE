@@ -2,6 +2,8 @@ package com.spavv.m
 
 import Promotion
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -9,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.spavv.m.comon.constants.Routes
+import com.spavv.m.comon.viewModels.AuthState
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
@@ -37,7 +40,15 @@ fun MyAppNavigation(modifier: Modifier) {
             )
         }
     )
-    NavHost(navController = navController, startDestination = Routes.HOME, builder = {
+    val authState = authVM.authState.observeAsState()
+    LaunchedEffect(authState.value) {
+        when(authState.value){
+            is AuthState.Authenticated -> navController.navigate(Routes.HOME)
+            is AuthState.Unauthenticated -> navController.navigate(Routes.LOGIN)
+            else -> Unit //nothing
+        }
+    }
+    NavHost(navController = navController, startDestination = Routes.LOGIN, builder = {
         composable(Routes.LOGIN) {
             LoginScreen(modifier = modifier, authVM = authVM, navController = navController)
         }
