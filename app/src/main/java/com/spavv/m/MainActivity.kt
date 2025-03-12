@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
         disableSSLCertificateChecking()
         enableEdgeToEdge()
         setContent {
+            
             SpaVuiVeTheme {
                 //create new rememberNavController instance
                 val navController = rememberNavController()

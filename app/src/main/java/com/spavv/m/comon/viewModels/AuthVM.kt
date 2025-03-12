@@ -21,6 +21,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.spavv.m.R
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.util.Locale
 
 open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel() {
     private val auth : FirebaseAuth = FirebaseAuth.getInstance();
@@ -31,6 +32,7 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
     val authState: LiveData<AuthState> = _authState;
 
     init {
+        auth.setLanguageCode(Locale.getDefault().language)
         checkAuthState()
 
     }
