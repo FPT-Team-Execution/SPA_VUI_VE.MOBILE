@@ -1,8 +1,10 @@
 package com.spavv.m.data.dataSources
 
+import android.content.SharedPreferences
 import com.spavv.m.data.api.ProductApi
 import com.spavv.m.data.models.Product
 import com.spavv.m.data.models.base.Paginate
+import com.spavv.m.exceptions.UnauthorizedException
 
 data class GetProductsQuery(
     var page: Int = 1,
@@ -21,12 +23,18 @@ interface ProductDataSource {
     suspend fun getProduct(id: String): Product?;
 }
 
-class ProductDataSourceImpl(private val productApi: ProductApi) : ProductDataSource {
+class ProductDataSourceImpl(
+    private val productApi: ProductApi, private val sharedPreferences: SharedPreferences
+) : ProductDataSource {
 
     override suspend fun getProducts(query: GetProductsQuery): Paginate<Product>? {
         try {
-
+            val token = sharedPreferences.getString("tokenString", "");
+            if (token.isNullOrEmpty()) {
+                throw UnauthorizedException("Token is missing")
+            }
             val response = productApi.getProducts(
+                token,
                 query.page,
                 query.size,
                 query.category,
@@ -49,9 +57,17 @@ class ProductDataSourceImpl(private val productApi: ProductApi) : ProductDataSou
     }
 
     override suspend fun getProduct(id: String): Product? {
-        try {
 
-            val response = productApi.getProduct(id)
+
+        try {
+            val token = sharedPreferences.getString("tokenString", "");
+            if (token.isNullOrEmpty()) {
+                throw UnauthorizedException("Token is missing")
+            }
+            val response = productApi.getProduct(
+                token,
+                id,
+            )
 
             if (response.body()?.status == 200) {
                 return response.body()?.data;

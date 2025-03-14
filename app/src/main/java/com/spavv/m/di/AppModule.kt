@@ -85,7 +85,7 @@ class AppModuleImpl(
         appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
     private val firebaseUrl: String = "https://something-demo";
-    private val baseUrl: String = "https://10.0.2.2:7000/";
+    private val baseUrl: String = "https://cmt8.cursus.id.vn/";
     val gson = GsonBuilder()
         .registerTypeAdapter(Date::class.java, DateJsonAdapter())  // Custom parser cho Date
         .setLenient()
@@ -165,10 +165,10 @@ class AppModuleImpl(
         AuthDataSourceImpl(fireBaseApi)
     }
     override val productDataSource: ProductDataSource by lazy {
-        ProductDataSourceImpl(productApi)
+        ProductDataSourceImpl(productApi, sharedPreferences)
     }
     override val categoryDataSource: CategoryDataSource by lazy {
-        CategoryDataSourceImpl(categoryApi)
+        CategoryDataSourceImpl(categoryApi, sharedPreferences)
     }
     override val skinTestDataSource: SkinTestDataSource by lazy {
         SkinTestDataSourceImp(skinTestApi)
@@ -183,7 +183,7 @@ class AppModuleImpl(
         PromotionDataSourceImpl(promotionApi, sharedPreferences)
     }
     override val brandDataSource: BrandDataSource by lazy {
-        BrandDataSourceImpl(brandApi)
+        BrandDataSourceImpl(brandApi, sharedPreferences)
     }
 
     private fun getUnsafeOkHttpClient(): OkHttpClient {

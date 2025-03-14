@@ -9,6 +9,7 @@ import retrofit2.http.*
 interface ProductApi {
     @GET("products")
     suspend fun getProducts(
+        @Header("Authorization") token: String,
         @Query("page") page: Int = 1,
         @Query("size") size: Int = 10,
         @Query("category") category: String? = null,
@@ -20,6 +21,9 @@ interface ProductApi {
     ): Response<BaseResult<Paginate<Product>>>
 
     @GET("products/{id}")
-    suspend fun getProduct(@Path("id") id: String): Response<BaseResult<Product>>
+    suspend fun getProduct(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): Response<BaseResult<Product>>
 }
 
