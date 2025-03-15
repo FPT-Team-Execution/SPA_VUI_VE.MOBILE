@@ -85,7 +85,7 @@ class AppModuleImpl(
         appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
     private val firebaseUrl: String = "https://something-demo";
-    private val baseUrl: String = "https://10.0.2.2:7000/";
+    private val baseUrl: String = "https://cmt8.cursus.id.vn/";
     val gson = GsonBuilder()
         .registerTypeAdapter(Date::class.java, DateJsonAdapter())  // Custom parser cho Date
         .setLenient()
@@ -177,7 +177,7 @@ class AppModuleImpl(
         SkinTypeDataSourceImp(skinTypeApi)
     }
     override val chatDataSource: ChatDataSource by lazy {
-        ChatDataSourceImpl(chatApi)
+        ChatDataSourceImpl(chatApi, sharedPreferences)
     }
     override val promotionDataSource: PromotionDataSource by lazy {
         PromotionDataSourceImpl(promotionApi, sharedPreferences)

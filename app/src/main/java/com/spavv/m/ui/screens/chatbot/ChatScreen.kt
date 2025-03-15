@@ -102,7 +102,9 @@ fun ChatScreen(modifier: Modifier = Modifier) {
             // Input Area
             ChatInput(
                 onSendMessage = { message ->
-                    chatVM.sendMessage(message)
+                    chatVM.sendMessage(message) {
+                        navController.navigate(Routes.LOGIN)
+                    }
                     keyboardController?.hide()
                 }
             )
