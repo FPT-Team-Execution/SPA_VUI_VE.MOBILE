@@ -50,4 +50,21 @@ class CartVM(
             }
         }
     }
+
+    fun removeFromCart(id: String) {
+        _cart.value = _cart.value?.toMutableList()?.apply {
+            val index = indexOfFirst { it.product.productId == id }
+            if (index != -1) {
+                this.removeAt(index)
+            }
+        }
+        viewModelScope.launch {
+            try {
+                val response = cartDataSource.removeFromCart(id)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
 }

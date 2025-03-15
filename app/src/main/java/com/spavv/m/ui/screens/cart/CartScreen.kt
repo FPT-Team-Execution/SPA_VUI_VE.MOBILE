@@ -186,6 +186,7 @@ fun CartItemsList(cartVM: CartVM) {
 //                                    cartVM.updateItemQuantity(item.id, newQuantity)
                                 },
                                 onRemoveItem = {
+                                    cartVM.removeFromCart(item.product.productId)
                                     // TODO: Implement remove item in CartVM
 //                                    cartVM.removeItem(item.id)
                                 }

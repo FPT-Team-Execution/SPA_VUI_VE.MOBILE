@@ -97,6 +97,18 @@ fun DetailScreen(modifier: Modifier = Modifier, productId: String, navController
                         }
                     }
                 },
+                actions = {
+                    IconButton(onClick = {
+                        //*Redirect to SkinTypeScreen
+                        navController.navigate(Routes.CART)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.ShoppingCart,
+                            contentDescription = "Giỏ hàng",
+                            tint = DarkColor
+                        )
+                    }
+                },
                 modifier = Modifier.shadow(elevation = 4.dp)
             )
         },
