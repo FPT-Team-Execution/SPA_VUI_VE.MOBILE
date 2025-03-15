@@ -4,13 +4,12 @@ import com.spavv.m.data.models.Category
 import com.spavv.m.data.models.base.BaseResult
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ChatApi {
     @GET("bot/chat")
-    suspend fun chat(
-        @Query("prompt") prompt: String,
-    ): Response<BaseResult<String>>
+    suspend fun chat(@Header("Authorization") token : String, @Query("prompt") prompt: String): Response<BaseResult<String>>
 
 }

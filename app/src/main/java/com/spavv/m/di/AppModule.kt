@@ -184,13 +184,13 @@ class AppModuleImpl(
         CategoryDataSourceImpl(categoryApi, sharedPreferences)
     }
     override val skinTestDataSource: SkinTestDataSource by lazy {
-        SkinTestDataSourceImp(skinTestApi)
+        SkinTestDataSourceImp(skinTestApi,  sharedPreferences)
     }
     override val skinTypeDataSource: SkinTypeDataSource by lazy {
-        SkinTypeDataSourceImp(skinTypeApi)
+        SkinTypeDataSourceImp(skinTypeApi, sharedPreferences)
     }
     override val chatDataSource: ChatDataSource by lazy {
-        ChatDataSourceImpl(chatApi)
+        ChatDataSourceImpl(chatApi, sharedPreferences)
     }
     override val promotionDataSource: PromotionDataSource by lazy {
         PromotionDataSourceImpl(promotionApi, sharedPreferences)

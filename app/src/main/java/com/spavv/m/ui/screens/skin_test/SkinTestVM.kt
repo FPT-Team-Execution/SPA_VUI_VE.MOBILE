@@ -17,6 +17,7 @@ import com.spavv.m.data.dataSources.SkinTestDataSource
 import com.spavv.m.data.models.SkinTestOption
 import com.spavv.m.data.models.SkinTestQuestion
 import com.spavv.m.data.models.SkinType
+import com.spavv.m.exceptions.UnauthorizedException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -48,19 +49,19 @@ class SkinTestVM(private val skinTestDataSource: SkinTestDataSource) : ViewModel
     }
 
     //* Always run after variables 's definition
-    init {
-        fetchQuestions()
-    }
+//    init {
+//        fetchQuestions()
+//    }
 
-    private fun fetchQuestions() {
+    fun fetchQuestions(handleError: (String) -> Unit = {}) {
         viewModelScope.launch {
             try {
                 val questions = skinTestDataSource.getSkinTests()
                 //* Fake data
                 //val questions: List<SkinTestQuestion> = FakeData.mockSkinTestQuestions
                 updateQuestions(questions);
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } catch (e: UnauthorizedException) {
+                handleError(e.message.toString())
             }
         }
     }
@@ -74,7 +75,7 @@ class SkinTestVM(private val skinTestDataSource: SkinTestDataSource) : ViewModel
         }
     }
 
-    suspend fun submitSkinTest(): Boolean {
+    suspend fun submitSkinTest(handleError: (String) -> Unit = {}): Boolean {
         val isAllChosen = _skinTestOptions.value.size == _skinTestQuestions.value.size
         if (!isAllChosen) {
             fetchToastMessages("Vui lòng chọn tất cả câu hỏi!")
@@ -95,6 +96,9 @@ class SkinTestVM(private val skinTestDataSource: SkinTestDataSource) : ViewModel
                 fetchToastMessages("Gửi bài kiểm tra thất bại!")
                 false
             }
+        }catch (e: UnauthorizedException) {
+            handleError(e.message.toString())
+            false
         } catch (e: Exception) {
             e.printStackTrace()
             fetchToastMessages("Đã xảy ra lỗi, vui lòng thử lại sau!")

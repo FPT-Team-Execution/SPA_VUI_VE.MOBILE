@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spavv.m.data.dataSources.SkinTypeDataSource
 import com.spavv.m.data.models.SkinType
+import com.spavv.m.exceptions.UnauthorizedException
 import kotlinx.coroutines.launch
 
 class SkinTypeVM(private val skinTypeDataSource: SkinTypeDataSource) : ViewModel() {
@@ -17,17 +18,17 @@ class SkinTypeVM(private val skinTypeDataSource: SkinTypeDataSource) : ViewModel
     }
 
     //* Always run after variables 's definition
-    init {
-        fetchSkinTypes()
-    }
+//    init {
+//        fetchSkinTypes()
+//    }
 
-    private fun fetchSkinTypes() {
+    fun fetchSkinTypes(handleError: (String) -> Unit = {}) {
         viewModelScope.launch {
             try {
                 val skinTypes = skinTypeDataSource.getSkinTypes()
                 updateSkinTypes(skinTypes);
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } catch (e: UnauthorizedException) {
+                handleError(e.message.toString())
             }
         }
     }

@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Spa
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +43,7 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.spavv.m.LocalNavigation
+import com.spavv.m.comon.constants.Routes
 import com.spavv.m.data.FakeData
 import com.spavv.m.data.models.SkinType
 import com.spavv.m.di.MyApp
@@ -59,13 +61,23 @@ import com.spavv.m.ui.theme.PrimaryColor
 fun SkinTypeScreen(modifier: Modifier = Modifier) {
     val navController = LocalNavigation.current
     val pagerState = rememberPagerState()
-
     val skinTypeVM = viewModel<SkinTypeVM>(
         factory = viewModelFactory {
             SkinTypeVM(MyApp.appModule.skinTypeDataSource)
         }
     )
+
+    LaunchedEffect(Unit) {
+        skinTypeVM.fetchSkinTypes(){
+            navController.navigate(Routes.LOGIN)
+        }
+    }
+
+
+
     val skinTypes = skinTypeVM.skinTypes.value ?: emptyList()
+
+
 
     Scaffold(
         topBar = {
