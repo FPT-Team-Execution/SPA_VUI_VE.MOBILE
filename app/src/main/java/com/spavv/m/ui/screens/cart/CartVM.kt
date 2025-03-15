@@ -6,6 +6,8 @@ import com.spavv.m.data.dataSources.CartDataSource
 import com.spavv.m.data.models.Item
 import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
+import com.spavv.m.data.models.Product
+import com.spavv.m.data.models.payload.AddToCartRequest
 import kotlinx.coroutines.launch
 
 class CartVM(
@@ -32,7 +34,20 @@ class CartVM(
         }
     }
 
-
-
-
+    fun updateToCart(request: AddToCartRequest) {
+        _cart.value = _cart.value?.toMutableList()?.apply {
+            val index = indexOfFirst { it.product.productId == request.productId }
+            if (index != -1) {
+                this[index] =
+                    this[index].copy(quantity = request.quantity)
+            }
+        }
+        viewModelScope.launch {
+            try {
+                val response = cartDataSource.addToCart(request)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

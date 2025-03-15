@@ -1,6 +1,6 @@
 package com.spavv.m.data.models
 
-class Item(
+data class Item(
     val product: Product,
     val quantity: Int,
 )
