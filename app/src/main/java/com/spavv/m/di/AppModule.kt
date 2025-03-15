@@ -11,6 +11,7 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.spavv.m.data.api.BrandApi
+import com.spavv.m.data.api.CartApi
 import com.spavv.m.data.api.CategoryApi
 import com.spavv.m.data.api.ChatApi
 import com.spavv.m.data.api.FirebaseApi
@@ -22,6 +23,8 @@ import com.spavv.m.data.dataSources.AuthDataSource
 import com.spavv.m.data.dataSources.AuthDataSourceImpl
 import com.spavv.m.data.dataSources.BrandDataSource
 import com.spavv.m.data.dataSources.BrandDataSourceImpl
+import com.spavv.m.data.dataSources.CartDataSource
+import com.spavv.m.data.dataSources.CartDataSourceImpl
 import com.spavv.m.data.dataSources.CategoryDataSource
 import com.spavv.m.data.dataSources.CategoryDataSourceImpl
 import com.spavv.m.data.dataSources.ChatDataSource
@@ -63,6 +66,7 @@ interface AppModule {
     val chatApi: ChatApi
     val promotionApi: PromotionApi
     val brandApi: BrandApi
+    val cartApi: CartApi
 
     //* Data sources
     val authDataSource: AuthDataSource
@@ -74,6 +78,7 @@ interface AppModule {
     val promotionDataSource: PromotionDataSource
     val sharedPreferences: SharedPreferences
     val brandDataSource: BrandDataSource
+    val cartDataSource: CartDataSource
 }
 
 class AppModuleImpl(
@@ -85,7 +90,7 @@ class AppModuleImpl(
         appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
     private val firebaseUrl: String = "https://something-demo";
-    private val baseUrl: String = "https://10.0.2.2:7000/";
+    private val baseUrl: String = "https://cmt8.cursus.id.vn/";
     val gson = GsonBuilder()
         .registerTypeAdapter(Date::class.java, DateJsonAdapter())  // Custom parser cho Date
         .setLenient()
@@ -160,15 +165,23 @@ class AppModuleImpl(
             .build()
             .create(BrandApi::class.java)
     }
+    override val cartApi: CartApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create(gson)) // Important: Add a converter factory!
+            .client(getUnsafeOkHttpClient())
+            .build()
+            .create(CartApi::class.java)
+    }
 
     override val authDataSource: AuthDataSource by lazy {
         AuthDataSourceImpl(fireBaseApi)
     }
     override val productDataSource: ProductDataSource by lazy {
-        ProductDataSourceImpl(productApi)
+        ProductDataSourceImpl(productApi, sharedPreferences)
     }
     override val categoryDataSource: CategoryDataSource by lazy {
-        CategoryDataSourceImpl(categoryApi)
+        CategoryDataSourceImpl(categoryApi, sharedPreferences)
     }
     override val skinTestDataSource: SkinTestDataSource by lazy {
         SkinTestDataSourceImp(skinTestApi)
@@ -183,7 +196,10 @@ class AppModuleImpl(
         PromotionDataSourceImpl(promotionApi, sharedPreferences)
     }
     override val brandDataSource: BrandDataSource by lazy {
-        BrandDataSourceImpl(brandApi)
+        BrandDataSourceImpl(brandApi, sharedPreferences)
+    }
+    override val cartDataSource: CartDataSource by lazy {
+        CartDataSourceImpl(cartApi, sharedPreferences)
     }
 
     private fun getUnsafeOkHttpClient(): OkHttpClient {
@@ -201,8 +217,7 @@ class AppModuleImpl(
                 override fun getAcceptedIssuers(): Array<X509Certificate> {
                     return arrayOf()
                 }
-            }
-            )
+            })
 
             // Install the all-trusting trust manager
             val sslContext = SSLContext.getInstance("SSL")

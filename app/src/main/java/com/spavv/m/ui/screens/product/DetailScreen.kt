@@ -1,6 +1,7 @@
 package com.spavv.m.ui.screens.product
 
 import android.widget.Space
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -32,8 +34,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -42,6 +46,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.spavv.m.comon.constants.Routes
+import com.spavv.m.data.models.payload.AddToCartRequest
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.screens.ScaffoldLayout
@@ -56,7 +61,8 @@ fun DetailScreen(modifier: Modifier = Modifier, productId: String, navController
             ProductVM(
                 MyApp.appModule.productDataSource,
                 MyApp.appModule.categoryDataSource,
-                MyApp.appModule.brandDataSource
+                MyApp.appModule.brandDataSource,
+                MyApp.appModule.cartDataSource
             )
         }
     )
@@ -67,22 +73,21 @@ fun DetailScreen(modifier: Modifier = Modifier, productId: String, navController
         productVM.fetchProduct(productId)
     }
 
-    ScaffoldLayout(
-        navController
-    ) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(
-                    bottom = 100.dp
-                ),
-        ) {
+    Scaffold(
+        topBar = {
             TopAppBar(
-                title = { androidx.compose.material3.Text("Sản phẩm") },
-                backgroundColor = PrimaryColor,
+                title = {
+                    Text(
+                        text = "Sản phẩm",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = DarkColor
+                    )
+                },
+                backgroundColor = Color.White,
+                elevation = 0.dp,
                 navigationIcon = {
-                    val canGoBack = navController.previousBackStackEntry != null
-                    if (canGoBack) {
+                    if (navController.previousBackStackEntry != null) {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
@@ -104,10 +109,16 @@ fun DetailScreen(modifier: Modifier = Modifier, productId: String, navController
                         )
                     }
                 },
-                modifier = Modifier
-                    .padding(16.dp)
-                    .clip(RoundedCornerShape(8.dp))
+                modifier = Modifier.shadow(elevation = 4.dp)
             )
+        },
+        modifier = modifier.fillMaxSize()
+    ) { innerPaddings ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPaddings)
+        ) {
             Column(
                 modifier = modifier,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -180,7 +191,14 @@ fun DetailScreen(modifier: Modifier = Modifier, productId: String, navController
 
                         // Nút thêm vào giỏ hàng
                         Button(
-                            onClick = { Unit },
+                            onClick = {
+                                productVM.addToCart(
+                                    AddToCartRequest(
+                                        productId,
+                                        quantity
+                                    )
+                                )
+                            },
                             colors = ButtonDefaults.buttonColors(Color.White)
                         ) {
                             Icon(
