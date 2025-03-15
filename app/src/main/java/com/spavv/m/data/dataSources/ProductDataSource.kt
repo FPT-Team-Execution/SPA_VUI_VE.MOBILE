@@ -1,6 +1,7 @@
 package com.spavv.m.data.dataSources
 
 import android.content.SharedPreferences
+import com.spavv.m.data.api.CartApi
 import com.spavv.m.data.api.ProductApi
 import com.spavv.m.data.models.Product
 import com.spavv.m.data.models.base.Paginate
@@ -24,7 +25,9 @@ interface ProductDataSource {
 }
 
 class ProductDataSourceImpl(
-    private val productApi: ProductApi, private val sharedPreferences: SharedPreferences
+    private val cartApi: CartApi,
+    private val productApi: ProductApi,
+    private val sharedPreferences: SharedPreferences
 ) : ProductDataSource {
 
     override suspend fun getProducts(query: GetProductsQuery): Paginate<Product>? {
