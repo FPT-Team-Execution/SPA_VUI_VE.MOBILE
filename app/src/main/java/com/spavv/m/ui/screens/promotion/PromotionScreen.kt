@@ -46,8 +46,8 @@ fun PromotionScreen(modifier: Modifier = Modifier) {
         }
     )
 
-    LaunchedEffect(Unit){
-        promotionVM.fetchPromotions{
+    LaunchedEffect(Unit) {
+        promotionVM.fetchPromotions {
             navController.navigate(Routes.LOGIN)
         };
     }
@@ -81,7 +81,8 @@ fun PromotionScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.shadow(elevation = 4.dp)
             )
         },
-        backgroundColor = BackgroundColor
+        backgroundColor = BackgroundColor,
+        modifier = modifier.fillMaxSize()
     ) { innerPaddings ->
         LazyColumn(
             modifier = Modifier
@@ -109,15 +110,6 @@ fun PromotionScreen(modifier: Modifier = Modifier) {
         }
     }
 }
-
-
-
-
-
-
-
-
-
 
 
 // Extension functions for Date formatting

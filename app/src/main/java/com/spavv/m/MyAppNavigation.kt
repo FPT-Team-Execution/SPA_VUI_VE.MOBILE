@@ -94,7 +94,7 @@ fun MyAppNavigation(modifier: Modifier) {
             ProfileScreen(modifier = modifier, authVM = authVM)
         }
         composable(Routes.CART) {
-            CartScreen(modifier = Modifier)
+            CartScreen(modifier = modifier)
         }
     })
 }
