@@ -20,6 +20,7 @@ import com.spavv.m.ui.screens.chatbot.ChatScreen
 import com.spavv.m.ui.screens.favorite.FavoriteScreen
 import com.spavv.m.ui.screens.home.HomeScreen
 import com.spavv.m.ui.screens.login.LoginScreen
+import com.spavv.m.ui.screens.order.OrderScreen
 import com.spavv.m.ui.screens.product.DetailScreen
 import com.spavv.m.ui.screens.product.ProductScreen
 import com.spavv.m.ui.screens.profile.ProfileScreen
@@ -95,6 +96,9 @@ fun MyAppNavigation(modifier: Modifier) {
         }
         composable(Routes.CART) {
             CartScreen(modifier = Modifier)
+
+        composable(Routes.ORDER) {
+            OrderScreen(modifier = modifier)
         }
     })
 }

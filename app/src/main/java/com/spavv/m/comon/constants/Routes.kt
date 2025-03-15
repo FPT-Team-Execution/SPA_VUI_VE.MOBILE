@@ -21,4 +21,6 @@ object Routes {
     const val PRODUCT_DETAIL = "product_detail"
     const val PRODUCT_DETAIL_HOST = "product_detail/{productId}"
     const val CHAT_BOT = "chat_bot"
+
+    const val ORDER = "order"
 }
