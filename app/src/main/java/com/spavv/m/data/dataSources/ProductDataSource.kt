@@ -4,7 +4,9 @@ import android.content.SharedPreferences
 import com.spavv.m.data.api.CartApi
 import com.spavv.m.data.api.ProductApi
 import com.spavv.m.data.models.Product
+import com.spavv.m.data.models.base.BaseResult
 import com.spavv.m.data.models.base.Paginate
+import com.spavv.m.data.models.payload.AddToCartRequest
 import com.spavv.m.exceptions.UnauthorizedException
 
 data class GetProductsQuery(
@@ -25,7 +27,6 @@ interface ProductDataSource {
 }
 
 class ProductDataSourceImpl(
-    private val cartApi: CartApi,
     private val productApi: ProductApi,
     private val sharedPreferences: SharedPreferences
 ) : ProductDataSource {

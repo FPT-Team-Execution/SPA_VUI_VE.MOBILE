@@ -178,7 +178,7 @@ class AppModuleImpl(
         AuthDataSourceImpl(fireBaseApi)
     }
     override val productDataSource: ProductDataSource by lazy {
-        ProductDataSourceImpl(cartApi, productApi, sharedPreferences)
+        ProductDataSourceImpl(productApi, sharedPreferences)
     }
     override val categoryDataSource: CategoryDataSource by lazy {
         CategoryDataSourceImpl(categoryApi, sharedPreferences)

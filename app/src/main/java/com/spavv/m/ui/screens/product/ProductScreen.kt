@@ -47,7 +47,8 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
             ProductVM(
                 MyApp.appModule.productDataSource,
                 MyApp.appModule.categoryDataSource,
-                MyApp.appModule.brandDataSource
+                MyApp.appModule.brandDataSource,
+                MyApp.appModule.cartDataSource
             )
         }
     )

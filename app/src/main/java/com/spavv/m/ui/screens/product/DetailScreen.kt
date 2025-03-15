@@ -42,6 +42,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.spavv.m.comon.constants.Routes
+import com.spavv.m.data.models.payload.AddToCartRequest
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.screens.ScaffoldLayout
@@ -56,7 +57,8 @@ fun DetailScreen(modifier: Modifier = Modifier, productId: String, navController
             ProductVM(
                 MyApp.appModule.productDataSource,
                 MyApp.appModule.categoryDataSource,
-                MyApp.appModule.brandDataSource
+                MyApp.appModule.brandDataSource,
+                MyApp.appModule.cartDataSource
             )
         }
     )
@@ -180,7 +182,14 @@ fun DetailScreen(modifier: Modifier = Modifier, productId: String, navController
 
                         // Nút thêm vào giỏ hàng
                         Button(
-                            onClick = { Unit },
+                            onClick = {
+                                productVM.addToCart(
+                                    AddToCartRequest(
+                                        productId,
+                                        quantity
+                                    )
+                                )
+                            },
                             colors = ButtonDefaults.buttonColors(Color.White)
                         ) {
                             Icon(
