@@ -1,7 +1,6 @@
 package com.spavv.m.ui.screens.product
 
 import android.widget.Toast
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -151,14 +150,12 @@ class ProductVM(
         }
     }
 
-    fun addToCart(request: AddToCartRequest, showToast: @Composable (String) -> Unit) {
+    fun addToCart(request: AddToCartRequest) {
         viewModelScope.launch {
             try {
                 val response = cartDataSource.addToCart(request)
-                showToast("Add to cart successfully!")
             } catch (e: Exception) {
                 e.printStackTrace()
-                showToast("Fail to add to cart!")
             }
         }
     }

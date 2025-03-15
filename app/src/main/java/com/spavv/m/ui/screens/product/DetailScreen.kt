@@ -189,10 +189,7 @@ fun DetailScreen(modifier: Modifier = Modifier, productId: String, navController
                                     AddToCartRequest(
                                         productId,
                                         quantity
-                                    ),
-                                    { message ->
-                                        Toast.makeText(LocalContext.current, message, Toast.LENGTH_SHORT).show()
-                                    }
+                                    )
                                 )
                             },
                             colors = ButtonDefaults.buttonColors(Color.White)
