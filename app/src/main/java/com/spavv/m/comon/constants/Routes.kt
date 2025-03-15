@@ -7,6 +7,7 @@ object Routes {
     const val PRODUCT = "product"
     const val FAVORITE = "favorite"
     const val PROFILE = "profile"
+    const val PROFILE_DETAIL = "profile_detail"
     const val CART = "cart"
 
 
@@ -23,4 +24,5 @@ object Routes {
     const val CHAT_BOT = "chat_bot"
 
     const val ORDER = "order"
+
 }

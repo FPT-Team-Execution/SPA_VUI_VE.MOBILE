@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.spavv.m.LocalNavigation
+import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.ui.screens.ScaffoldLayout
 import com.spavv.m.ui.theme.SpaVuiVeTheme
@@ -50,32 +51,6 @@ fun ProfileScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
     val PrimaryColor = Color(0xFFfe669d)
     val DarkColor = Color(0xFF33363f)
     val GreyColor = Color(0xFFb4b9bb)
-
-    ScaffoldLayout(navController = navController) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    brush = Brush.linearGradient(
-                        colors = listOf(Color(0x60bcf9a5), Color(0x607fdcf9))
-                    ),
-                ),
-        ) {
-            Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.img_login),
-                        contentDescription = "User Avatar",
-                        modifier = Modifier
-                            .padding(top = 32.dp)
-                            .size(80.dp)
-                            .clip(CircleShape)
-                            .align(CenterHorizontally)
-                    )
-fun ProfileScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
-    val navController = LocalNavigation.current
 
     ScaffoldLayout(navController = navController) {
         Column(
@@ -95,7 +70,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                             colors = listOf(Color(0x60bcf9a5), Color(0x607fdcf9))
                         ),
                     ),
-            ) {
+            )  {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -117,7 +92,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                         modifier = Modifier
                             .padding(top = 12.dp, bottom = 64.dp)
                             .align(CenterHorizontally),
-                        color = Color(0xFF33363f),
+                        color = DarkColor
                     )
                 }
             }
@@ -132,56 +107,18 @@ fun ProfileScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                 ButtonTop(
                     customIcon = Icons.Default.ListAlt,
                     text = "Quản lý đơn hàng",
-                    onClick = { navController.navigate("orderHistory") },
+                    onClick = { navController.navigate(Routes.ORDER) },
                     modifier = Modifier.padding(top = 8.dp)
                 )
 
                 ButtonBottom(
                     customIcon = Icons.Default.AccountCircle,
                     text = "Quản lý tài khoản",
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.navigate(Routes.PROFILE_DETAIL) },
                 )
 
                 Text(
                     text = "Cài đặt", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp), color = PrimaryColor
-                )
-            }
-        }
-                    Text(
-                        text = "User Name",
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 24.sp,
-                        modifier = Modifier
-                            .padding(top = 12.dp, bottom = 64.dp)
-                            .align(CenterHorizontally)
-                    )
-                }
-            }
-
-            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
-                HeaderButton()
-
-                AboutAppButton()
-
-                Text(
-                    text = "Quản lý tài khoản", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp)
-                )
-
-                ButtonTop(
-                    customIcon = Icons.Default.ListAlt,
-                    text = "Quản lý đơn hàng",
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-
-                ButtonBottom(
-                    customIcon = Icons.Default.AccountCircle,
-                    text = "Quản lý tài khoản",
-                    onClick = { /*TODO*/ },
-                )
-
-                Text(
-                    text = "Cài đặt", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp)
                 )
 
                 ButtonTop(
@@ -197,9 +134,6 @@ fun ProfileScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                     onClick = { /*TODO*/ },
                 )
 
-            LogoutButton()
-        }
-    }
                 LogoutButton{
                     authVM.signOut()
                 }
