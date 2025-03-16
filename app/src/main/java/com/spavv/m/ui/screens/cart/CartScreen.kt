@@ -360,7 +360,7 @@ fun QuantityButton(
         onClick = onClick,
         enabled = enabled,
         modifier = Modifier
-            .size(36.dp)
+            .size(50.dp)
             .clip(RoundedCornerShape(4.dp))
             .background(
                 if (enabled) PrimaryColor.copy(alpha = 0.1f) else Color.LightGray.copy(alpha = 0.3f)
@@ -370,7 +370,7 @@ fun QuantityButton(
             imageVector = icon,
             contentDescription = contentDescription,
             tint = if (enabled) PrimaryColor else Color.Gray,
-            modifier = Modifier.size(20.dp)
+            modifier = Modifier.size(16.dp)
         )
     }
 }
