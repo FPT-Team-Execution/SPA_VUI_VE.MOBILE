@@ -43,6 +43,12 @@ fun SkinTestScreen(modifier: Modifier = Modifier) {
     val skinTestQuestions = skinTestVm.skinTestQuestions.value
 
     LaunchedEffect(Unit) {
+        skinTestVm.fetchQuestions(){
+            navController.navigate(Routes.LOGIN)
+        }
+    }
+
+    LaunchedEffect(Unit) {
         skinTestVm.toastMessages.collectLatest { message ->
             coroutineScope.launch {
                 snackbarHostState.showSnackbar(
@@ -93,7 +99,9 @@ fun SkinTestScreen(modifier: Modifier = Modifier) {
             SubmitButton(
                 onSubmit = {
                     coroutineScope.launch {
-                        val result = skinTestVm.submitSkinTest()
+                        val result = skinTestVm.submitSkinTest{
+                            navController.navigate(Routes.LOGIN)
+                        };
                         if (result && skinTestVm.skinTypeResult.value != null) {
                             navController.currentBackStackEntry?.savedStateHandle?.set(
                                 "skinTestResult",

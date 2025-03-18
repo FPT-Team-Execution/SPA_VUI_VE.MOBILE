@@ -16,14 +16,14 @@ class ChatVM(private val chatDataSource: ChatDataSource) : ViewModel() {
         _chatMessages.value += message
     }
 
-    fun sendMessage(message: String){
+    fun sendMessage(message: String, handingError: (String) -> Unit = {}){
         viewModelScope.launch {
             try {
                 addMessage(ChatMessageData(message, isBot = false));
                 val chatMessageResponse = chatDataSource.chat(message)
                 addMessage(ChatMessageData(chatMessageResponse, isBot = true));
             } catch (e: Exception) {
-                e.printStackTrace()
+                handingError(e.message.toString())
             }
         }
     }

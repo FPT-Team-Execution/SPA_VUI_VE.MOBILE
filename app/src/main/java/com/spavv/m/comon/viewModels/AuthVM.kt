@@ -99,16 +99,20 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
     }
 
     fun checkAuthState() {
-        if (auth.currentUser == null) {
-            _authState.value = AuthState.Unauthenticated
-        } else {
-            _authState.value = AuthState.Authenticated
+        //try to get token in shared preference
+        viewModelScope.launch {
+            val token = getToken()
 
-            viewModelScope.launch {
-                val token = getToken()
-                sharedPreferences.edit().apply {
-                    putString("tokenString", token)
-                    apply()
+            if (auth.currentUser == null || token.isNullOrEmpty()) {
+                _authState.value = AuthState.Unauthenticated
+            } else {
+                _authState.value = AuthState.Authenticated
+
+                viewModelScope.launch {
+                    sharedPreferences.edit().apply {
+                        putString("tokenString", token)
+                        apply()
+                    }
                 }
             }
         }

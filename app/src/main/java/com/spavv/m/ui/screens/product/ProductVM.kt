@@ -1,5 +1,6 @@
 package com.spavv.m.ui.screens.product
 
+import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.spavv.m.data.dataSources.BrandDataSource
+import com.spavv.m.data.dataSources.CartDataSource
 import com.spavv.m.data.dataSources.CategoryDataSource
 import com.spavv.m.data.dataSources.GetBrandsQuery
 import com.spavv.m.data.dataSources.GetCategoriesQuery
@@ -16,13 +18,15 @@ import com.spavv.m.data.models.Brand
 import com.spavv.m.data.models.Category
 import com.spavv.m.data.models.Product
 import com.spavv.m.data.models.base.Paginate
+import com.spavv.m.data.models.payload.AddToCartRequest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProductVM(
     private val productDataSource: ProductDataSource,
     private val categoryDataSource: CategoryDataSource,
-    private val brandDataSource: BrandDataSource
+    private val brandDataSource: BrandDataSource,
+    private val cartDataSource: CartDataSource
 ) : ViewModel() {
 
     var isLoading = mutableStateOf<Boolean>(false);
@@ -146,4 +150,13 @@ class ProductVM(
         }
     }
 
+    fun addToCart(request: AddToCartRequest) {
+        viewModelScope.launch {
+            try {
+                val response = cartDataSource.addToCart(request)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

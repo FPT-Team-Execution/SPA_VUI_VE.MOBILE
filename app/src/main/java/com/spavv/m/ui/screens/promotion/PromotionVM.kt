@@ -36,7 +36,7 @@ class PromotionVM(
                 val promotions = promotionDataSource.getPromotions()
                 if(promotions != null)
                     updatePromotions(promotions);
-            } catch (e: Exception) {
+            } catch (e: UnauthorizedException) {
                 handingError(e.message.toString())
             }
         }
