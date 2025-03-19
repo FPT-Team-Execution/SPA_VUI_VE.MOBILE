@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.provider.Settings.Global.getString
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,14 +18,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.spavv.m.R
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.util.Locale
+import androidx.compose.runtime.State
 
 open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel() {
     private val auth : FirebaseAuth = FirebaseAuth.getInstance();
+
+    private var _user = mutableStateOf<FirebaseUser?>(null)
+    val currentUser: State<FirebaseUser?> = _user;
+
+    fun setCurrentUser( userInfo: FirebaseUser?) {
+        _user.value = userInfo
+    }
 
     lateinit var googleSignInClient : GoogleSignInClient;
 
@@ -76,6 +86,7 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
                     //Log.d("GoogleSignIn", "Đăng nhập Firebase thành công!")
                     _authState.value = AuthState.Authenticated
                     //save token
+                    setCurrentUser(auth.currentUser!!)
                     viewModelScope.launch {
                         val token = getToken()
                         sharedPreferences.edit().apply {
@@ -86,6 +97,8 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
                 } else {
                    // Log.e("GoogleSignIn", "Lỗi khi đăng nhập Firebase: ${task.exception?.message}")
                     _authState.value = AuthState.Error("Đăng nhập thất bại")
+                    setCurrentUser(null)
+
                 }
             }
     }
@@ -99,24 +112,52 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
     }
 
     fun checkAuthState() {
-        //try to get token in shared preference
+        // Try to get token from shared preferences
         viewModelScope.launch {
-            val token = getToken()
+            try {
+                // Attempt to refresh the token and check if the user is authenticated
+                val token = getToken()
 
-            if (auth.currentUser == null || token.isNullOrEmpty()) {
-                _authState.value = AuthState.Unauthenticated
-            } else {
-                _authState.value = AuthState.Authenticated
-
-                viewModelScope.launch {
-                    sharedPreferences.edit().apply {
-                        putString("tokenString", token)
-                        apply()
+                if (auth.currentUser == null || token.isNullOrEmpty()) {
+                    _authState.value = AuthState.Unauthenticated
+                } else {
+                    // Check if the token is still valid by refreshing it
+                    val refreshedToken = try {
+                        auth.currentUser?.getIdToken(true)?.await()?.token
+                    } catch (e: Exception) {
+                        // If an error occurs while refreshing the token, treat it as unauthenticated
+                        null
                     }
+
+                    if (refreshedToken != null) {
+                        // Token is valid, so update auth state
+                        _authState.value = AuthState.Authenticated
+                        setCurrentUser(auth.currentUser!!)
+                        sharedPreferences.edit().apply {
+                            putString("tokenString", refreshedToken)
+                            apply()
+                        }
+                    } else {
+                        // If token is invalid or expired, set state to unauthenticated
+                        _authState.value = AuthState.Unauthenticated
+                        setCurrentUser(null)
+                        sharedPreferences.edit().apply {
+                            remove("tokenString")
+                            apply()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                // If there's an error getting the token, treat it as unauthenticated
+                _authState.value = AuthState.Unauthenticated
+                sharedPreferences.edit().apply {
+                    remove("tokenString")
+                    apply()
                 }
             }
         }
     }
+
 
     fun login(email: String, password: String){
         if(email.isEmpty() || password.isEmpty()){
@@ -132,6 +173,7 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
                 //save token
                 viewModelScope.launch {
                     val token = getToken()
+                    setCurrentUser(auth.currentUser!!)
                     sharedPreferences.edit().apply {
                         putString("tokenString", token)
                         apply()
@@ -139,6 +181,8 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
                 }
                 }else
                 {
+                    setCurrentUser(null)
+
                     _authState.value = AuthState.Error(taskRs.exception?.message?: "Thực hiện đăng nhập thất bại");
                 }
         }
@@ -156,6 +200,8 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
                 _authState.value = AuthState.Authenticated;
                 viewModelScope.launch {
                     val token = getToken()
+                    setCurrentUser(auth.currentUser!!)
+
                     sharedPreferences.edit().apply {
                         putString("tokenString", token)
                         apply()
@@ -163,6 +209,8 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
                 }
             }else
             {
+                setCurrentUser(null)
+
                 _authState.value = AuthState.Error(taskRs.exception?.message?: "Thực hiện đăng nhập thất bại");
             }
             }
@@ -172,7 +220,8 @@ open class AuthVM(private val sharedPreferences: SharedPreferences) : ViewModel(
        auth.signOut();
         _authState.value = AuthState.Unauthenticated
         viewModelScope.launch {
-            val token = getToken()
+            setCurrentUser(null)
+
             sharedPreferences.edit().apply {
                remove("tokenString").apply()
             }
