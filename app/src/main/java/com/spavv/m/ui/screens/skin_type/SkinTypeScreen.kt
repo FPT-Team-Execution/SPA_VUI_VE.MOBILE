@@ -28,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -44,11 +43,9 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.spavv.m.LocalNavigation
 import com.spavv.m.comon.constants.Routes
-import com.spavv.m.data.FakeData
 import com.spavv.m.data.models.SkinType
 import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
-import com.spavv.m.ui.components.skin_test.SkinTypeItem
 import com.spavv.m.ui.theme.BackgroundColor
 import com.spavv.m.ui.theme.BackgroundItemColor
 import com.spavv.m.ui.theme.DarkColor

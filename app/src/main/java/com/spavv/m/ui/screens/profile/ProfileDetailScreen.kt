@@ -1,107 +1,202 @@
 package com.spavv.m.ui.screens.profile
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.Icon
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.spavv.m.LocalNavigation
-import com.spavv.m.ui.theme.BackgroundColor
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import com.spavv.m.di.MyApp
+import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.theme.DarkColor
-import com.spavv.m.ui.theme.SpaVuiVeTheme
 
 @Composable
-fun ProfileDetailScreen(modifier: Modifier = Modifier) {
-    val navController = LocalNavigation.current
+fun ProfileDetailScreen(modifier: Modifier = Modifier, userId: String, navController: NavController) {
+    val profileVM: ProfileVM = viewModel(
+        factory = viewModelFactory {
+            ProfileVM(
+                MyApp.appModule.userDataSource
+            )
+        }
+    )
+
+    val context = LocalContext.current
     val scrollState = rememberScrollState()
-    val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(userId) {
+        profileVM.fetchUser(userId)
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    androidx.compose.material3.Text(
-                        text = "Quản lý tài khoản",
-                        fontSize = 24.sp,
+                    Text(
+                        text = "Chi tiết tài khoản",
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = DarkColor
                     )
                 },
-                backgroundColor = BackgroundColor,
+                backgroundColor = Color.White,
                 elevation = 0.dp,
                 navigationIcon = {
                     if (navController.previousBackStackEntry != null) {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(
-                                imageVector = Icons.Default.ArrowBackIosNew,
+                                imageVector = Icons.Rounded.ArrowBack,
                                 contentDescription = "Back",
                                 tint = DarkColor
                             )
                         }
                     }
                 },
-                modifier = Modifier.shadow(elevation = 4.dp)
+                modifier = Modifier
+                    .shadow(elevation = 4.dp)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(Color.White, Color.White.copy(alpha = 0.95f))
+                        )
+                    )
             )
         },
-        backgroundColor = BackgroundColor,
         modifier = modifier.fillMaxSize()
-    ) {
-
-            innerPaddings ->
+    ) { innerPaddings ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPaddings)
+                .padding(PaddingValues(
+                    top = innerPaddings.calculateTopPadding(),
+                    bottom = innerPaddings.calculateBottomPadding(),
+                    start = 0.dp,
+                    end = 0.dp
+                ))
+                .verticalScroll(scrollState)
         ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            // User profile image with overlay gradient
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp)
+                    .background(Color(0xFFF5F5F5))
             ) {
-                Icon(
-                    imageVector = Icons.Default.ChevronLeft,
-                    contentDescription = "Navigate Icon",
+                AsyncImage(
+                    model = profileVM.user.value?.profileImageUrl,
+                    contentDescription = "User Profile Image",
                     modifier = Modifier
-                        .padding(start = 8.dp)
-                        .size(36.dp)
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    contentScale = ContentScale.Fit
                 )
             }
-            Text(
-                text = "Profile Information",
-                modifier = Modifier.align(Alignment.Center),
-                fontSize = 20.sp
-            )
-        }
 
-        Text("Your information", modifier = Modifier.padding(16.dp), fontSize = 18.sp)
+            // User details card
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .offset(y = (-20).dp),
+                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+                backgroundColor = Color.White,
+                elevation = 0.dp
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp)
+                ) {
+                    // User name
+                    profileVM.user.value?.let { user ->
+                        Text(
+                            text = user.fullname,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = DarkColor
+                        )
+                    }
 
-        Row() {
-            Text("Customer Name");
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Email and phone number with icons
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Email,
+                            contentDescription = "Email",
+                            tint = Color.Gray,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Text(
+                            text = "  ${profileVM.user.value?.email ?: "Unknown email"}",
+                            color = Color.Gray,
+                            fontSize = 14.sp
+                        )
+
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        Icon(
+                            imageVector = Icons.Default.Phone,
+                            contentDescription = "Phone",
+                            tint = Color.Gray,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Text(
+                            text = "  ${profileVM.user.value?.phoneNumber ?: "Unknown phone"}",
+                            color = Color.Gray,
+                            fontSize = 14.sp
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Divider
+                    Divider(color = Color(0xFFEEEEEE), thickness = 1.dp)
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Address section
+                    Text(
+                        text = "Địa chỉ:",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    profileVM.user.value?.let { user ->
+                        Text(
+                            text = user.address ?: "Unknown address",
+                            textAlign = TextAlign.Justify,
+                            lineHeight = 24.sp,
+                            color = Color.DarkGray
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    // Extra spacing at bottom to ensure content isn't hidden by bottom bar
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+            }
         }
-    }}
+    }
 }

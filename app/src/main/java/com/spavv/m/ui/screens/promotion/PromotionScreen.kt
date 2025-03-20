@@ -24,13 +24,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.spavv.m.LocalNavigation
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.di.MyApp
-import com.spavv.m.exceptions.UnauthorizedException
 import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.components.promotion.PromotionCard
-import com.spavv.m.ui.screens.skin_type.SkinTypeVM
 import com.spavv.m.ui.theme.BackgroundColor
 import com.spavv.m.ui.theme.DarkColor
-import kotlinx.coroutines.CoroutineExceptionHandler
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

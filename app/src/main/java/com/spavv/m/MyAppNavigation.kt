@@ -1,6 +1,5 @@
 package com.spavv.m
 
-import Promotion
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -26,7 +25,6 @@ import com.spavv.m.ui.screens.product.ProductScreen
 import com.spavv.m.ui.screens.profile.ProfileDetailScreen
 import com.spavv.m.ui.screens.profile.ProfileScreen
 import com.spavv.m.ui.screens.promotion.PromotionScreen
-import com.spavv.m.ui.screens.promotion.PromotionVM
 import com.spavv.m.ui.screens.sign_up.SignUpScreen
 import com.spavv.m.ui.screens.skin_test.ResultScreen
 import com.spavv.m.ui.screens.skin_test.SkinTestScreen
