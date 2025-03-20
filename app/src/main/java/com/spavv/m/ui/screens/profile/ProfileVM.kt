@@ -1,11 +1,12 @@
 package com.spavv.m.ui.screens.profile
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spavv.m.data.models.User
 import com.spavv.m.data.dataSources.UserDataSource
+import com.spavv.m.data.models.User
 import kotlinx.coroutines.launch
 
 class ProfileVM(

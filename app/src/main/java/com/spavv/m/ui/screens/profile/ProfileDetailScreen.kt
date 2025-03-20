@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -100,7 +101,7 @@ fun ProfileDetailScreen(modifier: Modifier = Modifier, userId: String, navContro
                     .background(Color(0xFFF5F5F5))
             ) {
                 AsyncImage(
-                    model = profileVM.user.value?.profileImageUrl,
+                    model = profileVM.user.value?.avatar,
                     contentDescription = "User Profile Image",
                     modifier = Modifier
                         .fillMaxSize()
@@ -126,7 +127,7 @@ fun ProfileDetailScreen(modifier: Modifier = Modifier, userId: String, navContro
                     // User name
                     profileVM.user.value?.let { user ->
                         Text(
-                            text = user.fullname,
+                            text = user.fullName,
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold,
                             color = DarkColor
@@ -199,4 +200,10 @@ fun ProfileDetailScreen(modifier: Modifier = Modifier, userId: String, navContro
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProfileDetailScreenPreview() {
+    ProfileDetailScreen(userId = "1", navController = NavController(LocalContext.current))
 }
