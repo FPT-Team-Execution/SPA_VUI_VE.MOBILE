@@ -50,7 +50,12 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
     val DarkColor = Color(0xFF33363f)
     val GreyColor = Color(0xFFb4b9bb)
 
+//    LaunchedEffect(Unit) {
+//        authVM.checkAuthState()
+//    }
+
     LaunchedEffect(authState.value) {
+
         when (authState.value) {
             is AuthState.Unauthenticated -> navController.navigate(Routes.LOGIN)
             else -> Unit
@@ -84,7 +89,7 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
 
             // Header with greeting and avatar
             HomeHeader(
-                title = "Chào, Dat Dev",
+                title = "Chào, ${authVM.currentUser.value?.displayName ?: "Người dùng"}",
                 subTitle = "Chăm sóc bản thân hôm nay nhé",
                 avatar = R.drawable.avatar,
                 primaryColor = DarkColor,
