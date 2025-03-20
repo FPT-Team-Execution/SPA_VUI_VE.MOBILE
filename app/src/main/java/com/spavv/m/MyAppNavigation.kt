@@ -1,5 +1,6 @@
 package com.spavv.m
 
+import Promotion
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -19,12 +20,11 @@ import com.spavv.m.ui.screens.chatbot.ChatScreen
 import com.spavv.m.ui.screens.favorite.FavoriteScreen
 import com.spavv.m.ui.screens.home.HomeScreen
 import com.spavv.m.ui.screens.login.LoginScreen
-import com.spavv.m.ui.screens.order.OrderScreen
 import com.spavv.m.ui.screens.product.DetailScreen
 import com.spavv.m.ui.screens.product.ProductScreen
-import com.spavv.m.ui.screens.profile.ProfileDetailScreen
 import com.spavv.m.ui.screens.profile.ProfileScreen
 import com.spavv.m.ui.screens.promotion.PromotionScreen
+import com.spavv.m.ui.screens.promotion.PromotionVM
 import com.spavv.m.ui.screens.sign_up.SignUpScreen
 import com.spavv.m.ui.screens.skin_test.ResultScreen
 import com.spavv.m.ui.screens.skin_test.SkinTestScreen
@@ -95,13 +95,6 @@ fun MyAppNavigation(modifier: Modifier) {
         }
         composable(Routes.CART) {
             CartScreen(modifier = modifier)
-        }
-
-        composable(Routes.ORDER) {
-            OrderScreen(modifier = modifier)
-        }
-        composable(Routes.PROFILE_DETAIL) {
-            ProfileDetailScreen(modifier = modifier)
         }
     })
 }

@@ -4,10 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spavv.m.data.dataSources.UserDataSource
-import com.spavv.m.data.models.Product
 import com.spavv.m.data.models.User
-import com.spavv.m.data.models.base.Paginate
+import com.spavv.m.data.dataSources.UserDataSource
 import kotlinx.coroutines.launch
 
 class ProfileVM(
@@ -19,7 +17,7 @@ class ProfileVM(
     private val _user = mutableStateOf<User?>(null)
     val user: State<User?> = _user
 
-    private fun updateUser(user: Paginate<Product>?) {
+    private fun updateUser(user: User?) {
         _user.value = user
     }
 
@@ -27,10 +25,8 @@ class ProfileVM(
         isLoading.value = true
         viewModelScope.launch {
             try {
-                val response = userDataSource.getUser(userId = userId)
-                if (response.isSuccessful) {
-                    updateUser(response.body()?.data)
-                }
+                val user = userDataSource.getUser(userId)
+                updateUser(user)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
