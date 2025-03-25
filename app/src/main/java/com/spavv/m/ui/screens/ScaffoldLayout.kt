@@ -50,13 +50,13 @@ fun ScaffoldLayout ( navController: NavController, child : @Composable (PaddingV
             hasNew = false,
             path = Routes.PRODUCT
         ),
-        BottomNavigationItem(
-            title = "Yêu thích",
-            selectedIcon = Icons.Rounded.Favorite   ,
-            unSelectedIcon = Icons.Outlined.FavoriteBorder,
-            hasNew = false,
-            path = Routes.FAVORITE
-        ),
+//        BottomNavigationItem(
+//            title = "Yêu thích",
+//            selectedIcon = Icons.Rounded.Favorite   ,
+//            unSelectedIcon = Icons.Outlined.FavoriteBorder,
+//            hasNew = false,
+//            path = Routes.FAVORITE
+//        ),
         BottomNavigationItem(
             title = "Hồ sơ",
             selectedIcon = Icons.Rounded.Person   ,
