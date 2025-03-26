@@ -10,7 +10,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.LocalLibrary
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
@@ -27,10 +26,8 @@ import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.components.chatbot.ChatInput
 import com.spavv.m.ui.components.chatbot.ModernChatMessage
-import com.spavv.m.ui.components.general.ModernTopAppBar
 import com.spavv.m.ui.theme.BackgroundColor
 import com.spavv.m.ui.theme.DarkColor
-import com.spavv.m.ui.theme.PrimaryColor
 
 
 @Composable

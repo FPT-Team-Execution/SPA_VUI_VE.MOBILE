@@ -33,6 +33,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+val BackgroundItemColor = Color(0xFFe0eeff)
+val BackgroundColor = Color(0xFFf4fbff)
+val PrimaryColor = Color(0xFFfe669d)
+val DarkColor = Color(0xFF33363f)
+val GreyColor = Color(0xFFb4b9bb)
+
 @Composable
 fun LineDivider() {
     Box(
@@ -64,7 +70,7 @@ fun AboutAppButton() {
             .padding(top = 16.dp)
             .background(
                 brush = Brush.linearGradient(
-                    colors = listOf(Color(0xFFbcf9a5), Color(0xFF7fdcf9))
+                    colors = listOf(Color(0xFFffd1e0), Color(0xffffb2cc))
                 ),
                 shape = RoundedCornerShape(16.dp)
             ),
@@ -77,13 +83,15 @@ fun AboutAppButton() {
             Icon(
                 imageVector = Icons.Default.Article,
                 contentDescription = "Icon",
-                modifier = Modifier.padding(end = 16.dp)
+                modifier = Modifier.padding(end = 16.dp),
+                tint = DarkColor
             )
             Text(
-                text = "Giới thiệu về Spa Vui Vẻ",
+                text = "Ưu đãi của tôi",
                 modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = DarkColor
             )
         }
     }
@@ -107,8 +115,9 @@ fun ButtonTop(modifier: Modifier = Modifier, text: String, customIcon: ImageVect
                     imageVector = customIcon,
                     contentDescription = "Icon",
                     modifier = Modifier.padding(end = 16.dp),
+                    tint = DarkColor,
                 )
-                Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp, color = Color.Black)
+                Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp, color = DarkColor)
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "Navigate Icon",
@@ -140,8 +149,9 @@ fun ButtonMiddle(modifier: Modifier = Modifier, text: String, customIcon: ImageV
                         imageVector = customIcon,
                         contentDescription = "Icon",
                         modifier = Modifier.padding(end = 16.dp),
+                        tint = DarkColor,
                     )
-                    Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp, color = Color.Black)
+                    Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp, color = DarkColor)
                     Icon(
                         imageVector = Icons.Default.ChevronRight,
                         contentDescription = "Navigate Icon",
@@ -173,8 +183,9 @@ fun ButtonBottom(modifier: Modifier = Modifier, text: String, customIcon: ImageV
                     imageVector = customIcon,
                     contentDescription = "Icon",
                     modifier = Modifier.padding(end = 16.dp),
+                    tint = DarkColor,
                 )
-                Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp, color = Color.Black)
+                Text(text = text, modifier = Modifier.weight(0.5f), fontWeight = FontWeight.Normal, fontSize = 16.sp, color = DarkColor)
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = "Navigate Icon",
@@ -200,9 +211,9 @@ fun LogoutButton(handleLogout : () -> Unit = {}) {
             imageVector = Icons.Default.Logout,
             contentDescription = "Icon",
             modifier = Modifier.padding(end = 16.dp),
-            tint = Color.Blue // Add the tint parameter here
+            tint = PrimaryColor // Add the tint parameter here
         )
-        Text(text = "Đăng xuất", color = Color.Blue, modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
+        Text(text = "Đăng xuất", color = PrimaryColor, modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
             .clickable{
                 handleLogout()
             })

@@ -57,7 +57,7 @@ fun ProductScreen(modifier: Modifier, navController: NavController) {
     val productVM = viewModel<ProductVM>(
         factory = viewModelFactory {
             ProductVM(
-                MyApp.appModule.productDataSource,
+                    MyApp.appModule.productDataSource,
                 MyApp.appModule.categoryDataSource,
                 MyApp.appModule.brandDataSource,
                 MyApp.appModule.cartDataSource
