@@ -19,6 +19,7 @@ import com.spavv.m.data.api.ProductApi
 import com.spavv.m.data.api.PromotionApi
 import com.spavv.m.data.api.SkinTestApi
 import com.spavv.m.data.api.SkinTypeApi
+import com.spavv.m.data.api.UserApi
 import com.spavv.m.data.dataSources.AuthDataSource
 import com.spavv.m.data.dataSources.AuthDataSourceImpl
 import com.spavv.m.data.dataSources.BrandDataSource
@@ -37,6 +38,9 @@ import com.spavv.m.data.dataSources.SkinTestDataSource
 import com.spavv.m.data.dataSources.SkinTestDataSourceImp
 import com.spavv.m.data.dataSources.SkinTypeDataSource
 import com.spavv.m.data.dataSources.SkinTypeDataSourceImp
+import com.spavv.m.data.dataSources.UserDataSource
+import com.spavv.m.data.dataSources.UserDataSourceImpl
+import com.spavv.m.data.models.User
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -67,6 +71,7 @@ interface AppModule {
     val promotionApi: PromotionApi
     val brandApi: BrandApi
     val cartApi: CartApi
+    val userApi: UserApi
 
     //* Data sources
     val authDataSource: AuthDataSource
@@ -79,6 +84,7 @@ interface AppModule {
     val sharedPreferences: SharedPreferences
     val brandDataSource: BrandDataSource
     val cartDataSource: CartDataSource
+    val userDataSource: UserDataSource
 }
 
 class AppModuleImpl(
@@ -173,6 +179,14 @@ class AppModuleImpl(
             .build()
             .create(CartApi::class.java)
     }
+    override val userApi: UserApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create(gson)) // Important: Add a converter factory!
+            .client(getUnsafeOkHttpClient())
+            .build()
+            .create(UserApi::class.java)
+    }
 
     override val authDataSource: AuthDataSource by lazy {
         AuthDataSourceImpl(fireBaseApi)
@@ -200,6 +214,9 @@ class AppModuleImpl(
     }
     override val cartDataSource: CartDataSource by lazy {
         CartDataSourceImpl(cartApi, sharedPreferences)
+    }
+    override val userDataSource: UserDataSource by lazy {
+        UserDataSourceImpl(userApi, sharedPreferences)
     }
 
     private fun getUnsafeOkHttpClient(): OkHttpClient {

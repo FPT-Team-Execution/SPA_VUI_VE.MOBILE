@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.spavv.m.LocalNavigation
+import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthVM
 import com.spavv.m.ui.screens.ScaffoldLayout
 import com.spavv.m.ui.theme.SpaVuiVeTheme
@@ -44,6 +45,12 @@ import com.spavv.m.ui.theme.SpaVuiVeTheme
 @Composable
 fun ProfileScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
     val navController = LocalNavigation.current
+
+    val BackgroundItemColor = Color(0xFFe0eeff)
+    val BackgroundColor = Color(0xFFf4fbff)
+    val PrimaryColor = Color(0xFFfe669d)
+    val DarkColor = Color(0xFF33363f)
+    val GreyColor = Color(0xFFb4b9bb)
 
     ScaffoldLayout(navController = navController) {
         Column(
@@ -63,7 +70,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                             colors = listOf(Color(0x60bcf9a5), Color(0x607fdcf9))
                         ),
                     ),
-            ) {
+            )  {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -84,35 +91,34 @@ fun ProfileScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                         fontSize = 24.sp,
                         modifier = Modifier
                             .padding(top = 12.dp, bottom = 64.dp)
-                            .align(CenterHorizontally)
+                            .align(CenterHorizontally),
+                        color = DarkColor
                     )
                 }
             }
 
             Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
-                HeaderButton()
-
                 AboutAppButton()
 
                 Text(
-                    text = "Quản lý tài khoản", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp)
+                    text = "Quản lý tài khoản", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp), color = PrimaryColor
                 )
 
                 ButtonTop(
                     customIcon = Icons.Default.ListAlt,
                     text = "Quản lý đơn hàng",
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.navigate(Routes.ORDER) },
                     modifier = Modifier.padding(top = 8.dp)
                 )
 
                 ButtonBottom(
                     customIcon = Icons.Default.AccountCircle,
                     text = "Quản lý tài khoản",
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.navigate(Routes.PROFILE_DETAIL) },
                 )
 
                 Text(
-                    text = "Cài đặt", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp)
+                    text = "Cài đặt", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 16.dp), color = PrimaryColor
                 )
 
                 ButtonTop(

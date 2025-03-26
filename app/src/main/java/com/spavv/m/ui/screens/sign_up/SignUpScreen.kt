@@ -39,9 +39,7 @@ import androidx.navigation.NavController
 import com.spavv.m.R
 import com.spavv.m.comon.constants.Routes
 import com.spavv.m.comon.viewModels.AuthVM
-import com.spavv.m.di.MyApp
 import com.spavv.m.helper.viewModelFactory
-import com.spavv.m.ui.screens.login.LoginVM
 
 
 @Composable
