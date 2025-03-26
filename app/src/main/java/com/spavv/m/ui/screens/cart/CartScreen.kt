@@ -15,6 +15,8 @@ import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,8 +29,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.spavv.m.LocalNavigation
+import com.spavv.m.comon.constants.Routes
 import com.spavv.m.data.models.Item
 import com.spavv.m.data.models.payload.AddToCartRequest
 import com.spavv.m.di.MyApp
@@ -36,6 +40,8 @@ import com.spavv.m.helper.viewModelFactory
 import com.spavv.m.ui.theme.BackgroundColor
 import com.spavv.m.ui.theme.DarkColor
 import com.spavv.m.ui.theme.PrimaryColor
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun CartScreen(modifier: Modifier = Modifier) {
@@ -47,9 +53,22 @@ fun CartScreen(modifier: Modifier = Modifier) {
             )
         }
     )
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         cartVM.fetchCart()
+    }
+
+    LaunchedEffect(Unit) {
+        cartVM.toastMessages.collectLatest { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(
+                    message = message,
+                    duration = SnackbarDuration.Short
+                )
+            }
+        }
     }
 
     Scaffold(
@@ -95,7 +114,7 @@ fun CartScreen(modifier: Modifier = Modifier) {
                 .padding(horizontal = 16.dp)
         ) {
             if (cartVM.cart.value.isNullOrEmpty()) {
-                EmptyCartView()
+                EmptyCartView(navController)
             } else {
                 CartItemsList(cartVM)
             }
@@ -104,7 +123,7 @@ fun CartScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun EmptyCartView() {
+fun EmptyCartView(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -134,7 +153,7 @@ fun EmptyCartView() {
         )
         Spacer(modifier = Modifier.height(24.dp))
         Button(
-            onClick = { /* TODO: Navigate to products */ },
+            onClick = { navController.navigate(Routes.PRODUCT) },
             colors = ButtonDefaults.buttonColors(backgroundColor = PrimaryColor),
             shape = RoundedCornerShape(8.dp)
         ) {
@@ -180,7 +199,12 @@ fun CartItemsList(cartVM: CartVM) {
                             CartItem(
                                 item = item,
                                 onQuantityChange = { newQuantity ->
-                                    cartVM.updateToCart(AddToCartRequest(item.product.productId, newQuantity))
+                                    cartVM.updateToCart(
+                                        AddToCartRequest(
+                                            item.product.productId,
+                                            newQuantity
+                                        )
+                                    )
 
                                     // TODO: Implement update quantity in CartVM
 //                                    cartVM.updateItemQuantity(item.id, newQuantity)
@@ -265,7 +289,7 @@ fun CartItem(
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
-                        text = "${item.product.price} VND",
+                        text = "${item.product.price} $",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = PrimaryColor
@@ -422,7 +446,7 @@ fun CartSummary(cartVM: CartVM) {
                     color = DarkColor
                 )
                 Text(
-                    text = "${calculateTotal(cartVM)} VND",
+                    text = "${calculateTotal(cartVM)} $",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = PrimaryColor
@@ -432,13 +456,13 @@ fun CartSummary(cartVM: CartVM) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { /* TODO: Checkout */ },
+                onClick = { cartVM.checkout() },
                 colors = ButtonDefaults.buttonColors(backgroundColor = PrimaryColor),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Thanh toán",
+                    text = "Đặt hàng",
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,

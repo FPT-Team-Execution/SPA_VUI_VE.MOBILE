@@ -6,8 +6,10 @@ import com.spavv.m.data.dataSources.CartDataSource
 import com.spavv.m.data.models.Item
 import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
-import com.spavv.m.data.models.Product
 import com.spavv.m.data.models.payload.AddToCartRequest
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class CartVM(
@@ -34,12 +36,21 @@ class CartVM(
         }
     }
 
+    private val _toastMessage = MutableSharedFlow<String>()
+    val toastMessages = _toastMessage.asSharedFlow()
+
+    fun fetchToastMessages(message: String) {
+        viewModelScope.launch {
+            _toastMessage.emit(message)
+            delay(1000) // Đợi 1 giây
+        }
+    }
+
     fun updateToCart(request: AddToCartRequest) {
         _cart.value = _cart.value?.toMutableList()?.apply {
             val index = indexOfFirst { it.product.productId == request.productId }
             if (index != -1) {
-                this[index] =
-                    this[index].copy(quantity = request.quantity)
+                this[index] = this[index].copy(quantity = request.quantity)
             }
         }
         viewModelScope.launch {
@@ -67,4 +78,15 @@ class CartVM(
         }
     }
 
+    fun checkout() {
+        viewModelScope.launch {
+            try {
+                cartDataSource.checkout()
+                fetchCart()
+                fetchToastMessages("Đặt hàng thành công!")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

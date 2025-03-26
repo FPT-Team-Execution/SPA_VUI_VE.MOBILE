@@ -1,6 +1,7 @@
 package com.spavv.m.data.dataSources
 
 import android.content.SharedPreferences
+import android.widget.Toast
 import com.spavv.m.data.api.CartApi
 import com.spavv.m.data.models.Item
 import com.spavv.m.data.models.base.BaseResult
@@ -12,6 +13,7 @@ interface CartDataSource {
     suspend fun addToCart(request: AddToCartRequest): BaseResult<String>?
     suspend fun updateFromCart(request: AddToCartRequest): BaseResult<String>?
     suspend fun removeFromCart(id: String): BaseResult<String>?
+    suspend fun checkout();
 }
 
 class CartDataSourceImpl(
@@ -96,6 +98,20 @@ class CartDataSourceImpl(
             throw e   //throw exception to ui layer for using LocalNavigation
         } catch (e: Exception) {
             return null
+        }
+    }
+
+    override suspend fun checkout() {
+        try {
+            val token = sharedPreferences.getString("tokenString", "");
+            if (token.isNullOrEmpty())
+                throw UnauthorizedException("Token is missing")
+            val response = cartApi.getCart(token)
+            val cart = response.body()?.data;
+
+            cart?.forEach { it -> cartApi.removeFromCart(token, it.product.productId) }
+        } catch (e: UnauthorizedException) {
+            throw e
         }
     }
 }
