@@ -3,6 +3,7 @@ package com.spavv.m.ui.components.home
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import com.spavv.m.ui.screens.promotion.formatPrice
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -102,7 +103,7 @@ fun ProductCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "${product.price}K",
+                    text = "$${product.price.formatPrice()}",
                     style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold),
                     color = primaryColor
                 )
