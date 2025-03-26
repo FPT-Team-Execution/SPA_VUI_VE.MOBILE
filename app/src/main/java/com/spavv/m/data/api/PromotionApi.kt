@@ -9,6 +9,6 @@ import retrofit2.http.Header
 import retrofit2.http.Path
 
 interface PromotionApi {
-    @GET("api/promotions")
+    @GET("promotions")
     suspend fun getPromotions(@Header("Authorization") token : String): Response<BaseResult<List<Promotion>>>
 }
