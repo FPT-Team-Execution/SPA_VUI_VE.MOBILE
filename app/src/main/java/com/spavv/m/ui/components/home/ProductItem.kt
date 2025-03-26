@@ -38,7 +38,8 @@ fun ProductCard(
     backgroundColor: Color,
     textColor: Color,
     secondaryTextColor: Color,
-    borderColor: Color
+    borderColor: Color,
+    onClick: () -> Unit = {},
 ) {
     val imageProduct: Any = product.imageUrl.ifEmpty { "https://placehold.co/191x100/png" }
 
@@ -51,7 +52,9 @@ fun ProductCard(
             .clickable { /* Handle product click */ }
     ) {
         Column(
-            modifier = Modifier.padding(12.dp)
+            modifier = Modifier.padding(12.dp).clickable {
+                onClick()
+            }
         ) {
             // Product image
             Image(

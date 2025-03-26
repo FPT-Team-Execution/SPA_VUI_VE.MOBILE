@@ -24,7 +24,7 @@ class HomeVM(private val productDataSource: ProductDataSource, private val categ
         _specialProduct.value = products;
     }
 
-    private val _categories = mutableStateOf<Paginate<Category>>(Paginate<Category>(listOf(), 1, 10, 100, 10))
+    private val _categories = mutableStateOf<Paginate<Category>>(Paginate<Category>(listOf(), 1, 5, 100, 10))
     val categories: State<Paginate<Category>> = _categories
     private fun updateCategories(categories: Paginate<Category>) {
         _categories.value = categories

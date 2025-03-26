@@ -44,6 +44,7 @@ import com.spavv.m.ui.components.home.OfferCard
 import com.spavv.m.ui.components.home.ProductCard
 import com.spavv.m.ui.components.home.ServiceItem
 import com.spavv.m.ui.screens.ScaffoldLayout
+import com.spavv.m.ui.screens.ScaffoldLayoutVM
 
 
 @Composable
@@ -55,6 +56,8 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
             HomeVM(MyApp.appModule.productDataSource, MyApp.appModule.categoryDataSource)
         }
     )
+
+    val scaffoldLayoutVM = viewModel<ScaffoldLayoutVM>();
 
     // Using the client's specified color palette
     val BackgroundItemColor = Color(0xFFe0eeff)
@@ -207,7 +210,8 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                         backgroundColor = BackgroundItemColor,
                         textColor = DarkColor,
                         onClick = {
-                            // TODO: Xử lý sự kiện click
+                            navController.navigate(Routes.PRODUCT)
+                            scaffoldLayoutVM.updateNavIndex(1); //1 is index of second navigation icon
                         }
                     )
                 }
@@ -236,7 +240,12 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                         backgroundColor = Color.White,
                         textColor = DarkColor,
                         secondaryTextColor = GreyColor,
-                        borderColor = GreyColor
+                        borderColor = GreyColor,
+                        onClick = {
+
+                            navController.navigate(Routes.PRODUCT)
+                            scaffoldLayoutVM.updateNavIndex(1); //1 is index of second navigation icon
+                        }
                     )
                 }
             }
