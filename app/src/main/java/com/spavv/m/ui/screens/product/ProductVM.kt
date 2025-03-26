@@ -68,7 +68,7 @@ class ProductVM(
     val getProductsQuery: MutableState<GetProductsQuery> = mutableStateOf(
         GetProductsQuery(
             page = 1,
-            size = 6,
+            size = 1000000,
             isAsc = true,
             sortBy = "Price",
             category = "",

@@ -31,6 +31,7 @@ import com.spavv.m.ui.components.home.OfferCard
 import com.spavv.m.ui.components.home.ProductCard
 import com.spavv.m.ui.components.home.ServiceItem
 import com.spavv.m.ui.screens.ScaffoldLayout
+import com.spavv.m.ui.screens.ScaffoldLayoutVM
 
 
 @Composable
@@ -39,9 +40,11 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
     val authState = authVM.authState.observeAsState()
     val homeVM = viewModel<HomeVM>(
         factory = viewModelFactory {
-            HomeVM(MyApp.appModule.productDataSource)
+            HomeVM(MyApp.appModule.productDataSource, MyApp.appModule.categoryDataSource)
         }
     )
+
+    val scaffoldLayoutVM = viewModel<ScaffoldLayoutVM>();
 
     // Using the client's specified color palette
     val BackgroundItemColor = Color(0xFFe0eeff)
@@ -183,39 +186,22 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
             )
 
             // Categories with clean minimal design
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                CategoryItem(
-                    imageUrl = "https://www.oarsandalps.com/cdn/shop/files/oars-and-alps-spf-50-antioxidant-sunscreen-spray-2_1110x.jpg?v=1732307453",
-                    title = "Tinh chất",
-                    backgroundColor = BackgroundItemColor,
-                    textColor = DarkColor,
-                    onClick = {
-                        // TODO
-                    }
-                )
-
-                CategoryItem(
-                    imageUrl = "https://media6.ppl-media.com/mediafiles/blogs/Facial_Toner_0616f44321.jpg",
-                    title = "Sữa rửa mặt",
-                    backgroundColor = BackgroundItemColor,
-                    textColor = DarkColor,
-                    onClick = {
-                        // TODO
-                    }
-                )
-
-               CategoryItem(
-                    imageUrl = "https://images.squarespace-cdn.com/content/v1/5c4f6ba1e2ccd1ee6075495d/83bfd75e-3e51-4f26-afa7-30db2a532f68/woman-sheet-face-mask.jpg",
-                    title = "Mặt nạ",
-                    backgroundColor = BackgroundItemColor,
-                    textColor = DarkColor,
-                    onClick = {
-                        // TODO
-                    }
-                )
+                items(homeVM.categories.value.items) { category ->
+                    CategoryItem(
+                        imageUrl = category.imageUrl,
+                        title = category.name,
+                        backgroundColor = BackgroundItemColor,
+                        textColor = DarkColor,
+                        onClick = {
+                            navController.navigate(Routes.PRODUCT)
+                            scaffoldLayoutVM.updateNavIndex(1); //1 is index of second navigation icon
+                        }
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -234,14 +220,19 @@ fun HomeScreen(modifier: Modifier = Modifier, authVM: AuthVM) {
                 modifier = modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(homeVM.specialProduct.value) { item ->
+                items(homeVM.specialProduct.value.items) { item ->
                     ProductCard(
                         product = item,
                         primaryColor = PrimaryColor,
                         backgroundColor = Color.White,
                         textColor = DarkColor,
                         secondaryTextColor = GreyColor,
-                        borderColor = GreyColor
+                        borderColor = GreyColor,
+                        onClick = {
+
+                            navController.navigate(Routes.PRODUCT)
+                            scaffoldLayoutVM.updateNavIndex(1); //1 is index of second navigation icon
+                        }
                     )
                 }
             }

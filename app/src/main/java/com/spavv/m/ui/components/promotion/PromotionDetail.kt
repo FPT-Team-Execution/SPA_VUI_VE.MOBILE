@@ -24,14 +24,14 @@ fun PromotionDetails(promotion: Promotion) {
         DetailRow(
             icon = Icons.Default.LocalOffer,
             label = "Giảm giá",
-            value = "${promotion.discountAmount.formatPrice()}đ"
+            value = "$${promotion.discountAmount.formatPrice()}"
         )
 
 
             DetailRow(
                 icon = Icons.Default.ShoppingCart,
                 label = "Đơn tối thiểu",
-                value = "${promotion.minimumPurchase?.formatPrice() ?: 0.0}đ"
+                value = "$${promotion.minimumPurchase?.formatPrice() ?: 0.0}"
             )
 
 

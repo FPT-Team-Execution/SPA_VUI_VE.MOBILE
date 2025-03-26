@@ -3,6 +3,7 @@ package com.spavv.m.ui.components.home
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import com.spavv.m.ui.screens.promotion.formatPrice
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,7 +39,8 @@ fun ProductCard(
     backgroundColor: Color,
     textColor: Color,
     secondaryTextColor: Color,
-    borderColor: Color
+    borderColor: Color,
+    onClick: () -> Unit = {},
 ) {
     val imageProduct: Any = product.imageUrl.ifEmpty { "https://placehold.co/191x100/png" }
 
@@ -51,7 +53,9 @@ fun ProductCard(
             .clickable { /* Handle product click */ }
     ) {
         Column(
-            modifier = Modifier.padding(12.dp)
+            modifier = Modifier.padding(12.dp).clickable {
+                onClick()
+            }
         ) {
             // Product image
             Image(
@@ -99,7 +103,7 @@ fun ProductCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "${product.price}K",
+                    text = "$${product.price.formatPrice()}",
                     style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold),
                     color = primaryColor
                 )
